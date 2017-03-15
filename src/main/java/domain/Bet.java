@@ -20,6 +20,12 @@ public class Bet {
         this.betcode = betcode;
     }
 
+    public Bet(Integer eventId, String accountId, Integer stake) {
+        this.eventId = eventId;
+        this.accountId = accountId;
+        this.stake = stake;
+    }
+
     public Integer getBetcode() {
         return betcode;
     }
