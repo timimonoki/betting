@@ -7,12 +7,12 @@ public class Bet {
     private Integer id;
     private Integer eventId;
     private String accountId;
-    private Integer stake;
+    private Double stake;
     private Integer betcode;
 
     public Bet() {}
 
-    public Bet(Integer id, Integer eventId, String accountId, Integer stake, Integer betcode) {
+    public Bet(Integer id, Integer eventId, String accountId, Double stake, Integer betcode) {
         this.id = id;
         this.eventId = eventId;
         this.accountId = accountId;
@@ -20,7 +20,7 @@ public class Bet {
         this.betcode = betcode;
     }
 
-    public Bet(Integer eventId, String accountId, Integer stake) {
+    public Bet(Integer eventId, String accountId, Double stake) {
         this.eventId = eventId;
         this.accountId = accountId;
         this.stake = stake;
@@ -58,11 +58,11 @@ public class Bet {
         this.accountId = accountId;
     }
 
-    public Integer getStake() {
+    public Double getStake() {
         return stake;
     }
 
-    public void setStake(Integer stake) {
+    public void setStake(Double stake) {
         this.stake = stake;
     }
 }

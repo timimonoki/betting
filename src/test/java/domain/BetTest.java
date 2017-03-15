@@ -17,8 +17,8 @@ public class BetTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         dummyBet1 = new Bet();
-        dummyBet2 = new Bet(1, 1, "username", 5, 1234);
-        dummyBet3 = new Bet(2, "bestuser", 100);
+        dummyBet2 = new Bet(1, 1, "username", 5.0, 1234);
+        dummyBet3 = new Bet(2, "bestuser", 100.0);
     }
 
     @Override
@@ -107,19 +107,19 @@ public class BetTest extends TestCase {
     @Test
     public void testGetStake() throws Exception {
         assertEquals(dummyBet1.getStake(), null);
-        assertEquals((int)dummyBet2.getStake(), 5);
-        assertEquals((int)dummyBet3.getStake(), 100);
+        assertEquals(dummyBet2.getStake(), 5.0);
+        assertEquals(dummyBet3.getStake(), 100.0);
     }
 
     @Test
     public void testSetStake() throws Exception {
-        dummyBet1.setStake(100);
-        dummyBet2.setStake(100);
-        dummyBet3.setStake(100);
+        dummyBet1.setStake(100.0);
+        dummyBet2.setStake(100.0);
+        dummyBet3.setStake(100.0);
 
-        assertEquals((int)dummyBet1.getStake(), 100);
-        assertEquals((int)dummyBet2.getStake(), 100);
-        assertEquals((int)dummyBet3.getStake(), 100);
+        assertEquals(dummyBet1.getStake(), 100.0);
+        assertEquals(dummyBet2.getStake(), 100.0);
+        assertEquals(dummyBet3.getStake(), 100.0);
     }
 
 }

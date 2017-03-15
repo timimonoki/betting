@@ -6,11 +6,11 @@ package domain;
 public class Customer {
     private String accountId;
     private String name;
-    private Integer balance;
+    private Double balance;
 
     public Customer() {}
 
-    public Customer(String accountId, String name, Integer balance) {
+    public Customer(String accountId, String name, Double balance) {
         this.accountId = accountId;
         this.name = name;
         this.balance = balance;
@@ -32,11 +32,11 @@ public class Customer {
         this.name = name;
     }
 
-    public Integer getBalance() {
+    public Double getBalance() {
         return balance;
     }
 
-    public void setBalance(Integer balance) {
+    public void setBalance(Double balance) {
         this.balance = balance;
     }
 }
