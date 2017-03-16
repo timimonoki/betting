@@ -1,0 +1,8 @@
+# Folders #
+###################
+.idea/
+target/
+
+# Generated files #
+###################
+*.iml
