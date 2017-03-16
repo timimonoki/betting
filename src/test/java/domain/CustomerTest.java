@@ -1,6 +1,8 @@
 package domain;
 
 import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -8,24 +10,21 @@ import static org.junit.Assert.*;
 /**
  * Created by NegrutiA on 3/15/2017.
  */
-public class CustomerTest extends TestCase {
+public class CustomerTest {
 
     private Customer dummyCustomer1;
     private Customer dummyCustomer2;
 
-    @Override
-    protected void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         dummyCustomer1 = new Customer();
         dummyCustomer2 = new Customer("username", "User Name", 700.0);
     }
 
-    @Override
-    protected void tearDown() throws Exception {
+    @After
+    public void tearDown() throws Exception {
         dummyCustomer1 = null;
         dummyCustomer2 = null;
-
-        assertNull(dummyCustomer1);
-        assertNull(dummyCustomer2);
     }
 
     @Test
@@ -61,7 +60,7 @@ public class CustomerTest extends TestCase {
     @Test
     public void testGetBalance() throws Exception {
         assertEquals(dummyCustomer1.getBalance(), null);
-        assertEquals(dummyCustomer2.getBalance(), 700.0);
+        assertEquals(dummyCustomer2.getBalance(), 700.0, 0);
     }
 
     @Test
@@ -69,7 +68,7 @@ public class CustomerTest extends TestCase {
         dummyCustomer1.setBalance(100.0);
         dummyCustomer2.setBalance(100.0);
 
-        assertEquals(dummyCustomer1.getBalance(), 100.0);
-        assertEquals(dummyCustomer2.getBalance(), 100.0);
+        assertEquals(dummyCustomer1.getBalance(), 100.0, 0);
+        assertEquals(dummyCustomer2.getBalance(), 100.0, 0);
     }
 }
