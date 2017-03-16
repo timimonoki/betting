@@ -1,16 +1,12 @@
 package hello;
 
-import com.fasterxml.classmate.AnnotationConfiguration;
 import domain.Bet;
 import domain.Customer;
 import domain.Event;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
-import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -24,9 +20,6 @@ import java.util.Arrays;
 @SpringBootApplication
 public class Application {
 
-    private static SessionFactory sessionFactory;
-    private static ServiceRegistry serviceRegistry;
-
     public static void main(String[] args) {
 
         Configuration configuration = new Configuration();
@@ -37,7 +30,7 @@ public class Application {
 
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(
                 configuration.getProperties()). build();
-        sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+        SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
 
         SpringApplication.run(Application.class, args);
     }

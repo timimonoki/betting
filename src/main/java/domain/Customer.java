@@ -1,8 +1,10 @@
 package domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 /**
  * Created by NegrutiA on 3/14/2017.
@@ -10,7 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "customers")
-public class Customer {
+public class Customer implements Serializable {
     @Id
     private String accountId;
 
@@ -34,6 +36,7 @@ public class Customer {
         this.accountId = accountId;
     }
 
+    @Column( nullable = false )
     public String getName() {
         return name;
     }
@@ -42,6 +45,7 @@ public class Customer {
         this.name = name;
     }
 
+    @Column(columnDefinition = "UNSIGNED DOUBLE(11)")
     public Double getBalance() {
         return balance;
     }
