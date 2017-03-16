@@ -3,3 +3,4 @@ domain\Event.class
 domain\Customer.class
 hello\HelloController.class
 hello\Application.class
+database\DBConnection.class

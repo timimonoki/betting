@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Bet.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">betting</a> &gt; <a href="index.source.html" class="el_package">domain</a> &gt; <span class="el_source">Bet.java</span></div><h1>Bet.java</h1><pre class="source lang-java linenums">package domain;
+
+/**
+ * Created by NegrutiA on 3/14/2017.
+ */
+public class Bet {
+    private Integer id;
+    private Integer eventId;
+    private String accountId;
+    private Double stake;
+    private Integer betcode;
+
+<span class="fc" id="L13">    public Bet() {}</span>
+
+<span class="fc" id="L15">    public Bet(Integer id, Integer eventId, String accountId, Double stake, Integer betcode) {</span>
+<span class="fc" id="L16">        this.id = id;</span>
+<span class="fc" id="L17">        this.eventId = eventId;</span>
+<span class="fc" id="L18">        this.accountId = accountId;</span>
+<span class="fc" id="L19">        this.stake = stake;</span>
+<span class="fc" id="L20">        this.betcode = betcode;</span>
+<span class="fc" id="L21">    }</span>
+
+<span class="fc" id="L23">    public Bet(Integer eventId, String accountId, Double stake) {</span>
+<span class="fc" id="L24">        this.eventId = eventId;</span>
+<span class="fc" id="L25">        this.accountId = accountId;</span>
+<span class="fc" id="L26">        this.stake = stake;</span>
+<span class="fc" id="L27">    }</span>
+
+    public Integer getBetcode() {
+<span class="fc" id="L30">        return betcode;</span>
+    }
+
+    public void setBetcode(Integer betcode) {
+<span class="fc" id="L34">        this.betcode = betcode;</span>
+<span class="fc" id="L35">    }</span>
+
+    public Integer getId() {
+<span class="fc" id="L38">        return id;</span>
+    }
+
+    public void setId(Integer id) {
+<span class="fc" id="L42">        this.id = id;</span>
+<span class="fc" id="L43">    }</span>
+
+    public Integer getEventId() {
+<span class="fc" id="L46">        return eventId;</span>
+    }
+
+    public void setEventId(Integer eventId) {
+<span class="fc" id="L50">        this.eventId = eventId;</span>
+<span class="fc" id="L51">    }</span>
+
+    public String getAccountId() {
+<span class="fc" id="L54">        return accountId;</span>
+    }
+
+    public void setAccountId(String accountId) {
+<span class="fc" id="L58">        this.accountId = accountId;</span>
+<span class="fc" id="L59">    }</span>
+
+    public Double getStake() {
+<span class="fc" id="L62">        return stake;</span>
+    }
+
+    public void setStake(Double stake) {
+<span class="fc" id="L66">        this.stake = stake;</span>
+<span class="fc" id="L67">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
