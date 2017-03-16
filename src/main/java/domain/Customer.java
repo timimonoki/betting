@@ -1,11 +1,21 @@
 package domain;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * Created by NegrutiA on 3/14/2017.
  */
+
+@Entity
+@Table(name = "customer")
 public class Customer {
+    @Id
     private String accountId;
+
     private String name;
+
     private Double balance;
 
     public Customer() {}

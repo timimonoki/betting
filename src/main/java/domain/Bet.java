@@ -1,10 +1,19 @@
 package domain;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * Created by NegrutiA on 3/14/2017.
  */
+
+@Entity
+@Table(name = "bets")
 public class Bet {
+    @Id
     private Integer id;
+
     private Integer eventId;
     private String accountId;
     private Double stake;

@@ -1,13 +1,21 @@
 package domain;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by NegrutiA on 3/15/2017.
  */
+
+@Entity
+@Table(name = "events")
 public class Event {
+    @Id
     private Integer id;
+
     private String name;
     private List<Bet> bets;
 

@@ -13,6 +13,7 @@ public class DBConnection {
     private Connection connection;
 
     private DBConnection() {
+        /*
         try {
             Properties props = new Properties();
             props.load(new FileInputStream("database.properties"));
@@ -26,6 +27,7 @@ public class DBConnection {
         catch (Exception exc) {
             exc.printStackTrace();
         }
+        */
     }
 
     public static DBConnection getInstance() {
