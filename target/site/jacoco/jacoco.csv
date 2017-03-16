@@ -1,7 +1,0 @@
-GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
-betting,database,DBConnection,3,43,0,2,2,13,0,4,0,3
-betting,domain,Customer,0,36,0,0,0,15,0,8,0,8
-betting,domain,Bet,0,68,0,0,0,28,0,13,0,13
-betting,domain,Event,0,50,0,0,0,20,0,9,0,9
-betting,hello,HelloController,5,0,0,0,2,0,2,0,2,0
-betting,hello,Application,8,0,0,0,3,0,2,0,2,0
