@@ -12,9 +12,9 @@
         <property name="connection.password">root</property>
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
 
-        <mapping class="domain.Bet"/>
-        <mapping class="domain.Customer"/>
-        <mapping class="domain.Event"/>
+        <mapping class="application.domain.Bet"/>
+        <mapping class="application.domain.Customer"/>
+        <mapping class="application.domain.Event"/>
     </session-factory>
 
 </hibernate-configuration>

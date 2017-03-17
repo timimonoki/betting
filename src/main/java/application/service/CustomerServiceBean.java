@@ -1,23 +1,20 @@
-package service;
+package application.service;
 
-import domain.Customer;
+import application.domain.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
-import repository.CustomerRepository;
+import application.repository.CustomerRepository;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by NegrutiA on 3/16/2017.
  */
+
+@org.springframework.stereotype.Service
 public class CustomerServiceBean implements Service<Customer, Integer> {
 
     @Autowired
     private CustomerRepository customerRepository;
-
-    @Override
-    public long size() {
-        return 0;
-    }
 
     @Override
     public Customer update(Customer E) {
@@ -30,18 +27,18 @@ public class CustomerServiceBean implements Service<Customer, Integer> {
     }
 
     @Override
-    public Customer save(Customer E) {
+    public Customer create(Customer E) {
+        customerRepository.save(E);
         return null;
     }
 
     @Override
-    public Collection<Customer> findAll() {
-        Collection<Customer> customers = customerRepository.findAll();
-        return customers;
+    public List findAll() {
+        return null;
     }
 
     @Override
-    public Customer findOne(Integer integer) {
+    public Customer findById(Integer integer) {
         return null;
     }
 }

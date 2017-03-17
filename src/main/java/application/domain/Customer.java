@@ -1,4 +1,4 @@
-package domain;
+package application.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,6 +23,12 @@ public class Customer implements Serializable,HasID<Integer> {
     private Double balance;
 
     public Customer() {}
+
+    public Customer(String accountId, String name, Double balance) {
+        this.accountId = accountId;
+        this.name = name;
+        this.balance = balance;
+    }
 
     public Customer(Integer id, String accountId, String name, Double balance) {
         this.id = id;
