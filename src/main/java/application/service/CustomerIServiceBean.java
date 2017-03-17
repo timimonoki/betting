@@ -3,6 +3,7 @@ package application.service;
 import application.domain.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import application.repository.CustomerRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -10,8 +11,8 @@ import java.util.List;
  * Created by NegrutiA on 3/16/2017.
  */
 
-@org.springframework.stereotype.Service
-public class CustomerServiceBean implements Service<Customer, Integer> {
+@Service
+public class CustomerIServiceBean implements IService<Customer, Integer> {
 
     @Autowired
     private CustomerRepository customerRepository;

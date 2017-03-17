@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import application.service.CustomerServiceBean;
+import application.service.CustomerIServiceBean;
 
 
 /**
@@ -16,7 +16,7 @@ import application.service.CustomerServiceBean;
 public class CustomerController {
 
     @Autowired
-    private CustomerServiceBean customerService;
+    private CustomerIServiceBean customerService;
 
     public CustomerController() {}
 

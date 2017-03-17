@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by NegrutiA on 3/16/2017.
  */
-public interface Service<Entity, ID> {
+public interface IService<Entity, ID> {
 
     Entity update(Entity E);
     Entity delete(ID id);
