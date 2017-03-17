@@ -12,8 +12,10 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "customers")
-public class Customer implements Serializable {
+public class Customer implements Serializable,HasID<Integer> {
     @Id
+    private Integer id;
+
     private String accountId;
 
     private String name;
@@ -22,7 +24,8 @@ public class Customer implements Serializable {
 
     public Customer() {}
 
-    public Customer(String accountId, String name, Double balance) {
+    public Customer(Integer id, String accountId, String name, Double balance) {
+        this.id = id;
         this.accountId = accountId;
         this.name = name;
         this.balance = balance;
@@ -52,5 +55,15 @@ public class Customer implements Serializable {
 
     public void setBalance(Double balance) {
         this.balance = balance;
+    }
+
+    @Override
+    public Integer getId() {
+        return this.id;
+    }
+
+    @Override
+    public void setId(Integer newId) {
+        this.id = newId;
     }
 }

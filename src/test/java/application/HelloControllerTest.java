@@ -1,5 +1,6 @@
-package hello;
+package application;
 
+import application.HelloController;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

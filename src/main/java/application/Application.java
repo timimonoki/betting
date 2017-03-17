@@ -1,3 +1,5 @@
+package application;
+
 import domain.Bet;
 import domain.Customer;
 import domain.Event;

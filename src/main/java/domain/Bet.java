@@ -1,9 +1,6 @@
 package domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -12,8 +9,9 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "bets")
-public class Bet implements Serializable {
+public class Bet implements Serializable, HasID<Integer> {
     @Id
+    @GeneratedValue
     private Integer id;
 
     private Integer eventId;
@@ -48,10 +46,12 @@ public class Bet implements Serializable {
         this.betcode = betcode;
     }
 
+    @Override
     public Integer getId() {
         return id;
     }
 
+    @Override
     public void setId(Integer id) {
         this.id = id;
     }
