@@ -1,5 +1,3 @@
-package hello;
-
 import domain.Bet;
 import domain.Customer;
 import domain.Event;
@@ -9,9 +7,6 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-
-import java.util.Arrays;
 
 /**
  * Created by NegrutiA on 3/14/2017.
