@@ -1,9 +1,6 @@
 package application.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -14,8 +11,10 @@ import java.io.Serializable;
 @Table(name = "customers")
 public class Customer implements Serializable,HasID<Integer> {
     @Id
+    @GeneratedValue
     private Integer id;
 
+    @Column(name = "account_id")
     private String accountId;
 
     private String name;

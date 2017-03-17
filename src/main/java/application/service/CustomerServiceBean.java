@@ -12,7 +12,7 @@ import java.util.List;
  */
 
 @Service
-public class CustomerIServiceBean implements IService<Customer, Integer> {
+public class CustomerServiceBean implements IService<Customer, Integer> {
 
     @Autowired
     private CustomerRepository customerRepository;
@@ -29,7 +29,7 @@ public class CustomerIServiceBean implements IService<Customer, Integer> {
 
     @Override
     public Customer create(Customer E) {
-        customerRepository.save(E);
+        Customer newC = customerRepository.save(E);
         return null;
     }
 
