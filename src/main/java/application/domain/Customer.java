@@ -17,7 +17,6 @@ public class Customer implements Serializable,HasID<Integer> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "account_id")
     private String accountId;
 
     private String name;

@@ -3,9 +3,12 @@ package application.controller;
 import application.domain.Event;
 import application.service.EventServiceBean;
 import application.validator.EventValidator;
+import application.validator.ValidatorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController

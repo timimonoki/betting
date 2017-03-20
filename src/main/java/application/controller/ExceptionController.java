@@ -1,18 +1,18 @@
 package application.controller;
 
 import application.validator.ValidatorException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 
-@RestController
-public class ExceptionController {
+@ControllerAdvice
+public class ExceptionController extends RuntimeException {
 
     public ExceptionController() {}
 
-    @ExceptionHandler(ValidatorException.class)
+    @ExceptionHandler({Exception.class, ValidatorException.class})
     public ModelAndView handleError(HttpServletRequest req, Exception ex) {
         ModelAndView mav = new ModelAndView();
 

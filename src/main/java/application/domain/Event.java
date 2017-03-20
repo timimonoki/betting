@@ -22,7 +22,6 @@ public class Event implements Serializable, HasID<Integer> {
     private String name;
 
     @OneToMany
-    @JoinColumn(name = "eventId")
     private List<Bet> bets;
 
     public Event() {}
