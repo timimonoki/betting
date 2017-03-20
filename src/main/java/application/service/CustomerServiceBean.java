@@ -1,11 +1,13 @@
 package application.service;
 
+import application.Application;
 import application.domain.Customer;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import application.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,12 +23,28 @@ public class CustomerServiceBean implements IService<Customer, Integer> {
 
     @Override
     public Customer update(Customer E) {
-        return null;
+        Customer c = customerRepository.getOne(E.getId());
+
+        c.setName(E.getName());
+        c.setAccountId(E.getAccountId());
+        c.setBalance(E.getBalance());
+
+        customerRepository.save(c);
+
+        return c;
     }
 
     @Override
-    public Customer delete(Integer integer) {
-        return null;
+    public Customer delete(Integer integer) throws Exception{
+        Customer result = customerRepository.findOne(integer);
+
+        if (result == null) {
+            throw new Exception("This ID doesn't exist!");
+        }
+
+        customerRepository.delete(integer);
+
+        return result;
     }
 
     @Override
@@ -51,13 +69,10 @@ public class CustomerServiceBean implements IService<Customer, Integer> {
 
     @Override
     public Customer findById(Integer integer) throws Exception {
-        Customer result;
+        Customer result = customerRepository.findOne(integer);
 
-        try {
-            result = customerRepository.getOne(integer);
-        }
-        catch (EntityNotFoundException exc) {
-            throw new Exception("There is no customer with this id!");
+        if (result == null) {
+            throw new Exception("This ID doesn't exist!");
         }
 
         return result;

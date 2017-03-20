@@ -24,7 +24,7 @@ public class CustomerController {
     }
 
     @RequestMapping(value = "/addCustomer", method = RequestMethod.POST)
-    public Customer addNewCustomer(@RequestBody Customer customer) throws Exception {
+    public Customer addCustomer(@RequestBody Customer customer) throws Exception {
         validator.validate(customer);
         return customerService.create(customer);
     }
@@ -35,6 +35,26 @@ public class CustomerController {
             throw new Exception("Invalid ID!\n");
         }
         return customerService.findById(id);
+    }
+
+    @RequestMapping(value = "/updateCustomer", method = RequestMethod.POST)
+    public Customer updateCustomer(@RequestBody Customer customer) throws Exception {
+        validator.validate(customer);
+
+        if (customerService.findById(customer.getId()) == null) {
+            throw new Exception("Invalid ID!\n");
+        }
+
+        return customerService.update(customer);
+    }
+
+    @RequestMapping(value = "/removeCustomer", method = RequestMethod.POST)
+    public Customer removeCustomer(@RequestParam(value="id", defaultValue = "-1") Integer id) throws Exception {
+        if (id < 0) {
+            throw new Exception("Invalid ID!\n");
+        }
+
+        return customerService.delete(id);
     }
 
     @RequestMapping(value = "/getCustomers", method = RequestMethod.GET)

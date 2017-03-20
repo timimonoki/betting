@@ -19,8 +19,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories("application.repository")
 public class Application {
 
-    public static void main(String[] args) {
-
+    public static SessionFactory getSessionFactory() {
         Configuration configuration = new Configuration();
         configuration.addAnnotatedClass(Bet.class);
         configuration.addAnnotatedClass(Event.class);
@@ -29,7 +28,12 @@ public class Application {
 
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(
                 configuration.getProperties()). build();
-        SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+        return configuration.buildSessionFactory(serviceRegistry);
+    }
+
+    public static void main(String[] args) {
+
+        getSessionFactory();
 
         SpringApplication.run(Application.class, args);
     }
