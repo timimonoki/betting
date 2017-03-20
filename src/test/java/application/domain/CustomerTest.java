@@ -13,23 +13,27 @@ public class CustomerTest {
 
     private Customer dummyCustomer1;
     private Customer dummyCustomer2;
+    private Customer dummyCustomer3;
 
     @Before
     public void setUp() throws Exception {
         dummyCustomer1 = new Customer();
         dummyCustomer2 = new Customer(1, "username", "User Name", 700.0);
+        dummyCustomer3 = new Customer("accountId", "name", 5.0);
     }
 
     @After
     public void tearDown() throws Exception {
         dummyCustomer1 = null;
         dummyCustomer2 = null;
+        dummyCustomer3 = null;
     }
 
     @Test
     public void testGetId() throws Exception {
         assertEquals(dummyCustomer1.getId(), null);
         assertEquals((int)dummyCustomer2.getId(), 1);
+        assertEquals(dummyCustomer3.getId(), null);
     }
 
     @Test

@@ -11,6 +11,6 @@ public interface IService<Entity, ID> {
     Entity delete(ID id);
     Entity create(Entity E) throws Exception;
     List findAll();
-    Entity findById(ID id);
+    Entity findById(ID id) throws Exception;
 
 }

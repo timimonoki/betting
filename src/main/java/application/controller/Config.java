@@ -1,4 +1,4 @@
-package application;
+package application.controller;
 
 import com.mysql.cj.jdbc.MysqlConnectionPoolDataSource;
 import org.springframework.context.annotation.Bean;

@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import application.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,12 +45,21 @@ public class CustomerServiceBean implements IService<Customer, Integer> {
     }
 
     @Override
-    public List findAll() {
-        return null;
+    public List<Customer> findAll() {
+        return customerRepository.findAll();
     }
 
     @Override
-    public Customer findById(Integer integer) {
-        return customerRepository.getOne(integer);
+    public Customer findById(Integer integer) throws Exception {
+        Customer result;
+
+        try {
+            result = customerRepository.getOne(integer);
+        }
+        catch (EntityNotFoundException exc) {
+            throw new Exception("There is no customer with this id!");
+        }
+
+        return result;
     }
 }

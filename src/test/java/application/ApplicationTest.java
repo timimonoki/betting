@@ -9,7 +9,7 @@ public class ApplicationTest {
 
     @Test
     public void testMain() throws Exception {
-        //application.Application.main(new String[] {});
+        application.Application.main(new String[] {});
     }
 
 }
