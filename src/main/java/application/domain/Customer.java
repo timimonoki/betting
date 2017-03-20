@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Table(name = "customers")
 public class Customer implements Serializable,HasID<Integer> {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "account_id")

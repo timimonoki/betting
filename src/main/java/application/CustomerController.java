@@ -2,9 +2,7 @@ package application;
 
 import application.domain.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import application.service.CustomerServiceBean;
 
 
@@ -20,13 +18,16 @@ public class CustomerController {
 
     public CustomerController() {}
 
-    @RequestMapping("/addCustomer")
-    public String getAllData(@RequestParam(value="accountId", defaultValue = "") String accountId,
-                             @RequestParam(value="name", defaultValue = "") String name,
-                             @RequestParam(value="balance", defaultValue = "0.0") Double balance) {
+    @RequestMapping(value = "/addCustomer", method = RequestMethod.POST)
+    public String addNewCustomer(@RequestBody Customer customer) {
 
-        customerService.create(new Customer(1,accountId, name, balance));
-
-        return accountId + " " + name + " " + balance;
+        if (customer.getName().equals("") ||
+                customer.getAccountId().equals("") ||
+                customer.getBalance() < 0)
+            return "Invalid customer!";
+        else {
+            customerService.create(customer);
+            return "Customer was added!";
+        }
     }
 }
