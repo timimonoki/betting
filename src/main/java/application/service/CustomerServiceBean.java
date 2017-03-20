@@ -1,9 +1,6 @@
 package application.service;
 
-import application.Application;
 import application.domain.Customer;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import application.repository.CustomerRepository;
 import org.springframework.stereotype.Service;

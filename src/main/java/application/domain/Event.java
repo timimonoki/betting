@@ -16,12 +16,13 @@ import java.util.List;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Event implements Serializable, HasID<Integer> {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String name;
 
     @OneToMany
+    @JoinColumn(name = "eventId")
     private List<Bet> bets;
 
     public Event() {}

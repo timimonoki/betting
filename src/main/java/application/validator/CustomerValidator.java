@@ -6,7 +6,7 @@ public class CustomerValidator implements IValidator<Customer> {
 
     @Override
     public void validate(Customer entity) throws ValidatorException {
-        String msg="";
+        String msg = "";
 
         if (entity.getName().equals("")) {
             msg += "Customer name is invalid!\n";
