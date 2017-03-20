@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import application.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by NegrutiA on 3/16/2017.
@@ -28,9 +30,18 @@ public class CustomerServiceBean implements IService<Customer, Integer> {
     }
 
     @Override
-    public Customer create(Customer E) {
-        Customer newC = customerRepository.save(E);
-        return null;
+    public Customer create(Customer E) throws Exception {
+        List<Customer> all = customerRepository
+                .findAll()
+                .stream()
+                .filter(customer -> customer.getAccountId().equals(E.getAccountId()))
+                .collect(Collectors.toList());
+
+        if (!all.isEmpty()) {
+            throw new Exception("This customer ID already exists!");
+        }
+
+        return customerRepository.save(E);
     }
 
     @Override
@@ -40,6 +51,6 @@ public class CustomerServiceBean implements IService<Customer, Integer> {
 
     @Override
     public Customer findById(Integer integer) {
-        return null;
+        return customerRepository.getOne(integer);
     }
 }

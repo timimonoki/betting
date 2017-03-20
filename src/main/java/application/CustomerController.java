@@ -19,8 +19,7 @@ public class CustomerController {
     public CustomerController() {}
 
     @RequestMapping(value = "/addCustomer", method = RequestMethod.POST)
-    public String addNewCustomer(@RequestBody Customer customer) {
-
+    public String addNewCustomer(@RequestBody Customer customer) throws Exception {
         if (customer.getName().equals("") ||
                 customer.getAccountId().equals("") ||
                 customer.getBalance() < 0)
@@ -29,5 +28,10 @@ public class CustomerController {
             customerService.create(customer);
             return "Customer was added!";
         }
+    }
+
+    @RequestMapping(value = "/getCustomer", method = RequestMethod.GET)
+    public Customer getCustomer(@RequestParam(value="id", defaultValue = "") Integer id) throws Exception {
+        return customerService.findById(id);
     }
 }
