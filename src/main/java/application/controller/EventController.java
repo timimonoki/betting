@@ -47,7 +47,7 @@ public class EventController {
         return eventService.update(event);
     }
 
-    @RequestMapping(value = "/removeEvent", method = RequestMethod.POST)
+    @RequestMapping(value = "/removeEvent", method = RequestMethod.GET)
     public Event removeEvent(@RequestParam(value = "id", defaultValue = "-1") Integer id) throws Exception {
         if (id < 0) {
             throw new Exception("Invalid ID!\n");

@@ -20,8 +20,6 @@ public class Bet implements Serializable, HasID<Integer> {
     private Integer eventId;
     private String accountId;
     private Double stake;
-
-    @Id
     private Integer betcode;
 
     public Bet() {}

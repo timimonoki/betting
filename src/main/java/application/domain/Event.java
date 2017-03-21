@@ -1,5 +1,6 @@
 package application.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -21,7 +22,8 @@ public class Event implements Serializable, HasID<Integer> {
 
     private String name;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Bet> bets;
 
     public Event() {}
