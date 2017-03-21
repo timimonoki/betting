@@ -46,6 +46,7 @@ public class CustomerServiceBean implements IService<Customer, Integer> {
 
     @Override
     public Customer create(Customer E) throws Exception {
+
         List<Customer> all = customerRepository
                 .findAll()
                 .stream()
@@ -57,6 +58,7 @@ public class CustomerServiceBean implements IService<Customer, Integer> {
         }
 
         return customerRepository.save(E);
+
     }
 
     @Override
