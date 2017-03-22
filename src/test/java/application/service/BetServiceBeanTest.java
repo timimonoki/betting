@@ -76,6 +76,18 @@ public class BetServiceBeanTest {
         assertEquals(returnedBet.getAccountId(), "accountId");
         assertEquals(returnedBet.getStake(), 5.0, 0.0);
 
+        dummyCustomer = new Customer("accountId", "name", 3.0);
+        toReturn = Arrays.asList(dummyCustomer);
+
+        when(customerRepository.findAll()).thenReturn(toReturn);
+
+        try {
+            dummyService.create(dummyBet);
+            assertEquals(true, false);
+        } catch (Exception exc) {
+            assertEquals(exc.getMessage(), "There aren't sufficient money for this bet!");
+        }
+
         when(eventRepository.findOne(anyInt())).thenReturn(null);
 
         try {
@@ -122,7 +134,7 @@ public class BetServiceBeanTest {
     @Test
     public void testFindById() throws Exception {
 
-        Bet dummyBet = new Bet(1, 1, "accountId", 5.0, 8999);
+        Bet dummyBet = new Bet(1, 1, "accountId", 5.0, 8999L);
 
         when(betRepository.findOne(1)).thenReturn(dummyBet);
 
@@ -132,7 +144,7 @@ public class BetServiceBeanTest {
         assertEquals((int) returnedBet.getEventId(), 1);
         assertEquals(returnedBet.getAccountId(), "accountId");
         assertEquals(returnedBet.getStake(), 5.0, 0.0);
-        assertEquals((int) returnedBet.getBetcode(), 8999);
+        assertEquals((long) returnedBet.getBetcode(), 8999L);
 
         when(betRepository.findOne(anyInt())).thenReturn(null);
 
@@ -148,25 +160,25 @@ public class BetServiceBeanTest {
     @Test
     public void testFindByBetcode() throws Exception {
 
-        Bet dummyBet = new Bet(1, 1, "accountId", 5.0, 8999);
+        Bet dummyBet = new Bet(1, 1, "accountId", 5.0, 8999L);
 
         List<Bet> toReturn = Arrays.asList(dummyBet);
 
         when(betRepository.findAll()).thenReturn(toReturn);
 
-        Bet returnedBet = dummyService.findByBetcode(8999);
+        Bet returnedBet = dummyService.findByBetcode(8999L);
 
         assertEquals((int) returnedBet.getId(), 1);
         assertEquals((int) returnedBet.getEventId(), 1);
         assertEquals(returnedBet.getAccountId(), "accountId");
         assertEquals(returnedBet.getStake(), 5.0, 0.0);
-        assertEquals((int) returnedBet.getBetcode(), 8999);
+        assertEquals((long) returnedBet.getBetcode(), 8999L);
 
         toReturn = Arrays.asList(dummyBet, dummyBet);
         when(betRepository.findAll()).thenReturn(toReturn);
 
         try {
-            dummyService.findByBetcode(8999);
+            dummyService.findByBetcode(8999L);
             assertEquals(true, false);
         } catch (Exception exc) {
             assertEquals(exc.getMessage(), "Fatal Error!");
@@ -176,7 +188,7 @@ public class BetServiceBeanTest {
         when(betRepository.findAll()).thenReturn(toReturn);
 
         try {
-            dummyService.findByBetcode(8999);
+            dummyService.findByBetcode(8999L);
             assertEquals(true, false);
         } catch (Exception exc) {
             assertEquals(exc.getMessage(), "This betcode dosen't exist!");

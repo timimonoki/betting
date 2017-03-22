@@ -20,11 +20,11 @@ public class Bet implements Serializable, HasID<Integer> {
     private Integer eventId;
     private String accountId;
     private Double stake;
-    private Integer betcode;
+    private Long betcode;
 
     public Bet() {}
 
-    public Bet(Integer id, Integer eventId, String accountId, Double stake, Integer betcode) {
+    public Bet(Integer id, Integer eventId, String accountId, Double stake, Long betcode) {
         this.id = id;
         this.eventId = eventId;
         this.accountId = accountId;
@@ -39,11 +39,11 @@ public class Bet implements Serializable, HasID<Integer> {
     }
 
     @Column ( unique = true, nullable = false )
-    public Integer getBetcode() {
+    public Long getBetcode() {
         return betcode;
     }
 
-    public void setBetcode(Integer betcode) {
+    public void setBetcode(Long betcode) {
         this.betcode = betcode;
     }
 

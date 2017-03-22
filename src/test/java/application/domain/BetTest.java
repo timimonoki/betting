@@ -18,7 +18,7 @@ public class BetTest {
     @Before
     public void setUp() throws Exception {
         dummyBet1 = new Bet();
-        dummyBet2 = new Bet(1, 1, "username", 5.0, 1234);
+        dummyBet2 = new Bet(1, 1, "username", 5.0, 1234L);
         dummyBet3 = new Bet(2, "bestuser", 100.0);
     }
 
@@ -32,19 +32,19 @@ public class BetTest {
     @Test
     public void testGetBetcode() throws Exception {
         assertEquals(dummyBet1.getBetcode(), null);
-        assertEquals((int)dummyBet2.getBetcode(), 1234);
+        assertEquals((long) dummyBet2.getBetcode(), 1234L);
         assertEquals(dummyBet3.getBetcode(), null);
     }
 
     @Test
     public void testSetBetcode() throws Exception {
-        dummyBet1.setBetcode(9999);
-        dummyBet2.setBetcode(9999);
-        dummyBet3.setBetcode(9999);
+        dummyBet1.setBetcode(9999L);
+        dummyBet2.setBetcode(9999L);
+        dummyBet3.setBetcode(9999L);
 
-        assertEquals((int)dummyBet1.getBetcode(), 9999);
-        assertEquals((int)dummyBet2.getBetcode(), 9999);
-        assertEquals((int)dummyBet3.getBetcode(), 9999);
+        assertEquals((long) dummyBet1.getBetcode(), 9999L);
+        assertEquals((long) dummyBet2.getBetcode(), 9999L);
+        assertEquals((long) dummyBet3.getBetcode(), 9999L);
     }
 
     @Test

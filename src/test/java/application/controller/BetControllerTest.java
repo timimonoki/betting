@@ -108,18 +108,18 @@ public class BetControllerTest {
     @Test
     public void testGetBetByBetcode() throws Exception {
 
-        Bet dummyBet = new Bet(1, 1, "a", 1.0, 99);
+        Bet dummyBet = new Bet(1, 1, "a", 1.0, 99L);
 
-        when(betService.findByBetcode(99)).thenReturn(dummyBet);
+        when(betService.findByBetcode(99L)).thenReturn(dummyBet);
 
-        Bet returnedBet = dummyController.getBetByBetcode(99);
+        Bet returnedBet = dummyController.getBetByBetcode(99L);
 
         assertEquals((int) returnedBet.getEventId(), 1);
         assertEquals(returnedBet.getAccountId(), "a");
         assertEquals(returnedBet.getStake(), 1.0, 0.0);
 
         try {
-            dummyController.getBetByBetcode(-10);
+            dummyController.getBetByBetcode(-10L);
             assertEquals(true, false);
         } catch (Exception exc) {
             assertEquals(exc.getMessage(), "Invalid betcode!\n");

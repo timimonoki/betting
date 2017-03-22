@@ -37,7 +37,7 @@ public class BetController {
     };
 
     @RequestMapping(value = "/getBetByBetcode", method = RequestMethod.GET)
-    public Bet getBetByBetcode(@RequestParam(value = "betcode", defaultValue = "-1") Integer betcode) throws Exception {
+    public Bet getBetByBetcode(@RequestParam(value = "betcode", defaultValue = "-1") Long betcode) throws Exception {
         if (betcode < 0) {
             throw new Exception("Invalid betcode!\n");
         }
