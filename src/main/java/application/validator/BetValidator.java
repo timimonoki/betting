@@ -10,11 +10,12 @@ public class BetValidator implements IValidator<BetDTO> {
         if (entity.getEventId() < 0) {
             msg += "Event ID is invalid!\n";
         }
-        if (entity.getAccountId().equals("")) {
+        if (entity.getAccountId() == null
+                ||entity.getAccountId().equals("")) {
             msg += "Customer ID is invalid!\n";
         }
         //Check if there are any whitespaces
-        if (!(entity.getAccountId().length() == entity.getAccountId().replaceAll("\\s+","").length())) {
+        else if (!(entity.getAccountId().length() == entity.getAccountId().replaceAll("\\s+","").length())) {
             msg += "Whitespaces are not allowed in customer ID!\n";
         }
         if (entity.getStake() <= 0) {
