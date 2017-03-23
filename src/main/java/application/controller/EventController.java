@@ -1,5 +1,6 @@
 package application.controller;
 
+import application.controller.dto.EventDTO;
 import application.domain.Event;
 import application.service.EventServiceBean;
 import application.validator.EventValidator;
@@ -23,8 +24,12 @@ public class EventController {
     }
 
     @RequestMapping(value = "/addEvent", method = RequestMethod.POST)
-    public Event addEvent(@RequestBody Event event) throws Exception {
-        validator.validate(event);
+    public Event addEvent(@RequestBody EventDTO eventDTO) throws Exception {
+        validator.validate(eventDTO);
+
+        Event event = new Event();
+        event.setName(eventDTO.getName());
+
         return eventService.create(event);
     }
 
@@ -37,12 +42,16 @@ public class EventController {
     }
 
     @RequestMapping(value = "/updateEvent", method = RequestMethod.POST)
-    public Event updateEvent(@RequestBody Event event) throws Exception {
-        validator.validate(event);
+    public Event updateEvent(@RequestBody EventDTO eventDTO) throws Exception {
+        validator.validate(eventDTO);
 
-        if (eventService.findById(event.getId()) == null) {
+        if (eventService.findById(eventDTO.getId()) == null) {
             throw new Exception("Invalid ID!\n");
         }
+
+        Event event = new Event();
+        event.setId(eventDTO.getId());
+        event.setName(eventDTO.getName());
 
         return eventService.update(event);
     }

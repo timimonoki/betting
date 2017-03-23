@@ -1,11 +1,11 @@
 package application.validator;
 
-import application.domain.Customer;
+import application.controller.dto.CustomerDTO;
 
-public class CustomerValidator implements IValidator<Customer> {
+public class CustomerValidator implements IValidator<CustomerDTO> {
 
     @Override
-    public void validate(Customer entity) throws ValidatorException {
+    public void validate(CustomerDTO entity) throws ValidatorException {
         String msg = "";
 
         if (entity.getName().equals("")) {

@@ -1,5 +1,6 @@
 package application.controller;
 
+import application.controller.dto.CustomerDTO;
 import application.domain.Customer;
 import application.validator.CustomerValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,14 @@ public class CustomerController {
     }
 
     @RequestMapping(value = "/addCustomer", method = RequestMethod.POST)
-    public Customer addCustomer(@RequestBody Customer customer) throws Exception {
-        validator.validate(customer);
+    public Customer addCustomer(@RequestBody CustomerDTO customerDTO) throws Exception {
+        validator.validate(customerDTO);
+
+        Customer customer = new Customer();
+        customer.setAccountId(customerDTO.getAccountId());
+        customer.setName(customerDTO.getName());
+        customer.setBalance(customerDTO.getBalance());
+
         return customerService.create(customer);
     }
 
@@ -38,12 +45,18 @@ public class CustomerController {
     }
 
     @RequestMapping(value = "/updateCustomer", method = RequestMethod.POST)
-    public Customer updateCustomer(@RequestBody Customer customer) throws Exception {
-        validator.validate(customer);
+    public Customer updateCustomer(@RequestBody CustomerDTO customerDTO) throws Exception {
+        validator.validate(customerDTO);
 
-        if (customerService.findById(customer.getId()) == null) {
+        if (customerService.findById(customerDTO.getId()) == null) {
             throw new Exception("Invalid ID!\n");
         }
+
+        Customer customer = new Customer();
+        customer.setId(customerDTO.getId());
+        customer.setAccountId(customerDTO.getAccountId());
+        customer.setName(customerDTO.getName());
+        customer.setBalance(customerDTO.getBalance());
 
         return customerService.update(customer);
     }

@@ -1,14 +1,21 @@
 package application.validator;
 
-import application.domain.Bet;
+import application.controller.dto.BetDTO;
 
-public class BetValidator implements IValidator<Bet> {
+public class BetValidator implements IValidator<BetDTO> {
     @Override
-    public void validate(Bet entity) throws ValidatorException {
+    public void validate(BetDTO entity) throws ValidatorException {
         String msg = "";
 
-        if (entity.getCustomer().getAccountId().equals("")) {
-            msg += "Account ID is invalid!\n";
+        if (entity.getEventId() < 0) {
+            msg += "Event ID is invalid!\n";
+        }
+        if (entity.getAccountId().equals("")) {
+            msg += "Customer ID is invalid!\n";
+        }
+        //Check if there are any whitespaces
+        if (!(entity.getAccountId().length() == entity.getAccountId().replaceAll("\\s+","").length())) {
+            msg += "Whitespaces are not allowed in customer ID!\n";
         }
         if (entity.getStake() <= 0) {
             msg += "Stake is invalid!\n";

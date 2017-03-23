@@ -1,5 +1,6 @@
 package application.controller;
 
+import application.controller.dto.CustomerDTO;
 import application.domain.Customer;
 import application.service.CustomerServiceBean;
 import application.validator.CustomerValidator;
@@ -71,18 +72,21 @@ public class CustomerControllerTest {
     @Test
     public void testAddCustomer() throws Exception {
 
+        CustomerDTO dummyDTO = new CustomerDTO();
+        dummyDTO.setAccountId("id");
+        dummyDTO.setName("name");
+        dummyDTO.setBalance(10.0);
+
         Customer dummyCustomer = new Customer();
-        dummyCustomer.setId(1);
         dummyCustomer.setAccountId("id");
         dummyCustomer.setName("name");
         dummyCustomer.setBalance(10.0);
 
-        doNothing().when(validator).validate(dummyCustomer);
-        when(customerService.create(dummyCustomer)).thenReturn(dummyCustomer);
+        doNothing().when(validator).validate(dummyDTO);
+        when(customerService.create(any())).thenReturn(dummyCustomer);
 
-        Customer returnedCustomer = dummyController.addCustomer(dummyCustomer);
+        Customer returnedCustomer = dummyController.addCustomer(dummyDTO);
 
-        assertEquals((int) returnedCustomer.getId(), 1);
         assertEquals(returnedCustomer.getAccountId(), "id");
         assertEquals(returnedCustomer.getName(), "name");
         assertEquals(returnedCustomer.getBalance(), 10.0, 0.0);
@@ -91,6 +95,12 @@ public class CustomerControllerTest {
 
     @Test
     public void testUpdateCustomer() throws Exception {
+
+        CustomerDTO dummyDTO = new CustomerDTO();
+        dummyDTO.setId(1);
+        dummyDTO.setAccountId("id");
+        dummyDTO.setName("name");
+        dummyDTO.setBalance(10.0);
 
         Customer dummyCustomer = new Customer();
         dummyCustomer.setId(1);
@@ -104,20 +114,21 @@ public class CustomerControllerTest {
         newCustomer.setName("newname");
         newCustomer.setBalance(5.0);
 
-        doNothing().when(validator).validate(dummyCustomer);
-        when(customerService.findById(1)).thenReturn(dummyCustomer);
-        when(customerService.update(newCustomer)).thenReturn(newCustomer);
+        doNothing().when(validator).validate(dummyDTO);
+        when(customerService.findById(dummyDTO.getId())).thenReturn(dummyCustomer);
+        when(customerService.update(any())).thenReturn(newCustomer);
 
-        Customer returnedCustomer = dummyController.updateCustomer(newCustomer);
+        Customer returnedCustomer = dummyController.updateCustomer(dummyDTO);
 
         assertEquals((int) returnedCustomer.getId(), 1);
         assertEquals(returnedCustomer.getAccountId(), "newid");
         assertEquals(returnedCustomer.getName(), "newname");
         assertEquals(returnedCustomer.getBalance(), 5.0, 0.0);
 
-        when(customerService.findById(anyInt())).thenReturn(null);
+        when(customerService.findById(dummyDTO.getId())).thenReturn(null);
+
         try {
-            dummyController.updateCustomer(newCustomer);
+            dummyController.updateCustomer(dummyDTO);
             assertEquals(true, false);
         } catch (Exception exc) {
             assertEquals(exc.getMessage(), "Invalid ID!\n");

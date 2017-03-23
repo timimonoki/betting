@@ -66,7 +66,7 @@ public class BetServiceBean implements IService<Bet, Integer> {
         UUID myuuid = UUID.randomUUID();
 
         Long myBetcode = myuuid.getLeastSignificantBits() & 0x7FFF_FFFF_FFFF_FFFFL;
-        //If bits corespond to negative return a positive long else still a positive long
+        //Set the sign beat to 0 no matter what!
 
         E.setBetcode(myBetcode);
 

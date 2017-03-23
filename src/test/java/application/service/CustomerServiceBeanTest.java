@@ -183,4 +183,34 @@ public class CustomerServiceBeanTest {
 
     }
 
+    @Test
+    public void testFindByAccountId() throws Exception {
+
+        Customer dummyCustomer = new Customer();
+        dummyCustomer.setId(1);
+        dummyCustomer.setAccountId("AccountId");
+        dummyCustomer.setName("name");
+        dummyCustomer.setBalance(100.0);
+
+        List<Customer> toReturn = Arrays.asList(dummyCustomer);
+
+        when(customerRepository.findAll()).thenReturn(toReturn);
+
+        Customer newCustomer = dummyService.findByAccountId(dummyCustomer.getAccountId());
+
+        assertEquals((int) newCustomer.getId(), 1);
+        assertEquals(newCustomer.getAccountId(), "AccountId");
+        assertEquals(newCustomer.getName(), "name");
+        assertEquals(newCustomer.getBalance(), 100.0, 0.0);
+
+        when(customerRepository.findAll()).thenReturn(new ArrayList<Customer>());
+        try {
+            dummyService.findByAccountId(dummyCustomer.getAccountId());
+            assertEquals(true, false);
+        } catch (Exception exc) {
+            assertEquals(exc.getMessage(), "This account dose not exist!");
+        }
+
+    }
+
 }

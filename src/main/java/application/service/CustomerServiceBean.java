@@ -61,6 +61,20 @@ public class CustomerServiceBean implements IService<Customer, Integer> {
 
     }
 
+    public Customer findByAccountId(String accountId) throws Exception {
+        List<Customer> result = customerRepository
+                .findAll()
+                .stream()
+                .filter(customer -> customer.getAccountId().equals(accountId))
+                .collect(Collectors.toList());
+
+        if (result.size() < 1) {
+            throw new Exception("This account dose not exist!");
+        }
+
+        return result.get(0);
+    }
+
     @Override
     public List<Customer> findAll() {
         return customerRepository.findAll();

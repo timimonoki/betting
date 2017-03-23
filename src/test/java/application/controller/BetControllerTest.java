@@ -1,9 +1,12 @@
 package application.controller;
 
+import application.controller.dto.BetDTO;
 import application.domain.Bet;
 import application.domain.Customer;
 import application.domain.Event;
 import application.service.BetServiceBean;
+import application.service.CustomerServiceBean;
+import application.service.EventServiceBean;
 import application.validator.BetValidator;
 import org.junit.After;
 import org.junit.Before;
@@ -25,6 +28,12 @@ public class BetControllerTest {
 
     @Mock
     private BetServiceBean betService;
+
+    @Mock
+    private CustomerServiceBean customerService;
+
+    @Mock
+    private EventServiceBean eventService;
 
     @Mock
     private BetValidator validator;
@@ -51,15 +60,22 @@ public class BetControllerTest {
         Customer dummyCustomer = new Customer();
         dummyCustomer.setAccountId("accountId");
 
+        BetDTO dummyBetDTO = new BetDTO();
+        dummyBetDTO.setAccountId("accountId");
+        dummyBetDTO.setEventId(1);
+        dummyBetDTO.setStake(5.0);
+
         Bet dummyBet = new Bet();
         dummyBet.setEvent(dummyEvent);
         dummyBet.setCustomer(dummyCustomer);
         dummyBet.setStake(5.0);
 
-        doNothing().when(validator).validate(dummyBet);
-        when(betService.create(dummyBet)).thenReturn(dummyBet);
+        doNothing().when(validator).validate(dummyBetDTO);
+        when(betService.create(any())).thenReturn(dummyBet);
+        when(eventService.findById(dummyBetDTO.getEventId())).thenReturn(dummyEvent);
+        when(customerService.findByAccountId(dummyBetDTO.getAccountId())).thenReturn(dummyCustomer);
 
-        Bet returnedBet = dummyController.addBet(dummyBet);
+        Bet returnedBet = dummyController.addBet(dummyBetDTO);
 
         assertEquals((int) returnedBet.getEvent().getId(), 1);
         assertEquals(returnedBet.getCustomer().getAccountId(), "accountId");

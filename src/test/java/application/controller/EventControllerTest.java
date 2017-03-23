@@ -1,5 +1,6 @@
 package application.controller;
 
+import application.controller.dto.EventDTO;
 import application.domain.Event;
 import application.service.EventServiceBean;
 import application.validator.EventValidator;
@@ -45,14 +46,17 @@ public class EventControllerTest {
     @Test
     public void testAddEvent() throws Exception {
 
+        EventDTO dummyEventDTO = new EventDTO();
+        dummyEventDTO.setName("name");
+
         Event dummyEvent = new Event();
         dummyEvent.setId(1);
         dummyEvent.setName("name");
 
-        doNothing().when(validator).validate(dummyEvent);
-        when(eventService.create(dummyEvent)).thenReturn(dummyEvent);
+        doNothing().when(validator).validate(dummyEventDTO);
+        when(eventService.create(any())).thenReturn(dummyEvent);
 
-        Event returnedEvent = dummyController.addEvent(dummyEvent);
+        Event returnedEvent = dummyController.addEvent(dummyEventDTO);
 
         assertEquals((int) returnedEvent.getId(), 1);
         assertEquals(returnedEvent.getName(), "name");
@@ -85,6 +89,10 @@ public class EventControllerTest {
     @Test
     public void testUpdateEvent() throws Exception {
 
+        EventDTO dummyEventDTO = new EventDTO();
+        dummyEventDTO.setId(1);
+        dummyEventDTO.setName("newname");
+
         Event dummyEvent = new Event();
         dummyEvent.setId(1);
         dummyEvent.setName("name");
@@ -93,11 +101,11 @@ public class EventControllerTest {
         newEvent.setId(1);
         newEvent.setName("newname");
 
-        doNothing().when(validator).validate(dummyEvent);
-        when(eventService.findById(1)).thenReturn(dummyEvent);
-        when(eventService.update(newEvent)).thenReturn(newEvent);
+        doNothing().when(validator).validate(dummyEventDTO);
+        when(eventService.findById(dummyEventDTO.getId())).thenReturn(dummyEvent);
+        when(eventService.update(any())).thenReturn(newEvent);
 
-        Event returnedEvent = dummyController.updateEvent(newEvent);
+        Event returnedEvent = dummyController.updateEvent(dummyEventDTO);
 
         assertEquals((int) returnedEvent.getId(), 1);
         assertEquals(returnedEvent.getName(), "newname");
@@ -105,7 +113,7 @@ public class EventControllerTest {
         when(eventService.findById(anyInt())).thenReturn(null);
 
         try {
-            dummyController.updateEvent(newEvent);
+            dummyController.updateEvent(dummyEventDTO);
             assertEquals(true, false);
         } catch (Exception exc) {
             assertEquals(exc.getMessage(), "Invalid ID!\n");

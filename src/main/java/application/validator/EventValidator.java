@@ -1,10 +1,10 @@
 package application.validator;
 
-import application.domain.Event;
+import application.controller.dto.EventDTO;
 
-public class EventValidator implements IValidator<Event> {
+public class EventValidator implements IValidator<EventDTO> {
     @Override
-    public void validate(Event entity) throws ValidatorException {
+    public void validate(EventDTO entity) throws ValidatorException {
         String msg = "";
 
         if (entity.getName().equals("")) {
