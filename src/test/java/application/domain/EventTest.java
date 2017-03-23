@@ -19,19 +19,35 @@ public class EventTest {
     private Event dummyEvent3;
     private Bet dummyBet1;
     private Bet dummyBet2;
+    private Customer dummyCustomer;
 
     @Before
     public void setUp() throws Exception {
         List<Bet> bets = new ArrayList<>();
 
+        dummyCustomer = new Customer();
+        dummyCustomer.setId(1);
+        dummyCustomer.setName("Name");
+        dummyCustomer.setAccountId("accountId");
+
         dummyBet1 = new Bet();
-        dummyBet2 = new Bet(5, "account id", 50.0);
+        dummyBet2 = new Bet();
+        dummyBet2.setId(5);
+        dummyBet2.setCustomer(dummyCustomer);
+        dummyBet2.setStake(50.0);
+
         bets.add(dummyBet1);
         bets.add(dummyBet2);
 
         dummyEvent1 = new Event();
-        dummyEvent2 = new Event(1, "Event name");
-        dummyEvent3 = new Event(2,"New Event", bets);
+        dummyEvent2 = new Event();
+        dummyEvent2.setId(1);
+        dummyEvent2.setName("Event name");
+
+        dummyEvent3 = new Event();
+        dummyEvent3.setId(2);
+        dummyEvent3.setName("New Event");
+        dummyEvent3.setBets(bets);
     }
 
     @After
@@ -80,7 +96,7 @@ public class EventTest {
     @Test
     public void testGetBets() throws Exception {
         assertEquals(dummyEvent1.getBets(), null);
-        assertTrue(dummyEvent2.getBets().isEmpty());
+        assertEquals(dummyEvent2.getBets(), null);
         List<Bet> bets = dummyEvent3.getBets();
 
         assertEquals(bets.size(), 2);

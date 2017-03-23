@@ -1,9 +1,11 @@
 package application.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by NegrutiA on 3/14/2017.
@@ -17,26 +19,18 @@ public class Customer implements Serializable,HasID<Integer> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(name = "account_id")
     private String accountId;
 
     private String name;
 
     private Double balance;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "customer")
+    @JsonIgnore
+    private List<Bet> bets;
+
     public Customer() {}
-
-    public Customer(String accountId, String name, Double balance) {
-        this.accountId = accountId;
-        this.name = name;
-        this.balance = balance;
-    }
-
-    public Customer(Integer id, String accountId, String name, Double balance) {
-        this.id = id;
-        this.accountId = accountId;
-        this.name = name;
-        this.balance = balance;
-    }
 
     public String getAccountId() {
         return accountId;

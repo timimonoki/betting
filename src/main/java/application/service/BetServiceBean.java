@@ -42,10 +42,10 @@ public class BetServiceBean implements IService<Bet, Integer> {
                 customerRepository
                 .findAll()
                 .stream()
-                .filter(customer -> customer.getAccountId().equals(E.getAccountId()))
+                .filter(customer -> customer.getAccountId().equals(E.getCustomer().getAccountId()))
                 .collect(Collectors.toList());
 
-        if (eventRepository.findOne(E.getEventId()) == null) {
+        if (eventRepository.findOne(E.getEvent().getId()) == null) {
             throw new Exception("Event ID dosen't exist!");
         }
         else if (resultCustomers.size() != 1) {
@@ -64,7 +64,11 @@ public class BetServiceBean implements IService<Bet, Integer> {
         customerRepository.save(c);
 
         UUID myuuid = UUID.randomUUID();
-        E.setBetcode(myuuid.getLeastSignificantBits());
+
+        Long myBetcode = myuuid.getLeastSignificantBits() & 0x7FFF_FFFF_FFFF_FFFFL;
+        //If bits corespond to negative return a positive long else still a positive long
+
+        E.setBetcode(myBetcode);
 
         return betRepository.save(E);
     }
@@ -106,7 +110,7 @@ public class BetServiceBean implements IService<Bet, Integer> {
         return betRepository
                 .findAll()
                 .stream()
-                .filter(bet -> bet.getAccountId().equals(accountId))
+                .filter(bet -> bet.getCustomer().getAccountId().equals(accountId))
                 .collect(Collectors.toList());
     }
 }

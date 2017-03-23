@@ -45,7 +45,9 @@ public class EventControllerTest {
     @Test
     public void testAddEvent() throws Exception {
 
-        Event dummyEvent = new Event(1, "name");
+        Event dummyEvent = new Event();
+        dummyEvent.setId(1);
+        dummyEvent.setName("name");
 
         doNothing().when(validator).validate(dummyEvent);
         when(eventService.create(dummyEvent)).thenReturn(dummyEvent);
@@ -60,7 +62,9 @@ public class EventControllerTest {
     @Test
     public void testGetEvent() throws Exception {
 
-        Event dummyEvent = new Event(1, "name");
+        Event dummyEvent = new Event();
+        dummyEvent.setId(1);
+        dummyEvent.setName("name");
 
         when(eventService.findById(1)).thenReturn(dummyEvent);
 
@@ -81,8 +85,13 @@ public class EventControllerTest {
     @Test
     public void testUpdateEvent() throws Exception {
 
-        Event dummyEvent = new Event(1, "name");
-        Event newEvent = new Event(1, "newname");
+        Event dummyEvent = new Event();
+        dummyEvent.setId(1);
+        dummyEvent.setName("name");
+
+        Event newEvent = new Event();
+        newEvent.setId(1);
+        newEvent.setName("newname");
 
         doNothing().when(validator).validate(dummyEvent);
         when(eventService.findById(1)).thenReturn(dummyEvent);
@@ -107,7 +116,9 @@ public class EventControllerTest {
     @Test
     public void testRemoveEvent() throws Exception {
 
-        Event dummyEvent = new Event(1, "name");
+        Event dummyEvent = new Event();
+        dummyEvent.setId(1);
+        dummyEvent.setName("name");
 
         when(eventService.delete(1)).thenReturn(dummyEvent);
 
@@ -128,7 +139,9 @@ public class EventControllerTest {
     @Test
     public void testGetEvents() throws Exception {
 
-        Event dummyEvent = new Event(1, "name");
+        Event dummyEvent = new Event();
+        dummyEvent.setId(1);
+        dummyEvent.setName("name");
 
         List<Event> toReturn = Arrays.asList(dummyEvent);
 

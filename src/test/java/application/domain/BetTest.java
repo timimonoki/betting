@@ -18,8 +18,39 @@ public class BetTest {
     @Before
     public void setUp() throws Exception {
         dummyBet1 = new Bet();
-        dummyBet2 = new Bet(1, 1, "username", 5.0, 1234L);
-        dummyBet3 = new Bet(2, "bestuser", 100.0);
+
+        Event event1 = new Event();
+        event1.setId(1);
+        event1.setName("eventname");
+
+        Customer customer1 = new Customer();
+        customer1.setId(1);
+        customer1.setName("customer");
+        customer1.setAccountId("accountId");
+        customer1.setBalance(5.0);
+
+        dummyBet2 = new Bet();
+        dummyBet2.setId(1);
+        dummyBet2.setEvent(event1);
+        dummyBet2.setCustomer(customer1);
+        dummyBet2.setStake(5.0);
+        dummyBet2.setBetcode(1234L);
+
+        Event event2 = new Event();
+        event2.setId(2);
+        event2.setName("eventname");
+
+        Customer customer2 = new Customer();
+        customer2.setId(2);
+        customer2.setName("customer");
+        customer2.setAccountId("accountId");
+        customer2.setBalance(5.0);
+
+        dummyBet3 = new Bet();
+        dummyBet3.setEvent(event2);
+        dummyBet3.setCustomer(customer2);
+        dummyBet3.setStake(100.0);
+
     }
 
     @After
@@ -67,38 +98,48 @@ public class BetTest {
 
     @Test
     public void testGetEventId() throws Exception {
-        assertEquals(dummyBet1.getEventId(), null);
-        assertEquals((int)dummyBet2.getEventId(), 1);
-        assertEquals((int)dummyBet3.getEventId(), 2);
+        assertEquals(dummyBet1.getEvent(), null);
+        assertEquals((int)dummyBet2.getEvent().getId(), 1);
+        assertEquals((int)dummyBet3.getEvent().getId(), 2);
     }
 
     @Test
     public void testSetEventId() throws Exception {
-        dummyBet1.setEventId(1);
-        dummyBet2.setEventId(1);
-        dummyBet3.setEventId(1);
+        Event event1 = new Event();
+        event1.setId(1);
+        event1.setName("eventname");
 
-        assertEquals((int)dummyBet1.getEventId(), 1);
-        assertEquals((int)dummyBet2.getEventId(), 1);
-        assertEquals((int)dummyBet3.getEventId(), 1);
+        dummyBet1.setEvent(event1);
+        dummyBet2.setEvent(event1);
+        dummyBet3.setEvent(event1);
+
+        assertEquals((int)dummyBet1.getEvent().getId(), 1);
+        assertEquals((int)dummyBet2.getEvent().getId(), 1);
+        assertEquals((int)dummyBet3.getEvent().getId(), 1);
     }
 
     @Test
     public void testGetAccountId() throws Exception {
-        assertEquals(dummyBet1.getAccountId(), null);
-        assertEquals(dummyBet2.getAccountId(), "username");
-        assertEquals(dummyBet3.getAccountId(), "bestuser");
+        assertEquals(dummyBet1.getCustomer(), null);
+        assertEquals(dummyBet2.getCustomer().getAccountId(), "accountId");
+        assertEquals(dummyBet3.getCustomer().getAccountId(), "accountId");
     }
 
     @Test
     public void testSetAccountId() throws Exception {
-        dummyBet1.setAccountId("user");
-        dummyBet2.setAccountId("user");
-        dummyBet3.setAccountId("user");
+        Customer customer1 = new Customer();
+        customer1.setId(1);
+        customer1.setName("customer");
+        customer1.setAccountId("user");
+        customer1.setBalance(5.0);
 
-        assertEquals(dummyBet1.getAccountId(), "user");
-        assertEquals(dummyBet2.getAccountId(), "user");
-        assertEquals(dummyBet3.getAccountId(), "user");
+        dummyBet1.setCustomer(customer1);
+        dummyBet2.setCustomer(customer1);
+        dummyBet3.setCustomer(customer1);
+
+        assertEquals(dummyBet1.getCustomer().getAccountId(), "user");
+        assertEquals(dummyBet2.getCustomer().getAccountId(), "user");
+        assertEquals(dummyBet3.getCustomer().getAccountId(), "user");
     }
 
     @Test

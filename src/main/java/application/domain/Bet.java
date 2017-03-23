@@ -17,28 +17,21 @@ public class Bet implements Serializable, HasID<Integer> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer eventId;
-    private String accountId;
+    @ManyToOne
+    @JoinColumn(name = "event_id")
+    private Event event;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+
     private Double stake;
+
+    @Column ( unique = true, nullable = false )
     private Long betcode;
 
     public Bet() {}
 
-    public Bet(Integer id, Integer eventId, String accountId, Double stake, Long betcode) {
-        this.id = id;
-        this.eventId = eventId;
-        this.accountId = accountId;
-        this.stake = stake;
-        this.betcode = betcode;
-    }
-
-    public Bet(Integer eventId, String accountId, Double stake) {
-        this.eventId = eventId;
-        this.accountId = accountId;
-        this.stake = stake;
-    }
-
-    @Column ( unique = true, nullable = false )
     public Long getBetcode() {
         return betcode;
     }
@@ -57,22 +50,21 @@ public class Bet implements Serializable, HasID<Integer> {
         this.id = id;
     }
 
+    public Event getEvent() {
+        return event;
+    }
+
+    public void setEvent(Event eventId) {
+        this.event = eventId;
+    }
+
     @Column( nullable = false )
-    public Integer getEventId() {
-        return eventId;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setEventId(Integer eventId) {
-        this.eventId = eventId;
-    }
-
-    @Column( nullable = false )
-    public String getAccountId() {
-        return accountId;
-    }
-
-    public void setAccountId(String accountId) {
-        this.accountId = accountId;
+    public void setCustomer(Customer accountId) {
+        this.customer = accountId;
     }
 
     @Column (columnDefinition = "UNSIGNED DOUBLE(11)")

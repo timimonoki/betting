@@ -18,8 +18,17 @@ public class CustomerTest {
     @Before
     public void setUp() throws Exception {
         dummyCustomer1 = new Customer();
-        dummyCustomer2 = new Customer(1, "username", "User Name", 700.0);
-        dummyCustomer3 = new Customer("accountId", "name", 5.0);
+
+        dummyCustomer2 = new Customer();
+        dummyCustomer2.setId(1);
+        dummyCustomer2.setAccountId("username");
+        dummyCustomer2.setName("User Name");
+        dummyCustomer2.setBalance(700.0);
+
+        dummyCustomer3 = new Customer();
+        dummyCustomer3.setAccountId("accountId");
+        dummyCustomer3.setName("name");
+        dummyCustomer3.setBalance(5.0);
     }
 
     @After

@@ -1,6 +1,8 @@
 package application.controller;
 
 import application.domain.Bet;
+import application.domain.Customer;
+import application.domain.Event;
 import application.service.BetServiceBean;
 import application.validator.BetValidator;
 import org.junit.After;
@@ -43,15 +45,24 @@ public class BetControllerTest {
     @Test
     public void testAddBet() throws Exception {
 
-        Bet dummyBet = new Bet(1, "accountId", 5.0);
+        Event dummyEvent = new Event();
+        dummyEvent.setId(1);
+
+        Customer dummyCustomer = new Customer();
+        dummyCustomer.setAccountId("accountId");
+
+        Bet dummyBet = new Bet();
+        dummyBet.setEvent(dummyEvent);
+        dummyBet.setCustomer(dummyCustomer);
+        dummyBet.setStake(5.0);
 
         doNothing().when(validator).validate(dummyBet);
         when(betService.create(dummyBet)).thenReturn(dummyBet);
 
         Bet returnedBet = dummyController.addBet(dummyBet);
 
-        assertEquals((int) returnedBet.getEventId(), 1);
-        assertEquals(returnedBet.getAccountId(), "accountId");
+        assertEquals((int) returnedBet.getEvent().getId(), 1);
+        assertEquals(returnedBet.getCustomer().getAccountId(), "accountId");
         assertEquals(returnedBet.getStake(), 5.0, 0.0);
 
     }
@@ -59,14 +70,23 @@ public class BetControllerTest {
     @Test
     public void testGetBet() throws Exception {
 
-        Bet dummyBet = new Bet(1, "accountId", 5.0);
+        Event dummyEvent = new Event();
+        dummyEvent.setId(1);
+
+        Customer dummyCustomer = new Customer();
+        dummyCustomer.setAccountId("accountId");
+
+        Bet dummyBet = new Bet();
+        dummyBet.setEvent(dummyEvent);
+        dummyBet.setCustomer(dummyCustomer);
+        dummyBet.setStake(5.0);
 
         when(betService.findById(1)).thenReturn(dummyBet);
 
         Bet returnedBet = dummyController.getBet(1);
 
-        assertEquals((int) returnedBet.getEventId(), 1);
-        assertEquals(returnedBet.getAccountId(), "accountId");
+        assertEquals((int) returnedBet.getEvent().getId(), 1);
+        assertEquals(returnedBet.getCustomer().getAccountId(), "accountId");
         assertEquals(returnedBet.getStake(), 5.0, 0.0);
 
         try {
@@ -81,8 +101,24 @@ public class BetControllerTest {
     @Test
     public void testGetBets() throws Exception {
 
-        Bet dummyBet1 = new Bet(1, "a", 1.0);
-        Bet dummyBet2 = new Bet(2, "b", 2.0);
+        Event dummyEvent1 = new Event();
+        dummyEvent1.setId(1);
+        Event dummyEvent2 = new Event();
+        dummyEvent2.setId(2);
+
+        Customer dummyCustomer1 = new Customer();
+        dummyCustomer1.setAccountId("a");
+        Customer dummyCustomer2 = new Customer();
+        dummyCustomer2.setAccountId("b");
+
+        Bet dummyBet1 = new Bet();
+        dummyBet1.setEvent(dummyEvent1);
+        dummyBet1.setCustomer(dummyCustomer1);
+        dummyBet1.setStake(1.0);
+        Bet dummyBet2 = new Bet();
+        dummyBet2.setEvent(dummyEvent2);
+        dummyBet2.setCustomer(dummyCustomer2);
+        dummyBet2.setStake(2.0);
 
         List<Bet> toReturn = Arrays.asList(dummyBet1, dummyBet2);
 
@@ -95,12 +131,12 @@ public class BetControllerTest {
         Bet returnedBet1 = returnedList.get(0);
         Bet returnedBet2 = returnedList.get(1);
 
-        assertEquals((int) returnedBet1.getEventId(), 1);
-        assertEquals(returnedBet1.getAccountId(), "a");
+        assertEquals((int) returnedBet1.getEvent().getId(), 1);
+        assertEquals(returnedBet1.getCustomer().getAccountId(), "a");
         assertEquals(returnedBet1.getStake(), 1.0, 0.0);
 
-        assertEquals((int) returnedBet2.getEventId(), 2);
-        assertEquals(returnedBet2.getAccountId(), "b");
+        assertEquals((int) returnedBet2.getEvent().getId(), 2);
+        assertEquals(returnedBet2.getCustomer().getAccountId(), "b");
         assertEquals(returnedBet2.getStake(), 2.0, 0.0);
 
     }
@@ -108,14 +144,25 @@ public class BetControllerTest {
     @Test
     public void testGetBetByBetcode() throws Exception {
 
-        Bet dummyBet = new Bet(1, 1, "a", 1.0, 99L);
+        Event dummyEvent = new Event();
+        dummyEvent.setId(1);
+
+        Customer dummyCustomer = new Customer();
+        dummyCustomer.setAccountId("a");
+
+        Bet dummyBet = new Bet();
+        dummyBet.setId(1);
+        dummyBet.setEvent(dummyEvent);
+        dummyBet.setCustomer(dummyCustomer);
+        dummyBet.setStake(1.0);
+        dummyBet.setBetcode(99L);
 
         when(betService.findByBetcode(99L)).thenReturn(dummyBet);
 
         Bet returnedBet = dummyController.getBetByBetcode(99L);
 
-        assertEquals((int) returnedBet.getEventId(), 1);
-        assertEquals(returnedBet.getAccountId(), "a");
+        assertEquals((int) returnedBet.getEvent().getId(), 1);
+        assertEquals(returnedBet.getCustomer().getAccountId(), "a");
         assertEquals(returnedBet.getStake(), 1.0, 0.0);
 
         try {
@@ -130,8 +177,24 @@ public class BetControllerTest {
     @Test
     public void testGetAllFromAccount() throws Exception {
 
-        Bet dummyBet1 = new Bet(1, "a", 1.0);
-        Bet dummyBet2 = new Bet(2, "a", 2.0);
+        Event dummyEvent1 = new Event();
+        dummyEvent1.setId(1);
+        Event dummyEvent2 = new Event();
+        dummyEvent2.setId(2);
+
+        Customer dummyCustomer1 = new Customer();
+        dummyCustomer1.setAccountId("a");
+        Customer dummyCustomer2 = new Customer();
+        dummyCustomer2.setAccountId("a");
+
+        Bet dummyBet1 = new Bet();
+        dummyBet1.setEvent(dummyEvent1);
+        dummyBet1.setCustomer(dummyCustomer1);
+        dummyBet1.setStake(1.0);
+        Bet dummyBet2 = new Bet();
+        dummyBet2.setEvent(dummyEvent2);
+        dummyBet2.setCustomer(dummyCustomer2);
+        dummyBet2.setStake(2.0);
 
         List<Bet> toReturn = Arrays.asList(dummyBet1, dummyBet2);
 
@@ -144,12 +207,12 @@ public class BetControllerTest {
         Bet returnedBet1 = returnedList.get(0);
         Bet returnedBet2 = returnedList.get(1);
 
-        assertEquals((int) returnedBet1.getEventId(), 1);
-        assertEquals(returnedBet1.getAccountId(), "a");
+        assertEquals((int) returnedBet1.getEvent().getId(), 1);
+        assertEquals(returnedBet1.getCustomer().getAccountId(), "a");
         assertEquals(returnedBet1.getStake(), 1.0, 0.0);
 
-        assertEquals((int) returnedBet2.getEventId(), 2);
-        assertEquals(returnedBet2.getAccountId(), "a");
+        assertEquals((int) returnedBet2.getEvent().getId(), 2);
+        assertEquals(returnedBet2.getCustomer().getAccountId(), "a");
         assertEquals(returnedBet2.getStake(), 2.0, 0.0);
 
     }

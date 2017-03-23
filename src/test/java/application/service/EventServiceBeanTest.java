@@ -1,6 +1,7 @@
 package application.service;
 
 import application.domain.Bet;
+import application.domain.Customer;
 import application.domain.Event;
 import application.repository.EventRepository;
 import org.junit.After;
@@ -41,13 +42,26 @@ public class EventServiceBeanTest {
     @Test
     public void testUpdate() throws Exception {
 
-        Event dummyEvent = new Event(1, "Name");
+        Event dummyEvent = new Event();
+        dummyEvent.setId(1);
+        dummyEvent.setName("Name");
+
+        Customer dummyCustomer = new Customer();
+        dummyCustomer.setAccountId("account");
+
+        Bet dummyBet = new Bet();
+        dummyBet.setEvent(dummyEvent);
+        dummyBet.setCustomer(dummyCustomer);
+        dummyBet.setStake(5.0);
 
         when(eventRepository.getOne(1)).thenReturn(dummyEvent);
 
-        List<Bet> myBets = Arrays.asList(new Bet(1, "account", 5.0));
+        List<Bet> myBets = Arrays.asList(dummyBet);
 
-        Event newEvent = new Event(1, "MyName", myBets);
+        Event newEvent = new Event();
+        newEvent.setId(1);
+        newEvent.setName("MyName");
+        newEvent.setBets(myBets);
 
         when(eventRepository.save(newEvent)).thenReturn(null);
 
@@ -56,8 +70,8 @@ public class EventServiceBeanTest {
         assertEquals((int) returnedEvent.getId(), 1);
         assertEquals(returnedEvent.getName(), "MyName");
         assertEquals(returnedEvent.getBets().size(), 1);
-        assertEquals((int) returnedEvent.getBets().get(0).getEventId(), 1);
-        assertEquals(returnedEvent.getBets().get(0).getAccountId(), "account");
+        assertEquals((int) returnedEvent.getBets().get(0).getEvent().getId(), 1);
+        assertEquals(returnedEvent.getBets().get(0).getCustomer().getAccountId(), "account");
         assertEquals(returnedEvent.getBets().get(0).getStake(), 5.0, 0.0);
 
     }
@@ -65,7 +79,9 @@ public class EventServiceBeanTest {
     @Test
     public void testDelete() throws Exception {
 
-        Event dummyEvent = new Event(1, "Name");
+        Event dummyEvent = new Event();
+        dummyEvent.setId(1);
+        dummyEvent.setName("Name");
 
         when(eventRepository.findOne(1)).thenReturn(dummyEvent);
         doNothing().when(eventRepository).delete(1);
@@ -89,7 +105,9 @@ public class EventServiceBeanTest {
     @Test
     public void testCreate() throws Exception {
 
-        Event dummyEvent = new Event(1, "Name");
+        Event dummyEvent = new Event();
+        dummyEvent.setId(1);
+        dummyEvent.setName("Name");
 
         when(eventRepository.save(dummyEvent)).thenReturn(dummyEvent);
 
@@ -103,9 +121,11 @@ public class EventServiceBeanTest {
     @Test
     public void testFindAll() throws Exception {
 
-        Event dummyEvent1 = new Event(1, "Name");
+        Event dummyEvent = new Event();
+        dummyEvent.setId(1);
+        dummyEvent.setName("Name");
 
-        List<Event> toReturn = Arrays.asList(dummyEvent1);
+        List<Event> toReturn = Arrays.asList(dummyEvent);
 
         when(eventRepository.findAll()).thenReturn(toReturn);
 
@@ -121,9 +141,11 @@ public class EventServiceBeanTest {
     @Test
     public void testFindById() throws Exception {
 
-        Event dummyEvent1 = new Event(1, "Name");
+        Event dummyEvent = new Event();
+        dummyEvent.setId(1);
+        dummyEvent.setName("Name");
 
-        when(eventRepository.findOne(1)).thenReturn(dummyEvent1);
+        when(eventRepository.findOne(1)).thenReturn(dummyEvent);
 
         Event returnedEvent = dummyService.findById(1);
         assertEquals((int) returnedEvent.getId(), 1);

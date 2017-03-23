@@ -1,6 +1,7 @@
 package application.controller;
 
 import application.domain.Bet;
+import application.domain.Customer;
 import application.service.BetServiceBean;
 import application.validator.BetValidator;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -22,23 +22,11 @@ public class Event implements Serializable, HasID<Integer> {
 
     private String name;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "event")
     @JsonIgnore
     private List<Bet> bets;
 
     public Event() {}
-
-    public Event(Integer id, String name) {
-        this.id = id;
-        this.name = name;
-        bets = new ArrayList<>();
-    }
-
-    public Event(Integer id, String name, List<Bet> bets) {
-        this.id = id;
-        this.name = name;
-        this.bets = bets;
-    }
 
     public Integer getId() {
         return id;

@@ -40,9 +40,17 @@ public class CustomerServiceBeanTest {
     @Test
     public void testUpdate() throws Exception {
 
-        Customer dummyCustomer1 = new Customer(1, "AccountId", "name", 100.0);
+        Customer dummyCustomer1 = new Customer();
+        dummyCustomer1.setId(1);
+        dummyCustomer1.setAccountId("AccountId");
+        dummyCustomer1.setName("name");
+        dummyCustomer1.setBalance(100.0);
 
-        Customer newCustomer = new Customer(1, "NewAccountId", "NewName", 99.0);
+        Customer newCustomer = new Customer();
+        newCustomer.setId(1);
+        newCustomer.setAccountId("NewAccountId");
+        newCustomer.setName("NewName");
+        newCustomer.setBalance(99.0);
 
         when(customerRepository.getOne(newCustomer.getId())).thenReturn(dummyCustomer1);
         when(customerRepository.save(newCustomer)).thenReturn(null);
@@ -59,7 +67,11 @@ public class CustomerServiceBeanTest {
     @Test
     public void testDelete() throws Exception {
 
-        Customer dummyCustomer1 = new Customer(1, "AccountId", "name", 100.0);
+        Customer dummyCustomer1 = new Customer();
+        dummyCustomer1.setId(1);
+        dummyCustomer1.setAccountId("AccountId");
+        dummyCustomer1.setName("name");
+        dummyCustomer1.setBalance(100.0);
 
         when(customerRepository.findOne(anyInt())).thenReturn(null);
 
@@ -85,12 +97,18 @@ public class CustomerServiceBeanTest {
     @Test
     public void testCreate() throws Exception {
 
-        List<Customer> toReturn = Arrays.asList(new Customer("AccountId", "name", 5.0));
+        Customer dummyCustomer = new Customer();
+        dummyCustomer.setId(1);
+        dummyCustomer.setAccountId("AccountId");
+        dummyCustomer.setName("name");
+        dummyCustomer.setBalance(100.0);
+
+        List<Customer> toReturn = Arrays.asList(dummyCustomer);
 
         when(customerRepository.findAll()).thenReturn(toReturn);
 
         try {
-            dummyService.create(new Customer("AccountId", "name", 5.0));
+            dummyService.create(dummyCustomer);
             assertEquals(true, false);
         }
         catch (Exception exc) {
@@ -98,12 +116,11 @@ public class CustomerServiceBeanTest {
         }
 
         toReturn = new ArrayList<>();
-        Customer dummyCustomer1 = new Customer(1, "AccountId", "name", 100.0);
 
         when(customerRepository.findAll()).thenReturn(toReturn);
-        when(customerRepository.save(dummyCustomer1)).thenReturn(dummyCustomer1);
+        when(customerRepository.save(dummyCustomer)).thenReturn(dummyCustomer);
 
-        Customer returnedCustomer = dummyService.create(dummyCustomer1);
+        Customer returnedCustomer = dummyService.create(dummyCustomer);
 
         assertEquals((int) returnedCustomer.getId(), 1);
         assertEquals(returnedCustomer.getAccountId(), "AccountId");
@@ -115,8 +132,13 @@ public class CustomerServiceBeanTest {
     @Test
     public void testFindAll() throws Exception {
 
-        Customer dummyCustomer1 = new Customer(1, "AccountId", "name", 100.0);
-        List<Customer> toReturn = Arrays.asList(dummyCustomer1);
+        Customer dummyCustomer = new Customer();
+        dummyCustomer.setId(1);
+        dummyCustomer.setAccountId("AccountId");
+        dummyCustomer.setName("name");
+        dummyCustomer.setBalance(100.0);
+
+        List<Customer> toReturn = Arrays.asList(dummyCustomer);
 
         when(customerRepository.findAll()).thenReturn(toReturn);
 
@@ -135,7 +157,11 @@ public class CustomerServiceBeanTest {
     @Test
     public void testFindById() throws Exception {
 
-        Customer dummyCustomer1 = new Customer(1, "AccountId", "name", 100.0);
+        Customer dummyCustomer = new Customer();
+        dummyCustomer.setId(1);
+        dummyCustomer.setAccountId("AccountId");
+        dummyCustomer.setName("name");
+        dummyCustomer.setBalance(100.0);
 
         when(customerRepository.findOne(anyInt())).thenReturn(null);
 
@@ -146,7 +172,7 @@ public class CustomerServiceBeanTest {
             assertEquals(exc.getMessage(), "This ID doesn't exist!");
         }
 
-        when(customerRepository.findOne(anyInt())).thenReturn(dummyCustomer1);
+        when(customerRepository.findOne(anyInt())).thenReturn(dummyCustomer);
 
         Customer newCustomer = dummyService.findById(1);
 

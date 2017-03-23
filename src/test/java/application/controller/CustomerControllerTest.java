@@ -44,7 +44,11 @@ public class CustomerControllerTest {
     @Test
     public void testGetCustomer() throws Exception {
 
-        Customer dummyCustomer = new Customer(1,"id", "name", 10.0);
+        Customer dummyCustomer = new Customer();
+        dummyCustomer.setId(1);
+        dummyCustomer.setAccountId("id");
+        dummyCustomer.setName("name");
+        dummyCustomer.setBalance(10.0);
 
         when(customerService.findById(1)).thenReturn(dummyCustomer);
 
@@ -67,7 +71,11 @@ public class CustomerControllerTest {
     @Test
     public void testAddCustomer() throws Exception {
 
-        Customer dummyCustomer = new Customer(1,"id", "name", 10.0);
+        Customer dummyCustomer = new Customer();
+        dummyCustomer.setId(1);
+        dummyCustomer.setAccountId("id");
+        dummyCustomer.setName("name");
+        dummyCustomer.setBalance(10.0);
 
         doNothing().when(validator).validate(dummyCustomer);
         when(customerService.create(dummyCustomer)).thenReturn(dummyCustomer);
@@ -84,8 +92,17 @@ public class CustomerControllerTest {
     @Test
     public void testUpdateCustomer() throws Exception {
 
-        Customer dummyCustomer = new Customer(1,"id", "name", 10.0);
-        Customer newCustomer = new Customer(1,"newid", "newname", 5.0);
+        Customer dummyCustomer = new Customer();
+        dummyCustomer.setId(1);
+        dummyCustomer.setAccountId("id");
+        dummyCustomer.setName("name");
+        dummyCustomer.setBalance(10.0);
+
+        Customer newCustomer = new Customer();
+        newCustomer.setId(1);
+        newCustomer.setAccountId("newid");
+        newCustomer.setName("newname");
+        newCustomer.setBalance(5.0);
 
         doNothing().when(validator).validate(dummyCustomer);
         when(customerService.findById(1)).thenReturn(dummyCustomer);
@@ -111,7 +128,11 @@ public class CustomerControllerTest {
     @Test
     public void testRemoveCustomer() throws Exception {
 
-        Customer dummyCustomer = new Customer(1,"id", "name", 10.0);
+        Customer dummyCustomer = new Customer();
+        dummyCustomer.setId(1);
+        dummyCustomer.setAccountId("id");
+        dummyCustomer.setName("name");
+        dummyCustomer.setBalance(10.0);
 
         when(customerService.delete(1)).thenReturn(dummyCustomer);
 
@@ -134,7 +155,11 @@ public class CustomerControllerTest {
     @Test
     public void testGetCustomers() throws Exception {
 
-        Customer dummyCustomer = new Customer(1,"id", "name", 10.0);
+        Customer dummyCustomer = new Customer();
+        dummyCustomer.setId(1);
+        dummyCustomer.setAccountId("id");
+        dummyCustomer.setName("name");
+        dummyCustomer.setBalance(10.0);
 
         List<Customer> toReturn = Arrays.asList(dummyCustomer);
 

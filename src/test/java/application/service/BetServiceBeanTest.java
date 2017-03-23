@@ -18,6 +18,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
@@ -50,7 +51,11 @@ public class BetServiceBeanTest {
 
     @Test
     public void testUpdate() throws Exception {
-        assertEquals(dummyService.update(new Bet(1, "accountId", 1.0)), null);
+        Bet dummyBet = new Bet();
+        dummyBet.setId(1);
+        dummyBet.setStake(1.0);
+
+        assertEquals(dummyService.update(dummyBet), null);
     }
 
     @Test
@@ -61,22 +66,35 @@ public class BetServiceBeanTest {
     @Test
     public void testCreate() throws Exception {
 
-        Customer dummyCustomer = new Customer("accountId", "Name", 10.0);
-        Bet dummyBet = new Bet(1, "accountId", 5.0);
+        Customer dummyCustomer = new Customer();
+        dummyCustomer.setAccountId("accountId");
+        dummyCustomer.setName("Name");
+        dummyCustomer.setBalance(10.0);
+
+        Event dummyEvent = new Event();
+        dummyEvent.setId(1);
+        dummyEvent.setName("EventName");
+
+        Bet dummyBet = new Bet();
+        dummyBet.setId(1);
+        dummyBet.setEvent(dummyEvent);
+        dummyBet.setCustomer(dummyCustomer);
+        dummyBet.setStake(5.0);
 
         List<Customer> toReturn = Arrays.asList(dummyCustomer);
 
-        when(eventRepository.findOne(anyInt())).thenReturn(new Event(1, "EventName"));
+        when(eventRepository.findOne(anyInt())).thenReturn(dummyEvent);
         when(customerRepository.findAll()).thenReturn(toReturn);
         when(betRepository.save(dummyBet)).thenReturn(dummyBet);
+        dummyService.create(dummyBet);
 
         Bet returnedBet = dummyService.create(dummyBet);
 
-        assertEquals((int) returnedBet.getEventId(), 1);
-        assertEquals(returnedBet.getAccountId(), "accountId");
+        assertEquals((int) returnedBet.getEvent().getId(), 1);
+        assertEquals(returnedBet.getCustomer().getAccountId(), "accountId");
         assertEquals(returnedBet.getStake(), 5.0, 0.0);
 
-        dummyCustomer = new Customer("accountId", "name", 3.0);
+        dummyCustomer.setBalance(3.0);
         toReturn = Arrays.asList(dummyCustomer);
 
         when(customerRepository.findAll()).thenReturn(toReturn);
@@ -98,7 +116,7 @@ public class BetServiceBeanTest {
         }
 
         toReturn = new ArrayList<>();
-        when(eventRepository.findOne(anyInt())).thenReturn(new Event(1, "EventName"));
+        when(eventRepository.findOne(anyInt())).thenReturn(dummyEvent);
         when(customerRepository.findAll()).thenReturn(toReturn);
 
         try {
@@ -113,7 +131,17 @@ public class BetServiceBeanTest {
     @Test
     public void testFindAll() throws Exception {
 
-        Bet dummyBet = new Bet(1, "accountId", 5.0);
+        Event dummyEvent = new Event();
+        dummyEvent.setId(1);
+
+        Customer dummyCustomer = new Customer();
+        dummyCustomer.setId(1);
+        dummyCustomer.setAccountId("accountId");
+
+        Bet dummyBet = new Bet();
+        dummyBet.setEvent(dummyEvent);
+        dummyBet.setCustomer(dummyCustomer);
+        dummyBet.setStake(5.0);
 
         List<Bet> toReturn = Arrays.asList(dummyBet);
 
@@ -125,8 +153,8 @@ public class BetServiceBeanTest {
 
         Bet returnedBet = returned.get(0);
 
-        assertEquals((int) returnedBet.getEventId(), 1);
-        assertEquals(returnedBet.getAccountId(), "accountId");
+        assertEquals((int) returnedBet.getEvent().getId(), 1);
+        assertEquals(returnedBet.getCustomer().getAccountId(), "accountId");
         assertEquals(returnedBet.getStake(), 5.0, 0.0);
 
     }
@@ -134,15 +162,27 @@ public class BetServiceBeanTest {
     @Test
     public void testFindById() throws Exception {
 
-        Bet dummyBet = new Bet(1, 1, "accountId", 5.0, 8999L);
+        Event dummyEvent = new Event();
+        dummyEvent.setId(1);
+
+        Customer dummyCustomer = new Customer();
+        dummyCustomer.setId(1);
+        dummyCustomer.setAccountId("accountId");
+
+        Bet dummyBet = new Bet();
+        dummyBet.setId(1);
+        dummyBet.setEvent(dummyEvent);
+        dummyBet.setCustomer(dummyCustomer);
+        dummyBet.setStake(5.0);
+        dummyBet.setBetcode(8999L);
 
         when(betRepository.findOne(1)).thenReturn(dummyBet);
 
         Bet returnedBet = dummyService.findById(1);
 
         assertEquals((int) returnedBet.getId(), 1);
-        assertEquals((int) returnedBet.getEventId(), 1);
-        assertEquals(returnedBet.getAccountId(), "accountId");
+        assertEquals((int) returnedBet.getEvent().getId(), 1);
+        assertEquals(returnedBet.getCustomer().getAccountId(), "accountId");
         assertEquals(returnedBet.getStake(), 5.0, 0.0);
         assertEquals((long) returnedBet.getBetcode(), 8999L);
 
@@ -160,7 +200,19 @@ public class BetServiceBeanTest {
     @Test
     public void testFindByBetcode() throws Exception {
 
-        Bet dummyBet = new Bet(1, 1, "accountId", 5.0, 8999L);
+        Event dummyEvent = new Event();
+        dummyEvent.setId(1);
+
+        Customer dummyCustomer = new Customer();
+        dummyCustomer.setId(1);
+        dummyCustomer.setAccountId("accountId");
+
+        Bet dummyBet = new Bet();
+        dummyBet.setId(1);
+        dummyBet.setEvent(dummyEvent);
+        dummyBet.setCustomer(dummyCustomer);
+        dummyBet.setStake(5.0);
+        dummyBet.setBetcode(8999L);
 
         List<Bet> toReturn = Arrays.asList(dummyBet);
 
@@ -169,8 +221,8 @@ public class BetServiceBeanTest {
         Bet returnedBet = dummyService.findByBetcode(8999L);
 
         assertEquals((int) returnedBet.getId(), 1);
-        assertEquals((int) returnedBet.getEventId(), 1);
-        assertEquals(returnedBet.getAccountId(), "accountId");
+        assertEquals((int) returnedBet.getEvent().getId(), 1);
+        assertEquals(returnedBet.getCustomer().getAccountId(), "accountId");
         assertEquals(returnedBet.getStake(), 5.0, 0.0);
         assertEquals((long) returnedBet.getBetcode(), 8999L);
 
@@ -198,8 +250,30 @@ public class BetServiceBeanTest {
 
     @Test
     public void testFindAllFromAccount() throws Exception {
-        Bet dummyBet1 = new Bet(1, "myAccount", 11.0);
-        Bet dummyBet2 = new Bet(2, "notAccount", 10.0);
+
+        Event dummyEvent1 = new Event();
+        dummyEvent1.setId(1);
+
+        Customer dummyCustomer1 = new Customer();
+        dummyCustomer1.setId(1);
+        dummyCustomer1.setAccountId("myAccount");
+
+        Event dummyEvent2 = new Event();
+        dummyEvent2.setId(2);
+
+        Customer dummyCustomer2 = new Customer();
+        dummyCustomer2.setId(2);
+        dummyCustomer2.setAccountId("notAccount");
+
+        Bet dummyBet1 = new Bet();
+        dummyBet1.setEvent(dummyEvent1);
+        dummyBet1.setCustomer(dummyCustomer1);
+        dummyBet1.setStake(11.0);
+
+        Bet dummyBet2 = new Bet();
+        dummyBet2.setEvent(dummyEvent2);
+        dummyBet2.setCustomer(dummyCustomer2);
+        dummyBet2.setStake(10.0);
 
         List<Bet> toReturn = Arrays.asList(dummyBet1, dummyBet2);
 
@@ -211,8 +285,8 @@ public class BetServiceBeanTest {
 
         Bet returnedBet = returned.get(0);
 
-        assertEquals((int) returnedBet.getEventId(), 1);
-        assertEquals(returnedBet.getAccountId(), "myAccount");
+        assertEquals((int) returnedBet.getEvent().getId(), 1);
+        assertEquals(returnedBet.getCustomer().getAccountId(), "myAccount");
         assertEquals(returnedBet.getStake(), 11.0, 0.0);
     }
 

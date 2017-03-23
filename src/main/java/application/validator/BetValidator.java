@@ -7,7 +7,7 @@ public class BetValidator implements IValidator<Bet> {
     public void validate(Bet entity) throws ValidatorException {
         String msg = "";
 
-        if (entity.getAccountId().equals("")) {
+        if (entity.getCustomer().getAccountId().equals("")) {
             msg += "Account ID is invalid!\n";
         }
         if (entity.getStake() <= 0) {
