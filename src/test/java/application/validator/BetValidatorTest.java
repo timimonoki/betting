@@ -61,6 +61,15 @@ public class BetValidatorTest {
         catch (Exception exc) {
             assertEquals(true, false);
         }
+
+        bet.setAccountId(null);
+        try {
+            dummyValidator.validate(bet);
+            assertEquals(true, false);
+        }
+        catch (Exception exc) {
+            assertEquals(exc.getMessage(), "Customer ID is invalid!\n");
+        }
     }
 
 }
