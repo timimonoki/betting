@@ -24,7 +24,6 @@ public class EventController {
         validator = new EventValidator();
     }
 
-    @Secured("ROLE_ADMIN")
     @RequestMapping(value = "/addEvent", method = RequestMethod.POST)
     public Event addEvent(@RequestBody EventDTO eventDTO) throws Exception {
         validator.validate(eventDTO);
@@ -43,7 +42,6 @@ public class EventController {
         return eventService.findById(id);
     }
 
-    @Secured("ADMIN")
     @RequestMapping(value = "/updateEvent", method = RequestMethod.POST)
     public Event updateEvent(@RequestBody EventDTO eventDTO) throws Exception {
         validator.validate(eventDTO);
@@ -59,7 +57,6 @@ public class EventController {
         return eventService.update(event);
     }
 
-    @Secured("ADMIN")
     @RequestMapping(value = "/removeEvent", method = RequestMethod.GET)
     public Event removeEvent(@RequestParam(value = "id", defaultValue = "-1") Integer id) throws Exception {
         if (id < 0) {
