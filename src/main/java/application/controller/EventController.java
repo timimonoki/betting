@@ -6,6 +6,7 @@ import application.service.EventServiceBean;
 import application.validator.EventValidator;
 import application.validator.ValidatorException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -23,6 +24,7 @@ public class EventController {
         validator = new EventValidator();
     }
 
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = "/addEvent", method = RequestMethod.POST)
     public Event addEvent(@RequestBody EventDTO eventDTO) throws Exception {
         validator.validate(eventDTO);
@@ -41,6 +43,7 @@ public class EventController {
         return eventService.findById(id);
     }
 
+    @Secured("ADMIN")
     @RequestMapping(value = "/updateEvent", method = RequestMethod.POST)
     public Event updateEvent(@RequestBody EventDTO eventDTO) throws Exception {
         validator.validate(eventDTO);
@@ -56,6 +59,7 @@ public class EventController {
         return eventService.update(event);
     }
 
+    @Secured("ADMIN")
     @RequestMapping(value = "/removeEvent", method = RequestMethod.GET)
     public Event removeEvent(@RequestParam(value = "id", defaultValue = "-1") Integer id) throws Exception {
         if (id < 0) {

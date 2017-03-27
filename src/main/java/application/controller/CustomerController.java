@@ -4,6 +4,7 @@ import application.controller.dto.CustomerDTO;
 import application.domain.Customer;
 import application.validator.CustomerValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import application.service.CustomerServiceBean;
 import java.util.List;
