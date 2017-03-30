@@ -16,5 +16,4 @@
     <context:component-scan base-package="application"/>
 
     <import resource="spring-security.xml"/>
-    <import resource="spring-jpa.xml"/>
 </beans>

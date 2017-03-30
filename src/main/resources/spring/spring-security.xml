@@ -12,8 +12,8 @@
     <context:component-scan base-package="application.security"/>
 
     <http use-expressions="true">
-        <intercept-url pattern="/**" access="isAuthenticated"/>
-        <intercept-url pattern="/addCustomer" method="POST" access="isAuthenticated" />
+        <intercept-url pattern="/" access="permitAll()"/>
+        <intercept-url pattern="/addCustomer" method="POST" access="isAuthenticated()" />
 
         <http-basic/>
 
