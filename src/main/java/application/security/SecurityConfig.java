@@ -30,10 +30,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .antMatchers(HttpMethod.POST,"/addCustomer").hasRole("ADMIN")
-                    .antMatchers(HttpMethod.POST,"/addBet").hasRole("ADMIN")
-                    .antMatchers(HttpMethod.POST,"/addEvent").hasRole("ADMIN")
-                    .anyRequest().authenticated()
+                    .antMatchers("/").authenticated()
+                    .antMatchers(HttpMethod.GET,"/getCustomers").hasAnyRole("USER","ADMIN")
+                    .antMatchers(HttpMethod.GET,"/getBets").hasAnyRole("USER","ADMIN")
+                    .antMatchers(HttpMethod.GET,"/getEvents").hasAnyRole("USER","ADMIN")
+                    .antMatchers(HttpMethod.GET,"/getCustomer").hasAnyRole("USER","ADMIN")
+                    .antMatchers(HttpMethod.GET,"/getBet").hasAnyRole("USER","ADMIN")
+                    .antMatchers(HttpMethod.GET,"/getEvent").hasAnyRole("USER","ADMIN")
+                    .anyRequest().hasRole("ADMIN")
                 .and()
                 .httpBasic();
 

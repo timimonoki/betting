@@ -16,12 +16,6 @@ import java.util.List;
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
-    public CustomAuthenticationProvider() {
-        super();
-    }
-
-    // API
-
     @Override
     public Authentication authenticate(final Authentication authentication) throws AuthenticationException {
         final String name = authentication.getName();
