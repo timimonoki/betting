@@ -77,7 +77,10 @@ public class CustomerServiceBean implements IService<Customer, Integer> {
 
     @Override
     public List<Customer> findAll() {
-        return customerRepository.findAll();
+        List<Customer> customers = customerRepository.findAll();
+        customers.forEach(customer -> customer.setId(null));
+
+        return customers;
     }
 
     @Override

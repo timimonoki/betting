@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
@@ -75,7 +76,13 @@ public class BetServiceBean implements IService<Bet, Integer> {
 
     @Override
     public List<Bet> findAll() {
-        return betRepository.findAll();
+        List<Bet> bets = betRepository.findAll();
+        bets.forEach(bet -> {
+            bet.setId(null);
+            bet.getCustomer().setId(null);
+        });
+
+        return bets;
     }
 
     @Override
@@ -90,8 +97,13 @@ public class BetServiceBean implements IService<Bet, Integer> {
     }
 
     public Bet findByBetcode(Long betcode) throws Exception {
-        List<Bet> result = betRepository
-                .findAll()
+        List<Bet> bets = betRepository.findAll();
+        bets.forEach(bet -> {
+            bet.setId(null);
+            bet.getCustomer().setId(null);
+        });
+
+        List<Bet> result = bets
                 .stream()
                 .filter(bet -> bet.getBetcode().equals(betcode))
                 .collect(Collectors.toList());
@@ -106,9 +118,36 @@ public class BetServiceBean implements IService<Bet, Integer> {
         return result.get(0);
     }
 
+    /**
+     * This method returns a list of 'limit' size (if not specified the limit is repo size) with all the Bets filtered
+     * using every predicate from the predicate list.
+     *
+     * @param limit The size for the returned list
+     * @param predicate A list of predicates
+     * @return The filtered list
+     */
+    public List<Bet> filterBets(Long limit, List<Predicate<Bet>> predicate) {
+        List<Bet> bets = betRepository.findAll();
+        bets.forEach(bet -> {
+            bet.setId(null);
+            bet.getCustomer().setId(null);
+        });
+
+        return bets
+                .stream()
+                .filter( predicate.stream().reduce(Predicate::and).orElse(bet -> true) )
+                .limit( limit != 0L ? limit : betRepository.findAll().size() )
+                .collect(Collectors.toList());
+    }
+
     public List<Bet> findAllFromAccount(String accountId) {
-        return betRepository
-                .findAll()
+        List<Bet> bets = betRepository.findAll();
+        bets.forEach(bet -> {
+            bet.setId(null);
+            bet.getCustomer().setId(null);
+        });
+
+        return bets
                 .stream()
                 .filter(bet -> bet.getCustomer().getAccountId().equals(accountId))
                 .collect(Collectors.toList());

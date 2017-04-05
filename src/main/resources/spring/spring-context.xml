@@ -53,6 +53,6 @@
         </property>
     </bean>
 
-    <!--<import resource="spring-security.xml"/>-->
+    <import resource="spring-security.xml"/>
     <import resource="spring-mvc.xml"/>
 </beans>
