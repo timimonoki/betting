@@ -67,7 +67,9 @@ public class EventController {
     }
 
     @RequestMapping(value = "/getEvents", method = RequestMethod.GET)
-    public List<Event> getEvents() {
-        return eventService.findAll();
+    public List<Event> getEvents(@RequestParam(value = "bets", defaultValue = "false") Boolean withBets) {
+        return withBets ?
+                eventService.findAll() :
+                eventService.findAllEvents();
     }
 }

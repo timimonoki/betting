@@ -155,7 +155,7 @@ public class EventControllerTest {
 
         when(eventService.findAll()).thenReturn(toReturn);
 
-        List<Event> returnedList = dummyController.getEvents();
+        List<Event> returnedList = dummyController.getEvents(true);
 
         assertEquals(returnedList.size(), 1);
 

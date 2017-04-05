@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class EventServiceBean implements IService<Event, Integer> {
@@ -41,6 +42,19 @@ public class EventServiceBean implements IService<Event, Integer> {
     @Override
     public Event create(Event E) throws Exception {
         return eventRepository.save(E);
+    }
+
+    public List<Event> findAllEvents() {
+        List<Event> list = eventRepository.findAll();
+        return list
+                .stream()
+                .map(event -> {
+                    Event e = new Event();
+                    e.setId(event.getId());
+                    e.setName(event.getName());
+                    return e;
+                })
+                .collect(Collectors.toList());
     }
 
     @Override
