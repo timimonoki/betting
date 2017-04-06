@@ -77,4 +77,9 @@ public class EventController {
     public List<Event> getEventsWithMostBets() {
         return eventService.findEventsWithMostBets();
     }
+
+    @RequestMapping(value = "/findUniqueCustomersOnEventBets", method = RequestMethod.GET)
+    public List<String> getUniqueCustomersOnEventBets() {
+        return eventService.findUniqueCustomersOnEventBets();
+    }
 }

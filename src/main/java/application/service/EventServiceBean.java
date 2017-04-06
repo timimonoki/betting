@@ -1,5 +1,6 @@
 package application.service;
 
+import application.domain.Customer;
 import application.domain.Event;
 import application.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -103,6 +105,39 @@ public class EventServiceBean implements IService<Event, Integer> {
         }));
 
         return list;
+    }
+
+    /**
+     * This method finds all the events that have bets associated with and returns the name of the customers
+     * for those events that have bets from an unique customer account.
+     * @return List with String containing the accountId's.
+     */
+    public List<String> findUniqueCustomersOnEventBets() {
+        List<Event> list =
+                eventRepository
+                .findAll()
+                .stream()
+                .filter(event -> {
+                    Set<String> customers =
+                    event
+                        .getBets()
+                        .stream()
+                        .map(bet -> bet.getCustomer().getAccountId())
+                        .distinct()
+                        .collect(Collectors.toSet());
+
+            return customers.size() == 1;
+        })
+                .collect(Collectors.toList());
+
+        return list
+                .stream()
+                .map(event -> event
+                        .getBets()
+                        .get(0)
+                        .getCustomer()
+                        .getAccountId())
+                .collect(Collectors.toList());
     }
 
     @Override

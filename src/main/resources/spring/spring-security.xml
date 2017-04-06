@@ -17,6 +17,8 @@
         <intercept-url pattern="/getBets" access="hasAnyRole('ADMIN', 'USER')" />
         <intercept-url pattern="/getEvents" access="hasAnyRole('ADMIN', 'USER')" />
         <intercept-url pattern="/*" access="hasRole('ADMIN')" />
+
+        <csrf disabled="true"/>
     </http>
 
     <authentication-manager>
