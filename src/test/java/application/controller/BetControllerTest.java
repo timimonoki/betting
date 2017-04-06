@@ -233,4 +233,73 @@ public class BetControllerTest {
 
     }
 
+    @Test
+    public void testFilterBets() throws Exception {
+
+        Event dummyEvent1 = new Event();
+        dummyEvent1.setId(1);
+        Event dummyEvent2 = new Event();
+        dummyEvent2.setId(2);
+
+        Customer dummyCustomer1 = new Customer();
+        dummyCustomer1.setAccountId("a");
+        Customer dummyCustomer2 = new Customer();
+        dummyCustomer2.setAccountId("a");
+
+        Bet dummyBet1 = new Bet();
+        dummyBet1.setEvent(dummyEvent1);
+        dummyBet1.setCustomer(dummyCustomer1);
+        dummyBet1.setStake(1.0);
+        Bet dummyBet2 = new Bet();
+        dummyBet2.setEvent(dummyEvent2);
+        dummyBet2.setCustomer(dummyCustomer2);
+        dummyBet2.setStake(2.0);
+
+        List<Bet> toReturn = Arrays.asList(dummyBet1, dummyBet2);
+
+        when(betService.filterBets(anyLong(), any())).thenReturn(toReturn);
+
+        List<Bet> returnedList = dummyController.filterBets("a", 2.0, 5L, true);
+
+        assertEquals(returnedList.size(), 2);
+
+        Bet returnedBet1 = returnedList.get(0);
+        Bet returnedBet2 = returnedList.get(1);
+
+        assertEquals((int) returnedBet1.getEvent().getId(), 1);
+        assertEquals(returnedBet1.getCustomer().getAccountId(), "a");
+        assertEquals(returnedBet1.getStake(), 1.0, 0.0);
+
+        assertEquals((int) returnedBet2.getEvent().getId(), 2);
+        assertEquals(returnedBet2.getCustomer().getAccountId(), "a");
+        assertEquals(returnedBet2.getStake(), 2.0, 0.0);
+
+        dummyCustomer2.setAccountId("b");
+
+        toReturn = Arrays.asList(dummyBet1);
+
+        when(betService.filterBets(anyLong(), any())).thenReturn(toReturn);
+
+        returnedList = dummyController.filterBets("", 2.0, 5L, false);
+
+        assertEquals(returnedList.size(), 1);
+
+        returnedBet1 = returnedList.get(0);
+
+        assertEquals((int) returnedBet1.getEvent().getId(), 1);
+        assertEquals(returnedBet1.getCustomer().getAccountId(), "a");
+        assertEquals(returnedBet1.getStake(), 1.0, 0.0);
+
+        returnedList = dummyController.filterBets("", -2.0, 5L, false);
+
+        assertEquals(returnedList.size(), 1);
+
+        returnedBet1 = returnedList.get(0);
+
+        assertEquals((int) returnedBet1.getEvent().getId(), 1);
+        assertEquals(returnedBet1.getCustomer().getAccountId(), "a");
+        assertEquals(returnedBet1.getStake(), 1.0, 0.0);
+
+    }
+
 }

@@ -5,6 +5,7 @@ import application.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,22 +45,64 @@ public class EventServiceBean implements IService<Event, Integer> {
         return eventRepository.save(E);
     }
 
-    public List<Event> findAllEvents() {
+    /**
+     * Finds the events that have the most bets associated with.
+     * @return List with bets.
+     */
+    public List<Event> findEventsWithMostBets() {
         List<Event> list = eventRepository.findAll();
-        return list
+
+        final Comparator<Event> comp = (e1, e2) -> ((Integer) e1.getBets().size()).compareTo(e2.getBets().size());
+
+        int mostBets = list
                 .stream()
-                .map(event -> {
-                    Event e = new Event();
-                    e.setId(event.getId());
-                    e.setName(event.getName());
-                    return e;
-                })
+                .max(comp)
+                .orElse(null)
+                .getBets()
+                .size();
+
+        List<Event> list1 =
+                list
+                .stream()
+                .filter(event -> event.getBets().size() == mostBets)
                 .collect(Collectors.toList());
+
+        list1.forEach(event -> {
+            event.setBets(null);
+            event.setId(null);
+        });
+
+        return list1;
     }
 
+    /**
+     * Finds all the events without the bets.
+     * @return List with bets.
+     */
+    public List<Event> findAllEvents() {
+        List<Event> list = eventRepository.findAll();
+
+        list.forEach(event -> event.setId(null));
+        list.forEach(event -> event.setBets(null));
+
+        return list;
+    }
+
+    /**
+     * Finds all the events. Bets for the events are included.
+     * @return List with bets.
+     */
     @Override
     public List<Event> findAll() {
-        return eventRepository.findAll();
+        List<Event> list = eventRepository.findAll();
+
+        list.forEach(event -> event.setId(null));
+        list.forEach(event -> event.getBets().forEach(bet -> {
+            bet.setId(null);
+            bet.getCustomer().setId(null);
+        }));
+
+        return list;
     }
 
     @Override

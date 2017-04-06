@@ -1,6 +1,7 @@
 package application.controller;
 
 import application.controller.dto.EventDTO;
+import application.domain.Bet;
 import application.domain.Event;
 import application.service.EventServiceBean;
 import application.validator.EventValidator;
@@ -13,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -151,6 +153,15 @@ public class EventControllerTest {
         dummyEvent.setId(1);
         dummyEvent.setName("name");
 
+        Bet dummyBet1 = new Bet();
+        dummyBet1.setBetcode(10L);
+
+        Bet dummyBet2 = new Bet();
+        dummyBet2.setBetcode(11L);
+
+        List<Bet> betsList = Arrays.asList(dummyBet1, dummyBet2);
+        dummyEvent.setBets(betsList);
+
         List<Event> toReturn = Arrays.asList(dummyEvent);
 
         when(eventService.findAll()).thenReturn(toReturn);
@@ -163,6 +174,20 @@ public class EventControllerTest {
 
         assertEquals((int) returnedEvent.getId(), 1);
         assertEquals(returnedEvent.getName(), "name");
+        assertEquals(returnedEvent.getBets().size(), 2);
+
+        dummyEvent.setBets(null);
+        when(eventService.findAllEvents()).thenReturn(toReturn);
+
+        returnedList = dummyController.getEvents(false);
+
+        assertEquals(returnedList.size(), 1);
+
+        returnedEvent = returnedList.get(0);
+
+        assertEquals((int) returnedEvent.getId(), 1);
+        assertEquals(returnedEvent.getName(), "name");
+        assertEquals(returnedEvent.getBets(), null);
 
     }
 
