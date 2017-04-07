@@ -62,15 +62,15 @@ public class EventService implements IService<Event, Integer> {
                 .getBets()
                 .size();
 
-        List<Event> list1 =
+        List<Event> listWithMostBets =
                 list
                 .stream()
                 .filter(event -> event.getBets().size() == mostBets)
                 .collect(Collectors.toList());
 
-        list1.forEach(EventService::setBetsAndIdsToNull);
+        listWithMostBets.forEach(EventService::setBetsAndIdsToNull);
 
-        return list1;
+        return listWithMostBets;
     }
 
     /**
@@ -146,7 +146,6 @@ public class EventService implements IService<Event, Integer> {
     private static boolean eventWithBetsFromUniqueAccount(Event event) {
         Set<String> customers = event.getBets().stream()
                 .map(bet -> bet.getCustomer().getAccountId())
-                .distinct()
                 .collect(Collectors.toSet());
 
         return customers.size() == 1;

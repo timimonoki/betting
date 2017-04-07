@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Service
 public class BetService implements IService<Bet, Integer> {
 
-    final static Logger logger = LoggerFactory.getLogger(BetService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BetService.class);
 
     @Autowired
     private BetRepository betRepository;
@@ -56,13 +56,13 @@ public class BetService implements IService<Bet, Integer> {
             throw new Exception("There aren't sufficient money for this bet!");
         }
 
-        Customer c = resultCustomers.get(0);
+        Customer customer = resultCustomers.get(0);
 
-        logger.info("Customer balance: {}", c.getBalance());
-        c.setBalance(c.getBalance() - E.getStake());
-        logger.info("New Customer balance after a {} stake will be {}", E.getStake(), c.getBalance());
+        LOGGER.info("Customer balance: {}", customer.getBalance());
+        customer.setBalance(customer.getBalance() - E.getStake());
+        LOGGER.info("New Customer balance after a {} stake will be {}", E.getStake(), customer.getBalance());
 
-        customerRepository.save(c);
+        customerRepository.save(customer);
 
         UUID myuuid = UUID.randomUUID();
 

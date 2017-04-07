@@ -20,15 +20,15 @@ public class CustomerService implements IService<Customer, Integer> {
 
     @Override
     public Customer update(Customer E) {
-        Customer c = customerRepository.getOne(E.getId());
+        Customer customer = customerRepository.getOne(E.getId());
 
-        c.setName(E.getName());
-        c.setAccountId(E.getAccountId());
-        c.setBalance(E.getBalance());
+        customer.setName(E.getName());
+        customer.setAccountId(E.getAccountId());
+        customer.setBalance(E.getBalance());
 
-        customerRepository.save(c);
+        customerRepository.save(customer);
 
-        return c;
+        return customer;
     }
 
     @Override

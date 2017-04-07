@@ -15,6 +15,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
@@ -90,7 +92,6 @@ public class CustomerControllerTest {
         assertEquals(returnedCustomer.getAccountId(), "id");
         assertEquals(returnedCustomer.getName(), "name");
         assertEquals(returnedCustomer.getBalance(), 10.0, 0.0);
-
     }
 
     @Test
