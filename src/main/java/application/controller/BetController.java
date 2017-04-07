@@ -1,7 +1,7 @@
 package application.controller;
 
 import application.controller.dto.BetDTO;
-import application.domain.Bet;
+import application.dbmodel.Bet;
 import application.service.BetService;
 import application.service.CustomerService;
 import application.service.EventService;

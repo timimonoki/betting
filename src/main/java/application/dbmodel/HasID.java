@@ -1,4 +1,4 @@
-package application.domain;
+package application.dbmodel;
 
 /**
  * Created by NegrutiA on 3/17/2017.

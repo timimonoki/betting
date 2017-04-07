@@ -1,7 +1,7 @@
 package application.controller;
 
 import application.controller.dto.CustomerDTO;
-import application.domain.Customer;
+import application.dbmodel.Customer;
 import application.validator.CustomerValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

@@ -1,6 +1,6 @@
 package application.repository;
 
-import application.domain.Bet;
+import application.dbmodel.Bet;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

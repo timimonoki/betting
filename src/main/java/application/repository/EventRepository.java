@@ -1,6 +1,6 @@
 package application.repository;
 
-import application.domain.Event;
+import application.dbmodel.Event;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

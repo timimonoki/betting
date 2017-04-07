@@ -1,7 +1,6 @@
 package application.validator;
 
 import application.controller.dto.BetDTO;
-import application.domain.Bet;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

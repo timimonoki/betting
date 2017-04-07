@@ -1,6 +1,6 @@
 package application.service;
 
-import application.domain.Customer;
+import application.dbmodel.Customer;
 import application.repository.CustomerRepository;
 import org.junit.After;
 import org.junit.Before;

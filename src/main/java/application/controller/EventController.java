@@ -1,7 +1,7 @@
 package application.controller;
 
 import application.controller.dto.EventDTO;
-import application.domain.Event;
+import application.dbmodel.Event;
 import application.service.EventService;
 import application.validator.EventValidator;
 import org.springframework.beans.factory.annotation.Autowired;

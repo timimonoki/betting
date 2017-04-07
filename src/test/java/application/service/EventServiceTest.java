@@ -1,8 +1,8 @@
 package application.service;
 
-import application.domain.Bet;
-import application.domain.Customer;
-import application.domain.Event;
+import application.dbmodel.Bet;
+import application.dbmodel.Customer;
+import application.dbmodel.Event;
 import application.repository.EventRepository;
 import org.junit.After;
 import org.junit.Before;

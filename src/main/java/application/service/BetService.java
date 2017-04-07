@@ -1,7 +1,7 @@
 package application.service;
 
-import application.domain.Bet;
-import application.domain.Customer;
+import application.dbmodel.Bet;
+import application.dbmodel.Customer;
 import application.repository.BetRepository;
 import application.repository.CustomerRepository;
 import application.repository.EventRepository;

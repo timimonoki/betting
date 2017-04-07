@@ -1,4 +1,4 @@
-package application.domain;
+package application.dbmodel;
 
 import org.junit.After;
 import org.junit.Before;

@@ -1,7 +1,6 @@
 package application.validator;
 
 import application.controller.dto.EventDTO;
-import application.domain.Event;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

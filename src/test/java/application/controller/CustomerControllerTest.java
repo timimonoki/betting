@@ -1,7 +1,7 @@
 package application.controller;
 
 import application.controller.dto.CustomerDTO;
-import application.domain.Customer;
+import application.dbmodel.Customer;
 import application.service.CustomerService;
 import application.validator.CustomerValidator;
 import org.junit.After;

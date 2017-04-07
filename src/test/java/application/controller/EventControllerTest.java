@@ -1,8 +1,8 @@
 package application.controller;
 
 import application.controller.dto.EventDTO;
-import application.domain.Bet;
-import application.domain.Event;
+import application.dbmodel.Bet;
+import application.dbmodel.Event;
 import application.service.EventService;
 import application.validator.EventValidator;
 import org.junit.After;
