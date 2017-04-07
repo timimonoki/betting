@@ -4,9 +4,9 @@ import application.controller.dto.BetDTO;
 import application.domain.Bet;
 import application.domain.Customer;
 import application.domain.Event;
-import application.service.BetServiceBean;
-import application.service.CustomerServiceBean;
-import application.service.EventServiceBean;
+import application.service.BetService;
+import application.service.CustomerService;
+import application.service.EventService;
 import application.validator.BetValidator;
 import org.junit.After;
 import org.junit.Before;
@@ -27,13 +27,13 @@ import static org.junit.Assert.*;
 public class BetControllerTest {
 
     @Mock
-    private BetServiceBean betService;
+    private BetService betService;
 
     @Mock
-    private CustomerServiceBean customerService;
+    private CustomerService customerService;
 
     @Mock
-    private EventServiceBean eventService;
+    private EventService eventService;
 
     @Mock
     private BetValidator validator;

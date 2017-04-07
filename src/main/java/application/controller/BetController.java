@@ -2,43 +2,47 @@ package application.controller;
 
 import application.controller.dto.BetDTO;
 import application.domain.Bet;
-import application.service.BetServiceBean;
-import application.service.CustomerServiceBean;
-import application.service.EventServiceBean;
+import application.service.BetService;
+import application.service.CustomerService;
+import application.service.EventService;
 import application.validator.BetValidator;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 @RestController
 public class BetController {
 
     @Autowired
-    private BetServiceBean betService;
+    private BetService betService;
 
     @Autowired
-    private CustomerServiceBean customerService;
+    private CustomerService customerService;
 
     @Autowired
-    private EventServiceBean eventService;
+    private EventService eventService;
 
     private BetValidator validator;
 
     public BetController() { validator = new BetValidator(); }
 
-    @RequestMapping(value = "/addBet", method = RequestMethod.POST)
-    public Bet addBet(@RequestBody BetDTO betDTO) throws Exception {
-        validator.validate(betDTO);
-
+    private Bet convertToBet(BetDTO betDTO) throws Exception {
         Bet bet = new Bet();
         bet.setEvent(eventService.findById(betDTO.getEventId()));
         bet.setCustomer(customerService.findByAccountId(betDTO.getAccountId()));
         bet.setStake(betDTO.getStake());
+
+        return bet;
+    }
+
+    @RequestMapping(value = "/addBet", method = RequestMethod.POST)
+    public Bet addBet(@RequestBody BetDTO betDTO) throws Exception {
+        validator.validate(betDTO);
+
+        Bet bet = convertToBet(betDTO);
 
         return betService.create(bet);
     }

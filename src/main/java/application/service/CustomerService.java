@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  */
 
 @Service
-public class CustomerServiceBean implements IService<Customer, Integer> {
+public class CustomerService implements IService<Customer, Integer> {
 
     @Autowired
     private CustomerRepository customerRepository;

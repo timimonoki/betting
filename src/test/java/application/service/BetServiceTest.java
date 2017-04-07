@@ -18,7 +18,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 import java.util.function.Predicate;
 
 import static org.mockito.Mockito.*;
@@ -26,7 +25,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyInt;
 
 @RunWith(MockitoJUnitRunner.class)
-public class BetServiceBeanTest {
+public class BetServiceTest {
 
     @Mock
     private BetRepository betRepository;
@@ -38,7 +37,7 @@ public class BetServiceBeanTest {
     private EventRepository eventRepository;
 
     @InjectMocks
-    private BetServiceBean dummyService = new BetServiceBean();
+    private BetService dummyService = new BetService();
 
     @Before
     public void setUp() throws Exception {

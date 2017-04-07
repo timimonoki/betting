@@ -2,35 +2,37 @@ package application.controller;
 
 import application.controller.dto.EventDTO;
 import application.domain.Event;
-import application.service.EventServiceBean;
+import application.service.EventService;
 import application.validator.EventValidator;
-import application.validator.ValidatorException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
 public class EventController {
 
     @Autowired
-    private EventServiceBean eventService;
+    private EventService eventService;
     private EventValidator validator;
 
     public EventController() {
         validator = new EventValidator();
     }
 
+    private Event converToEvent(EventDTO eventDTO) {
+        Event event = new Event();
+        event.setId(eventDTO.getId());
+        event.setName(eventDTO.getName());
+
+        return event;
+    }
+
     @RequestMapping(value = "/addEvent", method = RequestMethod.POST)
     public Event addEvent(@RequestBody EventDTO eventDTO) throws Exception {
         validator.validate(eventDTO);
 
-        Event event = new Event();
-        event.setName(eventDTO.getName());
+        Event event = converToEvent(eventDTO);
 
         return eventService.create(event);
     }
@@ -51,9 +53,7 @@ public class EventController {
             throw new Exception("Invalid ID!\n");
         }
 
-        Event event = new Event();
-        event.setId(eventDTO.getId());
-        event.setName(eventDTO.getName());
+        Event event = converToEvent(eventDTO);
 
         return eventService.update(event);
     }

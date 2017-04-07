@@ -2,7 +2,7 @@ package application.controller;
 
 import application.controller.dto.CustomerDTO;
 import application.domain.Customer;
-import application.service.CustomerServiceBean;
+import application.service.CustomerService;
 import application.validator.CustomerValidator;
 import org.junit.After;
 import org.junit.Before;
@@ -26,7 +26,7 @@ public class CustomerControllerTest {
     private CustomerValidator validator;
 
     @Mock
-    private CustomerServiceBean customerService;
+    private CustomerService customerService;
 
     @InjectMocks
     private CustomerController dummyController = new CustomerController();

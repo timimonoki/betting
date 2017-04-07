@@ -12,7 +12,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class EventServiceBean implements IService<Event, Integer> {
+public class EventService implements IService<Event, Integer> {
 
     @Autowired
     private EventRepository eventRepository;
@@ -69,10 +69,7 @@ public class EventServiceBean implements IService<Event, Integer> {
                 .filter(event -> event.getBets().size() == mostBets)
                 .collect(Collectors.toList());
 
-        list1.forEach(event -> {
-            event.setBets(null);
-            event.setId(null);
-        });
+        list1.forEach(EventService::setBetsAndIdsToNull);
 
         return list1;
     }
@@ -84,8 +81,7 @@ public class EventServiceBean implements IService<Event, Integer> {
     public List<Event> findAllEvents() {
         List<Event> list = eventRepository.findAll();
 
-        list.forEach(event -> event.setId(null));
-        list.forEach(event -> event.setBets(null));
+        list.forEach(EventService::setBetsAndIdsToNull);
 
         return list;
     }
@@ -113,21 +109,8 @@ public class EventServiceBean implements IService<Event, Integer> {
      * @return List with String containing the accountId's.
      */
     public List<String> findUniqueCustomersOnEventBets() {
-        List<Event> list =
-                eventRepository
-                .findAll()
-                .stream()
-                .filter(event -> {
-                    Set<String> customers =
-                    event
-                        .getBets()
-                        .stream()
-                        .map(bet -> bet.getCustomer().getAccountId())
-                        .distinct()
-                        .collect(Collectors.toSet());
-
-            return customers.size() == 1;
-        })
+        List<Event> list = eventRepository.findAll().stream()
+                .filter(EventService::eventWithBetsFromUniqueAccount)
                 .collect(Collectors.toList());
 
         return list
@@ -149,5 +132,24 @@ public class EventServiceBean implements IService<Event, Integer> {
         }
 
         return result;
+    }
+
+    private static void setBetsAndIdsToNull(Event event) {
+        event.setBets(null);
+        event.setId(null);
+    }
+
+    /**
+     *
+     * @param event Event variable
+     * @return Returns true if the event has bets from one unique account and false otherwise
+     */
+    private static boolean eventWithBetsFromUniqueAccount(Event event) {
+        Set<String> customers = event.getBets().stream()
+                .map(bet -> bet.getCustomer().getAccountId())
+                .distinct()
+                .collect(Collectors.toSet());
+
+        return customers.size() == 1;
     }
 }

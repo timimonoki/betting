@@ -4,9 +4,8 @@ import application.controller.dto.CustomerDTO;
 import application.domain.Customer;
 import application.validator.CustomerValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
-import application.service.CustomerServiceBean;
+import application.service.CustomerService;
 import java.util.List;
 
 
@@ -18,21 +17,28 @@ import java.util.List;
 public class CustomerController {
 
     @Autowired
-    private CustomerServiceBean customerService;
+    private CustomerService customerService;
     private CustomerValidator validator;
 
     public CustomerController() {
         validator = new CustomerValidator();
     }
 
+    private Customer convertToCustomer(CustomerDTO customerDTO) {
+        Customer customer = new Customer();
+        customer.setId(customerDTO.getId());
+        customer.setAccountId(customerDTO.getAccountId());
+        customer.setName(customerDTO.getName());
+        customer.setBalance(customerDTO.getBalance());
+
+        return customer;
+    }
+
     @RequestMapping(value = "/addCustomer", method = RequestMethod.POST)
     public Customer addCustomer(@RequestBody CustomerDTO customerDTO) throws Exception {
         validator.validate(customerDTO);
 
-        Customer customer = new Customer();
-        customer.setAccountId(customerDTO.getAccountId());
-        customer.setName(customerDTO.getName());
-        customer.setBalance(customerDTO.getBalance());
+        Customer customer = convertToCustomer(customerDTO);
 
         return customerService.create(customer);
     }
@@ -53,11 +59,7 @@ public class CustomerController {
             throw new Exception("Invalid ID!\n");
         }
 
-        Customer customer = new Customer();
-        customer.setId(customerDTO.getId());
-        customer.setAccountId(customerDTO.getAccountId());
-        customer.setName(customerDTO.getName());
-        customer.setBalance(customerDTO.getBalance());
+        Customer customer = convertToCustomer(customerDTO);
 
         return customerService.update(customer);
     }

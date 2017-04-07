@@ -16,9 +16,9 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
-public class BetServiceBean implements IService<Bet, Integer> {
+public class BetService implements IService<Bet, Integer> {
 
-    final static Logger logger = LoggerFactory.getLogger(BetServiceBean.class);
+    final static Logger logger = LoggerFactory.getLogger(BetService.class);
 
     @Autowired
     private BetRepository betRepository;
@@ -77,10 +77,7 @@ public class BetServiceBean implements IService<Bet, Integer> {
     @Override
     public List<Bet> findAll() {
         List<Bet> bets = betRepository.findAll();
-        bets.forEach(bet -> {
-            bet.setId(null);
-            bet.getCustomer().setId(null);
-        });
+        bets.forEach(BetService::setIdsToNull);
 
         return bets;
     }
@@ -98,10 +95,7 @@ public class BetServiceBean implements IService<Bet, Integer> {
 
     public Bet findByBetcode(Long betcode) throws Exception {
         List<Bet> bets = betRepository.findAll();
-        bets.forEach(bet -> {
-            bet.setId(null);
-            bet.getCustomer().setId(null);
-        });
+        bets.forEach(BetService::setIdsToNull);
 
         List<Bet> result = bets
                 .stream()
@@ -128,10 +122,7 @@ public class BetServiceBean implements IService<Bet, Integer> {
      */
     public List<Bet> filterBets(Long limit, List<Predicate<Bet>> predicate) {
         List<Bet> bets = betRepository.findAll();
-        bets.forEach(bet -> {
-            bet.setId(null);
-            bet.getCustomer().setId(null);
-        });
+        bets.forEach(BetService::setIdsToNull);
 
         return bets
                 .stream()
@@ -142,14 +133,16 @@ public class BetServiceBean implements IService<Bet, Integer> {
 
     public List<Bet> findAllFromAccount(String accountId) {
         List<Bet> bets = betRepository.findAll();
-        bets.forEach(bet -> {
-            bet.setId(null);
-            bet.getCustomer().setId(null);
-        });
+        bets.forEach(BetService::setIdsToNull);
 
         return bets
                 .stream()
                 .filter(bet -> bet.getCustomer().getAccountId().equals(accountId))
                 .collect(Collectors.toList());
+    }
+
+    private static void setIdsToNull(Bet bet) {
+        bet.setId(null);
+        bet.getCustomer().setId(null);
     }
 }

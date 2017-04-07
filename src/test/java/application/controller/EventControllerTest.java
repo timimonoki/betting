@@ -3,7 +3,7 @@ package application.controller;
 import application.controller.dto.EventDTO;
 import application.domain.Bet;
 import application.domain.Event;
-import application.service.EventServiceBean;
+import application.service.EventService;
 import application.validator.EventValidator;
 import org.junit.After;
 import org.junit.Before;
@@ -14,7 +14,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,7 +25,7 @@ import static org.junit.Assert.*;
 public class EventControllerTest {
 
     @Mock
-    private EventServiceBean eventService;
+    private EventService eventService;
 
     @Mock
     private EventValidator validator;
