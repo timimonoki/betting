@@ -1,7 +1,7 @@
 package application.controller;
 
 import application.controller.dto.CustomerDTO;
-import application.dbmodel.Customer;
+import application.domain.Customer;
 import application.validator.CustomerValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +24,7 @@ public class CustomerController {
         validator = new CustomerValidator();
     }
 
-    private Customer convertToCustomer(CustomerDTO customerDTO) {
+    private Customer convertDtoToCustomer(CustomerDTO customerDTO) {
         Customer customer = new Customer();
         customer.setId(customerDTO.getId());
         customer.setAccountId(customerDTO.getAccountId());
@@ -38,7 +38,7 @@ public class CustomerController {
     public Customer addCustomer(@RequestBody CustomerDTO customerDTO) throws Exception {
         validator.validate(customerDTO);
 
-        Customer customer = convertToCustomer(customerDTO);
+        Customer customer = convertDtoToCustomer(customerDTO);
 
         return customerService.create(customer);
     }
@@ -59,7 +59,7 @@ public class CustomerController {
             throw new Exception("Invalid ID!\n");
         }
 
-        Customer customer = convertToCustomer(customerDTO);
+        Customer customer = convertDtoToCustomer(customerDTO);
 
         return customerService.update(customer);
     }

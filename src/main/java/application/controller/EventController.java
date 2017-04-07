@@ -1,7 +1,7 @@
 package application.controller;
 
 import application.controller.dto.EventDTO;
-import application.dbmodel.Event;
+import application.domain.Event;
 import application.service.EventService;
 import application.validator.EventValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class EventController {
         validator = new EventValidator();
     }
 
-    private Event converToEvent(EventDTO eventDTO) {
+    private Event converDtoToEvent(EventDTO eventDTO) {
         Event event = new Event();
         event.setId(eventDTO.getId());
         event.setName(eventDTO.getName());
@@ -32,7 +32,7 @@ public class EventController {
     public Event addEvent(@RequestBody EventDTO eventDTO) throws Exception {
         validator.validate(eventDTO);
 
-        Event event = converToEvent(eventDTO);
+        Event event = converDtoToEvent(eventDTO);
 
         return eventService.create(event);
     }
@@ -53,7 +53,7 @@ public class EventController {
             throw new Exception("Invalid ID!\n");
         }
 
-        Event event = converToEvent(eventDTO);
+        Event event = converDtoToEvent(eventDTO);
 
         return eventService.update(event);
     }

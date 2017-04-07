@@ -1,7 +1,7 @@
 package application.controller;
 
 import application.controller.dto.BetDTO;
-import application.dbmodel.Bet;
+import application.domain.Bet;
 import application.service.BetService;
 import application.service.CustomerService;
 import application.service.EventService;
@@ -29,7 +29,7 @@ public class BetController {
 
     public BetController() { validator = new BetValidator(); }
 
-    private Bet convertToBet(BetDTO betDTO) throws Exception {
+    private Bet convertDtoToBet(BetDTO betDTO) throws Exception {
         Bet bet = new Bet();
         bet.setEvent(eventService.findById(betDTO.getEventId()));
         bet.setCustomer(customerService.findByAccountId(betDTO.getAccountId()));
@@ -42,7 +42,7 @@ public class BetController {
     public Bet addBet(@RequestBody BetDTO betDTO) throws Exception {
         validator.validate(betDTO);
 
-        Bet bet = convertToBet(betDTO);
+        Bet bet = convertDtoToBet(betDTO);
 
         return betService.create(bet);
     }

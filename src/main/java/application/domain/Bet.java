@@ -1,4 +1,4 @@
-package application.dbmodel;
+package application.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

@@ -1,6 +1,6 @@
 package application.service;
 
-import application.dbmodel.Event;
+import application.domain.Event;
 import application.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

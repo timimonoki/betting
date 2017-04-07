@@ -1,4 +1,4 @@
-package application.dbmodel;
+package application.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -66,5 +66,13 @@ public class Customer implements Serializable,HasID<Integer> {
     @Override
     public void setId(Integer newId) {
         this.id = newId;
+    }
+
+    public List<Bet> getBets() {
+        return bets;
+    }
+
+    public void setBets(List<Bet> bets) {
+        this.bets = bets;
     }
 }

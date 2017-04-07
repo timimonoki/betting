@@ -33,7 +33,7 @@
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource" />
         <!-- package where jpa entities are placed -->
-        <property name="packagesToScan" value="application.dbmodel"/>
+        <property name="packagesToScan" value="application.domain"/>
 
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
