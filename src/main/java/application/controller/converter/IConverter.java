@@ -1,7 +1,7 @@
 package application.controller.converter;
 
-public interface IConverter<View, Entity> {
+public interface IConverter<T, G> {
 
-    View convert(Entity entity);
+    T convert(G input);
 
 }

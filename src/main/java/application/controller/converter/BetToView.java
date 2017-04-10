@@ -1,18 +1,29 @@
 package application.controller.converter;
 
 import application.domain.Bet;
-import application.model.BetView;
+import application.model.ResponseBet;
+import java.util.List;
+import java.util.stream.Collectors;
 
-public class BetToView implements IConverter<BetView, Bet> {
+public class BetToView implements IConverter<ResponseBet, Bet> {
 
     @Override
-    public BetView convert(Bet bet) {
+    public ResponseBet convert(Bet bet) {
 
-        BetView view = new BetView();
+        ResponseBet view = new ResponseBet();
         view.setBetcode(bet.getBetcode());
         view.setStake(bet.getStake());
+        view.setAccountId(bet.getCustomer().getAccountId());
+        view.setAccountName(bet.getCustomer().getName());
+        view.setEventName(bet.getEvent().getName());
 
-        return null;
+        return view;
+    }
+
+    public List<ResponseBet> convert(List<Bet> bets) {
+        return bets.stream()
+                .map(new BetToView()::convert)
+                .collect(Collectors.toList());
     }
 
 }

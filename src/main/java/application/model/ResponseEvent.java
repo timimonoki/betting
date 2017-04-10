@@ -2,13 +2,13 @@ package application.model;
 
 import java.util.List;
 
-public class EventView {
+public class ResponseEvent {
 
     private String name;
 
-    private List<BetView> bets;
+    private List<ResponseBet> bets;
 
-    public EventView() {
+    public ResponseEvent() {
     }
 
     public String getName() {
@@ -19,11 +19,11 @@ public class EventView {
         this.name = name;
     }
 
-    public List<BetView> getBets() {
+    public List<ResponseBet> getBets() {
         return bets;
     }
 
-    public void setBets(List<BetView> bets) {
+    public void setBets(List<ResponseBet> bets) {
         this.bets = bets;
     }
 }

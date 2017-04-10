@@ -2,7 +2,7 @@ package application.model;
 
 import java.util.List;
 
-public class CustomerView {
+public class ResponseCustomer {
 
     private String accountId;
 
@@ -10,9 +10,9 @@ public class CustomerView {
 
     private Double balance;
 
-    private List<BetView> bets;
+    private List<ResponseBet> bets;
 
-    public CustomerView() {
+    public ResponseCustomer() {
     }
 
     public String getAccountId() {
@@ -39,11 +39,11 @@ public class CustomerView {
         this.balance = balance;
     }
 
-    public List<BetView> getBets() {
+    public List<ResponseBet> getBets() {
         return bets;
     }
 
-    public void setBets(List<BetView> bets) {
+    public void setBets(List<ResponseBet> bets) {
         this.bets = bets;
     }
 }

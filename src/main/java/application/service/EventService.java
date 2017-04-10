@@ -105,7 +105,7 @@ public class EventService implements IService<Event, Integer> {
     /**
      * This method finds all the events that have bets associated with and returns the name of the customers
      * for those events that have bets from an unique customer account.
-     * @return List with String containing the accountId's.
+     * @return List with ResponseEvent containing the accountId's.
      */
     public List<String> findUniqueCustomersOnEventBets() {
         List<Event> list = eventRepository.findAll().stream()
