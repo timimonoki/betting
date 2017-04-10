@@ -144,5 +144,7 @@ public class BetService implements IService<Bet, Integer> {
     private static void setIdsToNull(Bet bet) {
         bet.setId(null);
         bet.getCustomer().setId(null);
+        bet.getCustomer().setBets(null);
+        bet.getEvent().setBets(null);
     }
 }

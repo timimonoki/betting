@@ -29,7 +29,6 @@ public class Customer implements Serializable,HasID<Integer> {
     private Double balance;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "customer")
-    @JsonManagedReference
     private List<Bet> bets;
 
     public Customer() {}
