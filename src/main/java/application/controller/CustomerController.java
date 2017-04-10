@@ -16,12 +16,13 @@ import java.util.List;
 @RestController
 public class CustomerController {
 
-    @Autowired
     private CustomerService customerService;
     private CustomerValidator validator;
 
-    public CustomerController() {
+    @Autowired
+    public CustomerController(CustomerService customerService) {
         validator = new CustomerValidator();
+        this.customerService = customerService;
     }
 
     private Customer convertDtoToCustomer(CustomerDTO customerDTO) {

@@ -16,18 +16,19 @@ import java.util.function.Predicate;
 @RestController
 public class BetController {
 
-    @Autowired
     private BetService betService;
-
-    @Autowired
     private CustomerService customerService;
-
-    @Autowired
     private EventService eventService;
 
     private BetValidator validator;
 
-    public BetController() { validator = new BetValidator(); }
+    @Autowired
+    public BetController(BetService betService, CustomerService customerService, EventService eventService) {
+        validator = new BetValidator();
+        this.betService = betService;
+        this.customerService = customerService;
+        this.eventService = eventService;
+    }
 
     private Bet convertDtoToBet(BetDTO betDTO) throws Exception {
         Bet bet = new Bet();

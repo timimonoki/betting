@@ -31,7 +31,7 @@ public class CustomerControllerTest {
     private CustomerService customerService;
 
     @InjectMocks
-    private CustomerController dummyController = new CustomerController();
+    private CustomerController dummyController = new CustomerController(customerService);
 
     @Before
     public void setUp() throws Exception {

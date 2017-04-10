@@ -31,7 +31,7 @@ public class EventControllerTest {
     private EventValidator validator;
 
     @InjectMocks
-    private EventController dummyController = new EventController();
+    private EventController dummyController = new EventController(eventService);
 
 
     @Before

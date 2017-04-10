@@ -27,6 +27,7 @@ public class Bet implements Serializable, HasID<Integer> {
 
     @ManyToOne
     @JoinColumn(name = "CUSTOMER_ID")
+    @JsonBackReference
     private Customer customer;
 
     private Double stake;

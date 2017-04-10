@@ -39,7 +39,7 @@ public class BetControllerTest {
     private BetValidator validator;
 
     @InjectMocks
-    private BetController dummyController = new BetController();
+    private BetController dummyController = new BetController(betService, customerService, eventService);
 
     @Before
     public void setUp() throws Exception {

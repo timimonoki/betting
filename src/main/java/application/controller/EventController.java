@@ -12,12 +12,13 @@ import java.util.List;
 @RestController
 public class EventController {
 
-    @Autowired
     private EventService eventService;
     private EventValidator validator;
 
-    public EventController() {
+    @Autowired
+    public EventController(EventService eventService) {
         validator = new EventValidator();
+        this.eventService = eventService;
     }
 
     private Event converDtoToEvent(EventDTO eventDTO) {
