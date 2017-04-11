@@ -26,7 +26,7 @@ public class BetToResponse implements IConverter<ResponseBet, Bet> {
     @Override
     public List<ResponseBet> convert(List<Bet> bets) {
         return bets.stream()
-                .map(new BetToResponse()::convert)
+                .map(this::convert)
                 .collect(Collectors.toList());
     }
 
