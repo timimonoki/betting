@@ -1,7 +1,9 @@
 package application.validator;
 
 import application.controller.dto.BetDTO;
+import org.springframework.stereotype.Component;
 
+@Component
 public class BetValidator implements IValidator<BetDTO> {
     @Override
     public void validate(BetDTO entity) throws ValidatorException {

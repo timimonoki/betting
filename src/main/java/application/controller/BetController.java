@@ -1,11 +1,15 @@
 package application.controller;
 
+import application.controller.converter.BetToResponse;
+import application.controller.converter.IConverter;
 import application.controller.dto.BetDTO;
 import application.domain.Bet;
+import application.model.ResponseBet;
 import application.service.BetService;
 import application.service.CustomerService;
 import application.service.EventService;
 import application.validator.BetValidator;
+import application.validator.IValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,14 +24,16 @@ public class BetController {
     private CustomerService customerService;
     private EventService eventService;
 
-    private BetValidator validator;
+    private IValidator<BetDTO> validator;
+    private IConverter<ResponseBet, Bet> converter;
 
     @Autowired
-    public BetController(BetService betService, CustomerService customerService, EventService eventService) {
-        validator = new BetValidator();
+    public BetController(BetService betService, CustomerService customerService, EventService eventService, BetValidator validator, BetToResponse converter) {
         this.betService = betService;
         this.customerService = customerService;
         this.eventService = eventService;
+        this.validator = validator;
+        this.converter = converter;
     }
 
     private Bet convertDtoToBet(BetDTO betDTO) throws Exception {
@@ -40,16 +46,17 @@ public class BetController {
     }
 
     @RequestMapping(value = "/addBet", method = RequestMethod.POST)
-    public Bet addBet(@RequestBody BetDTO betDTO) throws Exception {
+    public ResponseBet addBet(@RequestBody BetDTO betDTO) throws Exception {
         validator.validate(betDTO);
 
         Bet bet = convertDtoToBet(betDTO);
+        Bet createdBet = betService.create(bet);
 
-        return betService.create(bet);
+        return converter.convert(createdBet);
     }
 
     @RequestMapping(value = "/filterBets", method = RequestMethod.GET)
-    public List<Bet> filterBets(@RequestParam(value = "contains", defaultValue = "") String contains,
+    public List<ResponseBet> filterBets(@RequestParam(value = "contains", defaultValue = "") String contains,
                                 @RequestParam(value = "minStake", defaultValue = "-1") Double minStake,
                                 @RequestParam(value = "limit", defaultValue = "0") Long limit,
                                 @RequestParam(value = "above", defaultValue = "true") Boolean above) {
@@ -65,33 +72,43 @@ public class BetController {
             predicateList.add(bet -> bet.getStake() < minStake);
         }
 
-        return betService.filterBets(limit, predicateList);
+        List<Bet> betList = betService.filterBets(limit, predicateList);
+
+        return converter.convert(betList);
     }
 
     @RequestMapping(value = "/getBet", method = RequestMethod.GET)
-    public Bet getBet(@RequestParam(value = "id", defaultValue = "-1") Integer id) throws Exception {
+    public ResponseBet getBet(@RequestParam(value = "id", defaultValue = "-1") Integer id) throws Exception {
         if (id < 0) {
             throw new Exception("Invalid ID!\n");
         }
-        return betService.findById(id);
+        Bet bet = betService.findById(id);
+
+        return converter.convert(bet);
     }
 
     @RequestMapping(value = "/getBets", method = RequestMethod.GET)
-    public List<Bet> getBets() throws Exception {
-        return betService.findAll();
+    public List<ResponseBet> getBets() throws Exception {
+
+        List<Bet> betList = betService.findAll();
+
+        return converter.convert(betList);
     };
 
     @RequestMapping(value = "/getBetByBetcode", method = RequestMethod.GET)
-    public Bet getBetByBetcode(@RequestParam(value = "betcode", defaultValue = "-1") Long betcode) throws Exception {
+    public ResponseBet getBetByBetcode(@RequestParam(value = "betcode", defaultValue = "-1") Long betcode) throws Exception {
         if (betcode < 0) {
             throw new Exception("Invalid betcode!\n");
         }
+        Bet bet = betService.findByBetcode(betcode);
 
-        return betService.findByBetcode(betcode);
+        return converter.convert(bet);
     }
 
     @RequestMapping(value = "/getBetsForAccount", method = RequestMethod.GET)
-    public List<Bet> getAllFromAccount(@RequestParam(value = "accountId", defaultValue = "") String accountId) {
-        return betService.findAllFromAccount(accountId);
+    public List<ResponseBet> getAllFromAccount(@RequestParam(value = "accountId", defaultValue = "") String accountId) {
+        List<Bet> betList = betService.findAllFromAccount(accountId);
+
+        return converter.convert(betList);
     }
 }

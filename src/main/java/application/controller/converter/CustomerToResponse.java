@@ -2,11 +2,12 @@ package application.controller.converter;
 
 import application.domain.Customer;
 import application.model.ResponseCustomer;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+@Component
 public class CustomerToResponse implements IConverter<ResponseCustomer, Customer> {
 
     @Override

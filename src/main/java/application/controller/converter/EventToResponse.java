@@ -2,10 +2,12 @@ package application.controller.converter;
 
 import application.domain.Event;
 import application.model.ResponseEvent;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 public class EventToResponse implements IConverter<ResponseEvent, Event> {
 
     @Override

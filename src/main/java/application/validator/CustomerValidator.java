@@ -1,7 +1,9 @@
 package application.validator;
 
 import application.controller.dto.CustomerDTO;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CustomerValidator implements IValidator<CustomerDTO> {
 
     @Override

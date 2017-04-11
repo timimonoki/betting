@@ -1,8 +1,12 @@
 package application.controller;
 
+import application.controller.converter.CustomerToResponse;
+import application.controller.converter.IConverter;
 import application.controller.dto.CustomerDTO;
 import application.domain.Customer;
+import application.model.ResponseCustomer;
 import application.validator.CustomerValidator;
+import application.validator.IValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import application.service.CustomerService;
@@ -17,12 +21,14 @@ import java.util.List;
 public class CustomerController {
 
     private CustomerService customerService;
-    private CustomerValidator validator;
+    private IValidator<CustomerDTO> validator;
+    private IConverter<ResponseCustomer, Customer> converter;
 
     @Autowired
-    public CustomerController(CustomerService customerService) {
-        validator = new CustomerValidator();
+    public CustomerController(CustomerService customerService, CustomerValidator validator, CustomerToResponse converter) {
         this.customerService = customerService;
+        this.validator = validator;
+        this.converter = converter;
     }
 
     private Customer convertDtoToCustomer(CustomerDTO customerDTO) {
@@ -36,24 +42,27 @@ public class CustomerController {
     }
 
     @RequestMapping(value = "/addCustomer", method = RequestMethod.POST)
-    public Customer addCustomer(@RequestBody CustomerDTO customerDTO) throws Exception {
+    public ResponseCustomer addCustomer(@RequestBody CustomerDTO customerDTO) throws Exception {
         validator.validate(customerDTO);
 
         Customer customer = convertDtoToCustomer(customerDTO);
+        Customer createdCustomer = customerService.create(customer);
 
-        return customerService.create(customer);
+        return converter.convert(createdCustomer);
     }
 
     @RequestMapping(value = "/getCustomer", method = RequestMethod.GET)
-    public Customer getCustomer(@RequestParam(value="id", defaultValue = "-1") Integer id) throws Exception {
+    public ResponseCustomer getCustomer(@RequestParam(value="id", defaultValue = "-1") Integer id) throws Exception {
         if (id < 0) {
             throw new Exception("Invalid ID!\n");
         }
-        return customerService.findById(id);
+        Customer customer = customerService.findById(id);
+
+        return converter.convert(customer);
     }
 
     @RequestMapping(value = "/updateCustomer", method = RequestMethod.POST)
-    public Customer updateCustomer(@RequestBody CustomerDTO customerDTO) throws Exception {
+    public ResponseCustomer updateCustomer(@RequestBody CustomerDTO customerDTO) throws Exception {
         validator.validate(customerDTO);
 
         if (customerService.findById(customerDTO.getId()) == null) {
@@ -61,21 +70,27 @@ public class CustomerController {
         }
 
         Customer customer = convertDtoToCustomer(customerDTO);
+        Customer updatedCustomer = customerService.update(customer);
 
-        return customerService.update(customer);
+        return converter.convert(updatedCustomer);
     }
 
     @RequestMapping(value = "/removeCustomer", method = RequestMethod.POST)
-    public Customer removeCustomer(@RequestParam(value="id", defaultValue = "-1") Integer id) throws Exception {
+    public ResponseCustomer removeCustomer(@RequestParam(value="id", defaultValue = "-1") Integer id) throws Exception {
         if (id < 0) {
             throw new Exception("Invalid ID!\n");
         }
 
-        return customerService.delete(id);
+        Customer customer = customerService.delete(id);
+
+        return converter.convert(customer);
     }
 
     @RequestMapping(value = "/getCustomers", method = RequestMethod.GET)
-    public List<Customer> getCustomers() {
-        return customerService.findAll();
+    public List<ResponseCustomer> getCustomers() {
+
+        List<Customer> customerList = customerService.findAll();
+
+        return converter.convert(customerList);
     }
 }

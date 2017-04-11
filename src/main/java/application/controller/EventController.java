@@ -1,9 +1,13 @@
 package application.controller;
 
+import application.controller.converter.EventToResponse;
+import application.controller.converter.IConverter;
 import application.controller.dto.EventDTO;
 import application.domain.Event;
+import application.model.ResponseEvent;
 import application.service.EventService;
 import application.validator.EventValidator;
+import application.validator.IValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,12 +17,14 @@ import java.util.List;
 public class EventController {
 
     private EventService eventService;
-    private EventValidator validator;
+    private IValidator<EventDTO> validator;
+    private IConverter<ResponseEvent, Event> converter;
 
     @Autowired
-    public EventController(EventService eventService) {
-        validator = new EventValidator();
+    public EventController(EventService eventService, EventValidator validator, EventToResponse converter) {
         this.eventService = eventService;
+        this.validator = validator;
+        this.converter = converter;
     }
 
     private Event converDtoToEvent(EventDTO eventDTO) {
@@ -30,24 +36,27 @@ public class EventController {
     }
 
     @RequestMapping(value = "/addEvent", method = RequestMethod.POST)
-    public Event addEvent(@RequestBody EventDTO eventDTO) throws Exception {
+    public ResponseEvent addEvent(@RequestBody EventDTO eventDTO) throws Exception {
         validator.validate(eventDTO);
 
         Event event = converDtoToEvent(eventDTO);
+        Event createdEvent = eventService.create(event);
 
-        return eventService.create(event);
+        return converter.convert(createdEvent);
     }
 
     @RequestMapping(value = "/getEvent", method = RequestMethod.GET)
-    public Event getEvent(@RequestParam(value = "id", defaultValue = "-1") Integer id) throws Exception {
+    public ResponseEvent getEvent(@RequestParam(value = "id", defaultValue = "-1") Integer id) throws Exception {
         if (id < 0) {
             throw new Exception("Invalid ID!\n");
         }
-        return eventService.findById(id);
+        Event event = eventService.findById(id);
+
+        return converter.convert(event);
     }
 
     @RequestMapping(value = "/updateEvent", method = RequestMethod.POST)
-    public Event updateEvent(@RequestBody EventDTO eventDTO) throws Exception {
+    public ResponseEvent updateEvent(@RequestBody EventDTO eventDTO) throws Exception {
         validator.validate(eventDTO);
 
         if (eventService.findById(eventDTO.getId()) == null) {
@@ -55,28 +64,37 @@ public class EventController {
         }
 
         Event event = converDtoToEvent(eventDTO);
+        Event updatedEvent = eventService.update(event);
 
-        return eventService.update(event);
+        return converter.convert(updatedEvent);
     }
 
     @RequestMapping(value = "/removeEvent", method = RequestMethod.GET)
-    public Event removeEvent(@RequestParam(value = "id", defaultValue = "-1") Integer id) throws Exception {
+    public ResponseEvent removeEvent(@RequestParam(value = "id", defaultValue = "-1") Integer id) throws Exception {
         if (id < 0) {
             throw new Exception("Invalid ID!\n");
         }
-        return eventService.delete(id);
+        Event event = eventService.delete(id);
+
+        return converter.convert(event);
     }
 
     @RequestMapping(value = "/getEvents", method = RequestMethod.GET)
-    public List<Event> getEvents(@RequestParam(value = "bets", defaultValue = "false") Boolean withBets) {
-        return withBets ?
+    public List<ResponseEvent> getEvents(@RequestParam(value = "bets", defaultValue = "false") Boolean withBets) {
+
+        List<Event> eventList = withBets ?
                 eventService.findAll() :
                 eventService.findAllEvents();
+
+        return converter.convert(eventList);
     }
 
     @RequestMapping(value = "/findEventsWithMostBets", method = RequestMethod.GET)
-    public List<Event> getEventsWithMostBets() {
-        return eventService.findEventsWithMostBets();
+    public List<ResponseEvent> getEventsWithMostBets() {
+
+        List<Event> eventList = eventService.findEventsWithMostBets();
+
+        return converter.convert(eventList);
     }
 
     @RequestMapping(value = "/findUniqueCustomersOnEventBets", method = RequestMethod.GET)
