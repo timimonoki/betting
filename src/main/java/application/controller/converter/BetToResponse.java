@@ -5,7 +5,7 @@ import application.model.ResponseBet;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class BetToView implements IConverter<ResponseBet, Bet> {
+public class BetToResponse implements IConverter<ResponseBet, Bet> {
 
     @Override
     public ResponseBet convert(Bet bet) {
@@ -20,9 +20,10 @@ public class BetToView implements IConverter<ResponseBet, Bet> {
         return view;
     }
 
+    @Override
     public List<ResponseBet> convert(List<Bet> bets) {
         return bets.stream()
-                .map(new BetToView()::convert)
+                .map(new BetToResponse()::convert)
                 .collect(Collectors.toList());
     }
 

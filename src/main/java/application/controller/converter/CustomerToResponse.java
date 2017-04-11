@@ -3,13 +3,16 @@ package application.controller.converter;
 import application.domain.Customer;
 import application.model.ResponseCustomer;
 
+import java.util.List;
+import java.util.stream.Collectors;
 
-public class CustomerToView implements IConverter<ResponseCustomer, Customer> {
+
+public class CustomerToResponse implements IConverter<ResponseCustomer, Customer> {
 
     @Override
     public ResponseCustomer convert(Customer customer) {
 
-        BetToView converter = new BetToView();
+        BetToResponse converter = new BetToResponse();
 
         ResponseCustomer view = new ResponseCustomer();
         view.setName(customer.getName());
@@ -18,6 +21,13 @@ public class CustomerToView implements IConverter<ResponseCustomer, Customer> {
         view.setBets(converter.convert(customer.getBets()));
 
         return view;
+    }
+
+    @Override
+    public List<ResponseCustomer> convert(List<Customer> customers) {
+        return customers.stream()
+                .map(new CustomerToResponse()::convert)
+                .collect(Collectors.toList());
     }
 
 }
