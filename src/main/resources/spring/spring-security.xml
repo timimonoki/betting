@@ -12,11 +12,13 @@
     <context:component-scan base-package="application.security"/>
 
     <http use-expressions="true" auto-config="true">
-        <intercept-url pattern="/login" access="permitAll()" />
-        <intercept-url pattern="/" access="denyAll()" />
-        <intercept-url pattern="/getBets" access="hasAnyRole('ADMIN', 'USER')" />
-        <intercept-url pattern="/getEvents" access="hasAnyRole('ADMIN', 'USER')" />
-        <intercept-url pattern="/*" access="hasRole('ADMIN')" />
+        <!--<intercept-url pattern="/login" access="permitAll()" />-->
+        <!--<intercept-url pattern="/" access="denyAll()" />-->
+        <!--<intercept-url pattern="/getBets" access="hasAnyRole('ADMIN', 'USER')" />-->
+        <!--<intercept-url pattern="/getEvents" access="hasAnyRole('ADMIN', 'USER')" />-->
+        <!--<intercept-url pattern="/*" access="hasRole('ADMIN')" />-->
+
+        <intercept-url pattern="/*" access="permitAll()" />
 
         <csrf disabled="true"/>
     </http>

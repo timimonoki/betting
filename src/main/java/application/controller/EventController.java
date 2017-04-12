@@ -17,8 +17,8 @@ import java.util.List;
 public class EventController {
 
     private EventService eventService;
-    private IValidator<EventDTO> validator;
-    private IConverter<ResponseEvent, Event> converter;
+    private EventValidator validator;
+    private EventToResponse converter;
 
     @Autowired
     public EventController(EventService eventService, EventValidator validator, EventToResponse converter) {
@@ -80,13 +80,10 @@ public class EventController {
     }
 
     @RequestMapping(value = "/getEvents", method = RequestMethod.GET)
-    public List<ResponseEvent> getEvents(@RequestParam(value = "bets", defaultValue = "false") Boolean withBets) {
-
-        List<Event> eventList = withBets ?
+    public List<Event> getEvents(@RequestParam(value = "bets", defaultValue = "false") Boolean withBets) {
+        return withBets ?
                 eventService.findAll() :
                 eventService.findAllEvents();
-
-        return converter.convert(eventList);
     }
 
     @RequestMapping(value = "/findEventsWithMostBets", method = RequestMethod.GET)
