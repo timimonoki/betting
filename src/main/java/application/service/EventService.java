@@ -138,7 +138,7 @@ public class EventService implements IService<Event, Integer> {
                 .filter(event -> event.getName().compareTo(name) == 0)
                 .collect(Collectors.toList());
 
-        if (result == null) {
+        if (result == null || result.size() == 0) {
             throw new Exception("This Event dose not exist!");
         } else if (result.size() > 1) {
             throw new Exception("More than one Event with the specified name!");
