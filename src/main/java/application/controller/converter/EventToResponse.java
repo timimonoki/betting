@@ -21,8 +21,9 @@ public class EventToResponse implements IConverter<ResponseEvent, Event> {
 
         ResponseEvent view = new ResponseEvent();
         view.setName(event.getName());
-        view.setBets(converter.convert(event.getBets()));
-
+        if (event.getBets() != null) {
+            view.setBets(converter.convert(event.getBets()));
+        }
         return view;
     }
 
