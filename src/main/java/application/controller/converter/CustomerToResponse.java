@@ -25,8 +25,9 @@ public class CustomerToResponse implements IConverter<ResponseCustomer, Customer
         view.setName(customer.getName());
         view.setAccountId(customer.getAccountId());
         view.setBalance(customer.getBalance());
-        view.setBets(converter.convert(customer.getBets()));
-
+        if (customer.getBets() != null) {
+            view.setBets(converter.convert(customer.getBets()));
+        }
         return view;
     }
 

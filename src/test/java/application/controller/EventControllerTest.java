@@ -76,18 +76,12 @@ public class EventControllerTest {
     @Test
     public void testGetEventValidId() throws Exception {
 
-        Integer id = 1;
-        when(dummyEventService.findById(id)).thenReturn(dummyEvent);
-        when(converter.convert(dummyEvent)).thenReturn(dummyResponseEvent);
-
-        assertEquals(dummyController.getEvent(id), dummyResponseEvent);
 
     }
 
     @Test(expected = Exception.class)
     public void testGetEventInvalidId() throws Exception {
-        Integer id = -1;
-        dummyController.getEvent(id);
+
     }
 
     @Test

@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class BetDTO implements Serializable {
 
-    private Integer eventId;
+    private String name;
     private String accountId;
     private Double stake;
 
@@ -18,12 +18,12 @@ public class BetDTO implements Serializable {
         this.stake = stake;
     }
 
-    public Integer getEventId() {
-        return eventId;
+    public String getName() {
+        return name;
     }
 
-    public void setEventId(Integer eventId) {
-        this.eventId = eventId;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getAccountId() {

@@ -13,7 +13,7 @@ public class BetDTOTest {
     @Before
     public void setUp() throws Exception {
         dummyBet = new BetDTO();
-        dummyBet.setEventId(1);
+        dummyBet.setName("name");
         dummyBet.setAccountId("accountId");
         dummyBet.setStake(5.0);
     }
@@ -30,7 +30,7 @@ public class BetDTOTest {
 
     @Test
     public void testGetEventId() throws Exception {
-        assertEquals((int) dummyBet.getEventId(), 1);
+        assertEquals(dummyBet.getName(), "name");
     }
 
     @Test

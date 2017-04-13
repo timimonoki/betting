@@ -52,11 +52,13 @@ public class CustomerController {
     }
 
     @RequestMapping(value = "/getCustomer", method = RequestMethod.GET)
-    public ResponseCustomer getCustomer(@RequestParam(value="id", defaultValue = "-1") Integer id) throws Exception {
-        if (id < 0) {
-            throw new Exception("Invalid ID!\n");
+    public ResponseCustomer getCustomer(@RequestParam(value="name", defaultValue = "") String name) throws Exception {
+        if (name.equals("")) {
+            throw new Exception("Invalid name!\n");
         }
-        Customer customer = customerService.findById(id);
+        Customer customerInDb = customerService.findByAccountId(name);
+
+        Customer customer = customerService.findById(customerInDb.getId());
 
         return converter.convert(customer);
     }
@@ -65,8 +67,8 @@ public class CustomerController {
     public ResponseCustomer updateCustomer(@RequestBody CustomerDTO customerDTO) throws Exception {
         validator.validate(customerDTO);
 
-        if (customerService.findById(customerDTO.getId()) == null) {
-            throw new Exception("Invalid ID!\n");
+        if (customerService.findByAccountId(customerDTO.getAccountId()) == null) {
+            throw new Exception("Invalid name!\n");
         }
 
         Customer customer = convertDtoToCustomer(customerDTO);
@@ -76,12 +78,13 @@ public class CustomerController {
     }
 
     @RequestMapping(value = "/removeCustomer", method = RequestMethod.POST)
-    public ResponseCustomer removeCustomer(@RequestParam(value="id", defaultValue = "-1") Integer id) throws Exception {
-        if (id < 0) {
-            throw new Exception("Invalid ID!\n");
+    public ResponseCustomer removeCustomer(@RequestParam(value="name", defaultValue = "") String name) throws Exception {
+        if (name.equals("")) {
+            throw new Exception("Invalid name!\n");
         }
+        Customer customerInDb = customerService.findByAccountId(name);
 
-        Customer customer = customerService.delete(id);
+        Customer customer = customerService.delete(customerInDb.getId());
 
         return converter.convert(customer);
     }

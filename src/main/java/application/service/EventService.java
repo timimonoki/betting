@@ -133,6 +133,20 @@ public class EventService implements IService<Event, Integer> {
         return result;
     }
 
+    public Event findByName(String name) throws Exception {
+        List<Event> result = eventRepository.findAll().stream()
+                .filter(event -> event.getName().compareTo(name) == 0)
+                .collect(Collectors.toList());
+
+        if (result == null) {
+            throw new Exception("This Event dose not exist!");
+        } else if (result.size() > 1) {
+            throw new Exception("More than one Event with the specified name!");
+        }
+
+        return result.get(0);
+    }
+
     private static void setBetsAndIdsToNull(Event event) {
         event.setBets(null);
         event.setId(null);

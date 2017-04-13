@@ -46,11 +46,11 @@ public class EventController {
     }
 
     @RequestMapping(value = "/getEvent", method = RequestMethod.GET)
-    public ResponseEvent getEvent(@RequestParam(value = "id", defaultValue = "-1") Integer id) throws Exception {
-        if (id < 0) {
-            throw new Exception("Invalid ID!\n");
+    public ResponseEvent getEvent(@RequestParam(value = "name", defaultValue = "") String name) throws Exception {
+        if (name.equals("")) {
+            throw new Exception("Invalid name!\n");
         }
-        Event event = eventService.findById(id);
+        Event event = eventService.findByName(name);
 
         return converter.convert(event);
     }
@@ -59,22 +59,25 @@ public class EventController {
     public ResponseEvent updateEvent(@RequestBody EventDTO eventDTO) throws Exception {
         validator.validate(eventDTO);
 
-        if (eventService.findById(eventDTO.getId()) == null) {
-            throw new Exception("Invalid ID!\n");
+        Event eventInDb = eventService.findByName(eventDTO.getName());
+        if (eventInDb == null) {
+            throw new Exception("Invalid name!\n");
         }
 
         Event event = converDtoToEvent(eventDTO);
+        event.setId(eventInDb.getId());
         Event updatedEvent = eventService.update(event);
 
         return converter.convert(updatedEvent);
     }
 
     @RequestMapping(value = "/removeEvent", method = RequestMethod.GET)
-    public ResponseEvent removeEvent(@RequestParam(value = "id", defaultValue = "-1") Integer id) throws Exception {
-        if (id < 0) {
-            throw new Exception("Invalid ID!\n");
+    public ResponseEvent removeEvent(@RequestParam(value = "name", defaultValue = "") String name) throws Exception {
+        if (name.equals("")) {
+            throw new Exception("Invalid name!\n");
         }
-        Event event = eventService.delete(id);
+        Event eventInDb = eventService.findByName(name);
+        Event event = eventService.delete(eventInDb.getId());
 
         return converter.convert(event);
     }

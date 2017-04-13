@@ -38,7 +38,7 @@ public class BetController {
 
     private Bet convertDtoToBet(BetDTO betDTO) throws Exception {
         Bet bet = new Bet();
-        bet.setEvent(eventService.findById(betDTO.getEventId()));
+        bet.setEvent(eventService.findByName(betDTO.getName()));
         bet.setCustomer(customerService.findByAccountId(betDTO.getAccountId()));
         bet.setStake(betDTO.getStake());
 
@@ -77,26 +77,16 @@ public class BetController {
         return converter.convert(betList);
     }
 
-    @RequestMapping(value = "/getBet", method = RequestMethod.GET)
-    public ResponseBet getBet(@RequestParam(value = "id", defaultValue = "-1") Integer id) throws Exception {
-        if (id < 0) {
-            throw new Exception("Invalid ID!\n");
-        }
-        Bet bet = betService.findById(id);
-
-        return converter.convert(bet);
-    }
-
     @RequestMapping(value = "/getBets", method = RequestMethod.GET)
     public List<ResponseBet> getBets() throws Exception {
 
         List<Bet> betList = betService.findAll();
 
         return converter.convert(betList);
-    };
+    }
 
-    @RequestMapping(value = "/getBetByBetcode", method = RequestMethod.GET)
-    public ResponseBet getBetByBetcode(@RequestParam(value = "betcode", defaultValue = "-1") Long betcode) throws Exception {
+    @RequestMapping(value = "/getBet", method = RequestMethod.GET)
+    public ResponseBet getBet(@RequestParam(value = "betcode", defaultValue = "-1") Long betcode) throws Exception {
         if (betcode < 0) {
             throw new Exception("Invalid betcode!\n");
         }

@@ -9,8 +9,9 @@ public class BetValidator implements IValidator<BetDTO> {
     public void validate(BetDTO entity) throws ValidatorException {
         String msg = "";
 
-        if (entity.getEventId() < 0) {
-            msg += "Event ID is invalid!\n";
+        if (entity.getName() == null ||
+                entity.getName().equals("")) {
+            msg += "Event name is invalid!\n";
         }
         if (entity.getAccountId() == null
                 ||entity.getAccountId().equals("")) {
