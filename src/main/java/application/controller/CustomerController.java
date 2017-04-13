@@ -52,7 +52,7 @@ public class CustomerController {
     }
 
     @RequestMapping(value = "/getCustomer", method = RequestMethod.GET)
-    public ResponseCustomer getCustomer(@RequestParam(value="name", defaultValue = "") String name) throws Exception {
+    public ResponseCustomer getCustomer(@RequestParam(value="accountId", defaultValue = "") String name) throws Exception {
         if (name.equals("")) {
             throw new Exception("Invalid name!\n");
         }
@@ -78,7 +78,7 @@ public class CustomerController {
     }
 
     @RequestMapping(value = "/removeCustomer", method = RequestMethod.POST)
-    public ResponseCustomer removeCustomer(@RequestParam(value="name", defaultValue = "") String name) throws Exception {
+    public ResponseCustomer removeCustomer(@RequestParam(value="accountId", defaultValue = "") String name) throws Exception {
         if (name.equals("")) {
             throw new Exception("Invalid name!\n");
         }
