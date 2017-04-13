@@ -67,11 +67,13 @@ public class CustomerController {
     public ResponseCustomer updateCustomer(@RequestBody CustomerDTO customerDTO) throws Exception {
         validator.validate(customerDTO);
 
-        if (customerService.findByAccountId(customerDTO.getAccountId()) == null) {
+        Customer customerInDto = customerService.findByAccountId(customerDTO.getAccountId());
+        if (customerInDto == null) {
             throw new Exception("Invalid name!\n");
         }
 
         Customer customer = convertDtoToCustomer(customerDTO);
+        customer.setId(customerInDto.getId());
         Customer updatedCustomer = customerService.update(customer);
 
         return converter.convert(updatedCustomer);
