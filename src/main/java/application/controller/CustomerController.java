@@ -33,7 +33,6 @@ public class CustomerController {
 
     private Customer convertDtoToCustomer(CustomerDTO customerDTO) {
         Customer customer = new Customer();
-        customer.setId(customerDTO.getId());
         customer.setAccountId(customerDTO.getAccountId());
         customer.setName(customerDTO.getName());
         customer.setBalance(customerDTO.getBalance());

@@ -13,7 +13,6 @@ public class CustomerDTOTest {
     @Before
     public void setUp() throws Exception {
         dummyCustomer = new CustomerDTO();
-        dummyCustomer.setId(1);
         dummyCustomer.setAccountId("accountId");
         dummyCustomer.setName("name");
         dummyCustomer.setBalance(5.0);
@@ -37,11 +36,6 @@ public class CustomerDTOTest {
     @Test
     public void testGetBalance() throws Exception {
         assertEquals(dummyCustomer.getBalance(), 5.0, 0.0);
-    }
-
-    @Test
-    public void testGetId() throws Exception {
-        assertEquals(dummyCustomer.getAccountId(), "accountId");
     }
 
 }

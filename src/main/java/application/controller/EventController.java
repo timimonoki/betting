@@ -29,7 +29,6 @@ public class EventController {
 
     private Event converDtoToEvent(EventDTO eventDTO) {
         Event event = new Event();
-        event.setId(eventDTO.getId());
         event.setName(eventDTO.getName());
 
         return event;

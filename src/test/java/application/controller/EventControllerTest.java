@@ -42,7 +42,6 @@ public class EventControllerTest {
     public void setUp() throws Exception {
 
         dummyDTO = new EventDTO();
-        dummyDTO.setId(1);
         dummyDTO.setName("name");
 
         dummyEvent = new Event();
