@@ -62,9 +62,13 @@ public class EventController {
         if (eventInDb == null) {
             throw new Exception("Invalid name!\n");
         }
+        if (eventDTO.getNewName().equals("")) {
+            throw new Exception("Invalid new name!\n");
+        }
 
         Event event = converDtoToEvent(eventDTO);
         event.setId(eventInDb.getId());
+        event.setName(eventDTO.getNewName());
         Event updatedEvent = eventService.update(event);
 
         return converter.convert(updatedEvent);

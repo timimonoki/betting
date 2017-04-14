@@ -135,8 +135,7 @@ public class BetService implements IService<Bet, Integer> {
         List<Bet> bets = betRepository.findAll();
         bets.forEach(BetService::setIdsToNull);
 
-        return bets
-                .stream()
+        return bets.stream()
                 .filter(bet -> bet.getCustomer().getAccountId().equals(accountId))
                 .collect(Collectors.toList());
     }

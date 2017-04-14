@@ -96,7 +96,9 @@ public class BetController {
     }
 
     @RequestMapping(value = "/getBetsForAccount", method = RequestMethod.GET)
-    public List<ResponseBet> getAllFromAccount(@RequestParam(value = "accountId", defaultValue = "") String accountId) {
+    public List<ResponseBet> getAllFromAccount(@RequestParam(value = "accountId", defaultValue = "") String accountId) throws Exception {
+        customerService.findByAccountId(accountId);
+
         List<Bet> betList = betService.findAllFromAccount(accountId);
 
         return converter.convert(betList);
