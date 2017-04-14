@@ -43,6 +43,8 @@ public class EventService implements IService<Event, Integer> {
 
     @Override
     public Event create(Event E) throws Exception {
+        this.findByName(E.getName());
+
         return eventRepository.save(E);
     }
 
