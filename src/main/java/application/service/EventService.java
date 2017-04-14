@@ -149,6 +149,7 @@ public class EventService implements IService<Event, Integer> {
 
     private static void setBetsAndIdsToNull(Event event) {
         event.setId(null);
+        event.setBets(null);
     }
 
     /**
