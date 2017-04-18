@@ -17,8 +17,18 @@ public class EventService implements IService<Event, Integer> {
     private EventRepository eventRepository;
 
     @Override
-    public Event update(Event E) {
+    public Event update(Event E) throws Exception {
         Event event = eventRepository.getOne(E.getId());
+
+        List<Event> result = eventRepository.findAll().stream()
+                .filter(filterEvent -> filterEvent.getName().compareTo(event.getName()) == 0)
+                .collect(Collectors.toList());
+
+        if (result.size() == 1) {
+            throw new Exception("This Event new name already exists!");
+        } else if (result.size() > 1) {
+            throw new Exception("More than one Event with the specified name!");
+        }
 
         event.setName(E.getName());
         event.setBets(E.getBets());
@@ -43,7 +53,15 @@ public class EventService implements IService<Event, Integer> {
 
     @Override
     public Event create(Event E) throws Exception {
-        this.findByName(E.getName());
+        List<Event> result = eventRepository.findAll().stream()
+                .filter(event -> event.getName().compareTo(E.getName()) == 0)
+                .collect(Collectors.toList());
+
+        if (result.size() == 1) {
+            throw new Exception("This Event already exists!");
+        } else if (result.size() > 1) {
+            throw new Exception("More than one Event with the specified name!");
+        }
 
         return eventRepository.save(E);
     }

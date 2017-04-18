@@ -67,7 +67,7 @@ public class BetController {
             predicateList.add(bet -> bet.getCustomer().getName().contains(contains));
         }
         if (minStake > 0 && above) {
-            predicateList.add(bet -> bet.getStake() > minStake);
+            predicateList.add(bet -> bet.getStake() >= minStake);
         } else if (minStake > 0) {
             predicateList.add(bet -> bet.getStake() < minStake);
         }

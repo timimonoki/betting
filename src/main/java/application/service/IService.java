@@ -7,7 +7,7 @@ import java.util.List;
  */
 public interface IService<Entity, ID> {
 
-    Entity update(Entity E);
+    Entity update(Entity E) throws Exception;
     Entity delete(ID id) throws Exception;
     Entity create(Entity E) throws Exception;
     List findAll();

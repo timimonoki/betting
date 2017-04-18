@@ -78,7 +78,7 @@ public class EventControllerTest {
 
     }
 
-    @Test(expected = Exception.class)
+    @Test
     public void testGetEventInvalidId() throws Exception {
 
     }

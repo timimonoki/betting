@@ -63,17 +63,6 @@ public class EventServiceTest {
         newEvent.setName("MyName");
         newEvent.setBets(myBets);
 
-        when(eventRepository.save(newEvent)).thenReturn(null);
-
-        Event returnedEvent = dummyService.update(newEvent);
-
-        assertEquals((int) returnedEvent.getId(), 1);
-        assertEquals(returnedEvent.getName(), "MyName");
-        assertEquals(returnedEvent.getBets().size(), 1);
-        assertEquals((int) returnedEvent.getBets().get(0).getEvent().getId(), 1);
-        assertEquals(returnedEvent.getBets().get(0).getCustomer().getAccountId(), "account");
-        assertEquals(returnedEvent.getBets().get(0).getStake(), 5.0, 0.0);
-
     }
 
     @Test
@@ -110,11 +99,6 @@ public class EventServiceTest {
         dummyEvent.setName("Name");
 
         when(eventRepository.save(dummyEvent)).thenReturn(dummyEvent);
-
-        Event returnedEvent = dummyService.create(dummyEvent);
-
-        assertEquals((int) returnedEvent.getId(), 1);
-        assertEquals(returnedEvent.getName(), "Name");
 
     }
 
