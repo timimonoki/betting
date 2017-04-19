@@ -15,11 +15,11 @@ import java.util.List;
 @RestController
 public class EventController {
 
+    private static final String INVALID_NAME = "Invalid name!\n";
+
     private EventService eventService;
     private EventValidator validator;
     private EventToResponse converter;
-
-    private static final String INVALID_NAME = "Invalid name!\n";
 
     @Autowired
     public EventController(EventService eventService, EventValidator validator, EventToResponse converter) {

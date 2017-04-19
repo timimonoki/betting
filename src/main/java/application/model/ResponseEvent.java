@@ -1,5 +1,6 @@
 package application.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ResponseEvent {
@@ -17,10 +18,22 @@ public class ResponseEvent {
     }
 
     public List<ResponseBet> getBets() {
-        return bets;
+        List<ResponseBet> clone = new ArrayList<>(bets.size());
+        for (ResponseBet item : bets) {
+            clone.add(new ResponseBet(item));
+        }
+        return clone;
     }
 
     public void setBets(List<ResponseBet> bets) {
-        this.bets = bets;
+        if (bets == null) {
+            this.bets = new ArrayList<>();
+        } else {
+            List<ResponseBet> clone = new ArrayList<>(bets.size());
+            for (ResponseBet item : bets) {
+                clone.add(new ResponseBet(item));
+            }
+            this.bets = clone;
+        }
     }
 }

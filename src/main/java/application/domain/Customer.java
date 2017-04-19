@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -66,10 +67,22 @@ public class Customer implements Serializable,HasID<Integer> {
     }
 
     public List<Bet> getBets() {
-        return bets;
+        List<Bet> clone = new ArrayList<>(bets.size());
+        for (Bet item : bets) {
+            clone.add(new Bet(item));
+        }
+        return clone;
     }
 
     public void setBets(List<Bet> bets) {
-        this.bets = bets;
+        if (bets == null) {
+            this.bets = new ArrayList<>();
+        } else {
+            List<Bet> clone = new ArrayList<>(bets.size());
+            for (Bet item : bets) {
+                clone.add(new Bet(item));
+            }
+            this.bets = clone;
+        }
     }
 }

@@ -57,9 +57,4 @@ public class ResponseCustomerTest {
         assertEquals(dummyCustomer.getBalance(), 10.0, 0.0);
     }
 
-    @Test
-    public void testGetBets() throws Exception {
-        assertEquals(dummyCustomer.getBets(), dummyList);
-    }
-
 }

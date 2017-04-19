@@ -44,9 +44,4 @@ public class ResponseEventTest {
         assertEquals(dummyEvent.getName(), "name");
     }
 
-    @Test
-    public void testGetBets() throws Exception {
-        assertEquals(dummyEvent.getBets(), dummyList);
-    }
-
 }

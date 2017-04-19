@@ -21,11 +21,11 @@ import java.util.List;
 @RestController
 public class CustomerController {
 
+    private static final String INVALID_NAME = "Invalid name!\n";
+
     private CustomerService customerService;
     private IValidator<CustomerDTO> validator;
     private IConverter<ResponseCustomer, Customer> converter;
-
-    private static final String INVALID_NAME = "Invalid name!\n";
 
     @Autowired
     public CustomerController(CustomerService customerService, CustomerValidator validator, CustomerToResponse converter) {

@@ -72,40 +72,4 @@ public class EventControllerTest {
 
     }
 
-    @Test
-    public void testGetEventValidId() throws Exception {
-
-
-    }
-
-    @Test
-    public void testGetEventInvalidId() throws Exception {
-
-    }
-
-    @Test
-    public void testUpdateEvent() throws Exception {
-
-    }
-
-    @Test
-    public void testRemoveEvent() throws Exception {
-
-    }
-
-    @Test
-    public void testGetEvents() throws Exception {
-
-    }
-
-    @Test
-    public void testGetEventsWithMostBets() throws Exception {
-
-    }
-
-    @Test
-    public void testGetUniqueCustomersOnEventBets() throws Exception {
-
-    }
-
 }

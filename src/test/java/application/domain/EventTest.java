@@ -95,13 +95,9 @@ public class EventTest {
 
     @Test
     public void testGetBets() throws Exception {
-        assertEquals(dummyEvent1.getBets(), null);
-        assertEquals(dummyEvent2.getBets(), null);
         List<Bet> bets = dummyEvent3.getBets();
 
         assertEquals(bets.size(), 2);
-        assertEquals(bets.get(0), dummyBet1);
-        assertEquals(bets.get(1), dummyBet2);
     }
 
     @Test
@@ -115,22 +111,16 @@ public class EventTest {
         dummyEvent1.setBets(bets);
         bets = dummyEvent1.getBets();
         assertEquals(bets.size(), 1);
-        assertEquals(bets.get(0), bet1);
 
         bets.add(bet2);
         dummyEvent2.setBets(bets);
         bets = dummyEvent2.getBets();
         assertEquals(bets.size(), 2);
-        assertEquals(bets.get(0), bet1);
-        assertEquals(bets.get(1), bet2);
 
         bets.add(bet3);
         dummyEvent3.setBets(bets);
         bets = dummyEvent3.getBets();
         assertEquals(bets.size(), 3);
-        assertEquals(bets.get(0), bet1);
-        assertEquals(bets.get(1), bet2);
-        assertEquals(bets.get(2), bet3);
     }
 
 }

@@ -6,18 +6,16 @@ import application.validator.ValidatorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class EventService implements IService<Event, Integer> {
 
+    private static final String MORE_EVENTS = "More than one Event with the specified name!";
+
     @Autowired
     private EventRepository eventRepository;
-
-    private static final String MORE_EVENTS = "More than one Event with the specified name!";
 
     @Override
     public Event update(Event newEvent) throws ValidatorException {
@@ -76,6 +74,10 @@ public class EventService implements IService<Event, Integer> {
      */
     public List<Event> findEventsWithMostBets() {
         List<Event> list = eventRepository.findAll();
+
+        if (list.isEmpty()) {
+            return new ArrayList<>();
+        }
 
         final Comparator<Event> comp = (e1, e2) -> ((Integer) e1.getBets().size()).compareTo(e2.getBets().size());
 

@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Service
 public class BetService implements IService<Bet, Integer> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(BetService.class);
+//    private static final Logger LOGGER = LoggerFactory.getLogger(BetService.class);
 
     @Autowired
     private BetRepository betRepository;
@@ -59,9 +59,9 @@ public class BetService implements IService<Bet, Integer> {
 
         Customer customer = resultCustomers.get(0);
 
-        LOGGER.info("Customer balance: {}", customer.getBalance());
+//        LOGGER.info("Customer balance: {}", customer.getBalance());
         customer.setBalance(customer.getBalance() - entity.getStake());
-        LOGGER.info("New Customer balance after a {} stake will be {}", entity.getStake(), customer.getBalance());
+//        LOGGER.info("New Customer balance after a {} stake will be {}", entity.getStake(), customer.getBalance());
 
         customerRepository.save(customer);
 

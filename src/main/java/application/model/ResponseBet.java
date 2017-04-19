@@ -12,6 +12,16 @@ public class ResponseBet {
 
     private Long betcode;
 
+    public ResponseBet() {}
+
+    public ResponseBet(ResponseBet bet) {
+        this.eventName = bet.getEventName();
+        this.accountId = bet.getAccountId();
+        this.accountName = bet.getAccountName();
+        this.stake = bet.getStake();
+        this.betcode = bet.getBetcode();
+    }
+
     public String getAccountId() {
         return accountId;
     }

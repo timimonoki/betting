@@ -34,6 +34,16 @@ public class Bet implements Serializable, HasID<Integer> {
     @Column ( unique = true, nullable = false )
     private Long betcode;
 
+    public Bet() {}
+
+    public Bet(Bet bet) {
+        this.id = bet.getId();
+        this.event = bet.getEvent();
+        this.customer = bet.getCustomer();
+        this.stake = bet.getStake();
+        this.betcode = bet.getBetcode();
+    }
+
     public Long getBetcode() {
         return betcode;
     }
