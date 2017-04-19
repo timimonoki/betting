@@ -2,6 +2,7 @@ package application.service;
 
 import application.domain.Event;
 import application.repository.EventRepository;
+import application.validator.ValidatorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,22 +17,25 @@ public class EventService implements IService<Event, Integer> {
     @Autowired
     private EventRepository eventRepository;
 
+    private static final String MORE_EVENTS = "More than one Event with the specified name!";
+
     @Override
-    public Event update(Event E) throws Exception {
-        Event event = eventRepository.getOne(E.getId());
+    public Event update(Event newEvent) throws ValidatorException {
+        Event event = eventRepository.getOne(newEvent.getId());
 
         List<Event> result = eventRepository.findAll().stream()
                 .filter(filterEvent -> filterEvent.getName().compareTo(event.getName()) == 0)
                 .collect(Collectors.toList());
 
         if (result.size() == 1) {
-            throw new Exception("This Event new name already exists!");
+            throw new ValidatorException("This Event new name already exists!");
         } else if (result.size() > 1) {
-            throw new Exception("More than one Event with the specified name!");
+
+            throw new ValidatorException(MORE_EVENTS);
         }
 
-        event.setName(E.getName());
-        event.setBets(E.getBets());
+        event.setName(newEvent.getName());
+        event.setBets(newEvent.getBets());
 
         eventRepository.save(event);
 
@@ -39,11 +43,11 @@ public class EventService implements IService<Event, Integer> {
     }
 
     @Override
-    public Event delete(Integer integer) throws Exception {
+    public Event delete(Integer integer) throws ValidatorException {
         Event result = eventRepository.findOne(integer);
 
         if (result == null) {
-            throw new Exception("This ID doesn't exist!");
+            throw new ValidatorException("This ID doesn't exist!");
         }
 
         eventRepository.delete(integer);
@@ -52,18 +56,18 @@ public class EventService implements IService<Event, Integer> {
     }
 
     @Override
-    public Event create(Event E) throws Exception {
+    public Event create(Event entity) throws ValidatorException {
         List<Event> result = eventRepository.findAll().stream()
-                .filter(event -> event.getName().compareTo(E.getName()) == 0)
+                .filter(event -> event.getName().compareTo(entity.getName()) == 0)
                 .collect(Collectors.toList());
 
         if (result.size() == 1) {
-            throw new Exception("This Event already exists!");
+            throw new ValidatorException("This Event already exists!");
         } else if (result.size() > 1) {
-            throw new Exception("More than one Event with the specified name!");
+            throw new ValidatorException(MORE_EVENTS);
         }
 
-        return eventRepository.save(E);
+        return eventRepository.save(entity);
     }
 
     /**
@@ -143,25 +147,25 @@ public class EventService implements IService<Event, Integer> {
     }
 
     @Override
-    public Event findById(Integer integer) throws Exception {
+    public Event findById(Integer integer) throws ValidatorException {
         Event result = eventRepository.findOne(integer);
 
         if (result == null) {
-            throw new Exception("This ID dosen't exist!");
+            throw new ValidatorException("This ID dosen't exist!");
         }
 
         return result;
     }
 
-    public Event findByName(String name) throws Exception {
+    public Event findByName(String name) throws ValidatorException {
         List<Event> result = eventRepository.findAll().stream()
                 .filter(event -> event.getName().compareTo(name) == 0)
                 .collect(Collectors.toList());
 
-        if (result == null || result.size() == 0) {
-            throw new Exception("This Event dose not exist!");
+        if (result == null || result.isEmpty()) {
+            throw new ValidatorException("This Event dose not exist!");
         } else if (result.size() > 1) {
-            throw new Exception("More than one Event with the specified name!");
+            throw new ValidatorException(MORE_EVENTS);
         }
 
         return result.get(0);

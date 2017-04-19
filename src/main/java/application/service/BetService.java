@@ -5,6 +5,7 @@ import application.domain.Customer;
 import application.repository.BetRepository;
 import application.repository.CustomerRepository;
 import application.repository.EventRepository;
+import application.validator.ValidatorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,39 +29,39 @@ public class BetService implements IService<Bet, Integer> {
     private EventRepository eventRepository;
 
     @Override
-    public Bet update(Bet E) {
+    public Bet update(Bet entity) {
         return null;
     }
 
     @Override
-    public Bet delete(Integer integer) throws Exception {
+    public Bet delete(Integer integer) {
         return null;
     }
 
     @Override
-    public Bet create(Bet E) throws Exception {
+    public Bet create(Bet entity) throws ValidatorException {
         List <Customer> resultCustomers =
                 customerRepository
                 .findAll()
                 .stream()
-                .filter(customer -> customer.getAccountId().equals(E.getCustomer().getAccountId()))
+                .filter(customer -> customer.getAccountId().equals(entity.getCustomer().getAccountId()))
                 .collect(Collectors.toList());
 
-        if (eventRepository.findOne(E.getEvent().getId()) == null) {
-            throw new Exception("Event ID dosen't exist!");
+        if (eventRepository.findOne(entity.getEvent().getId()) == null) {
+            throw new ValidatorException("Event ID dosen't exist!");
         }
         else if (resultCustomers.size() != 1) {
-            throw new Exception("Account ID is invalid!");
+            throw new ValidatorException("Account ID is invalid!");
         }
-        else if (resultCustomers.get(0).getBalance() - E.getStake() < 0) {
-            throw new Exception("There aren't sufficient money for this bet!");
+        else if (resultCustomers.get(0).getBalance() - entity.getStake() < 0) {
+            throw new ValidatorException("There aren't sufficient money for this bet!");
         }
 
         Customer customer = resultCustomers.get(0);
 
         LOGGER.info("Customer balance: {}", customer.getBalance());
-        customer.setBalance(customer.getBalance() - E.getStake());
-        LOGGER.info("New Customer balance after a {} stake will be {}", E.getStake(), customer.getBalance());
+        customer.setBalance(customer.getBalance() - entity.getStake());
+        LOGGER.info("New Customer balance after a {} stake will be {}", entity.getStake(), customer.getBalance());
 
         customerRepository.save(customer);
 
@@ -69,9 +70,9 @@ public class BetService implements IService<Bet, Integer> {
         Long myBetcode = myuuid.getLeastSignificantBits() & 0x7FFF_FFFF_FFFF_FFFFL;
         //Set the sign beat to 0 no matter what!.
 
-        E.setBetcode(myBetcode);
+        entity.setBetcode(myBetcode);
 
-        return betRepository.save(E);
+        return betRepository.save(entity);
     }
 
     @Override
@@ -83,17 +84,17 @@ public class BetService implements IService<Bet, Integer> {
     }
 
     @Override
-    public Bet findById(Integer integer) throws Exception {
+    public Bet findById(Integer integer) throws ValidatorException {
         Bet result = betRepository.findOne(integer);
 
         if (result == null) {
-            throw new Exception("This ID dosen't exist!");
+            throw new ValidatorException("This ID dosen't exist!");
         }
 
         return result;
     }
 
-    public Bet findByBetcode(Long betcode) throws Exception {
+    public Bet findByBetcode(Long betcode) throws ValidatorException {
         List<Bet> bets = betRepository.findAll();
         bets.forEach(BetService::setIdsToNull);
 
@@ -102,11 +103,11 @@ public class BetService implements IService<Bet, Integer> {
                 .filter(bet -> bet.getBetcode().equals(betcode))
                 .collect(Collectors.toList());
 
-        if (result.size() == 0) {
-            throw new Exception("This betcode dosen't exist!");
+        if (result.isEmpty()) {
+            throw new ValidatorException("This betcode dosen't exist!");
         }
         else if (result.size() > 1) {
-            throw new Exception("Fatal Error!");
+            throw new ValidatorException("Fatal Error!");
         }
 
         return result.get(0);

@@ -7,8 +7,6 @@ public class EventDTO implements Serializable {
     private String name;
     private String newName;
 
-    public EventDTO() {}
-
     public String getNewName() {
         return newName;
     }

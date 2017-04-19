@@ -10,21 +10,21 @@ public class CustomerValidator implements IValidator<CustomerDTO> {
     public void validate(CustomerDTO entity) throws ValidatorException {
         String msg = "";
 
-        if (entity.getName().equals("")) {
+        if ("".equals(entity.getName())) {
             msg += "Customer name is invalid!\n";
         }
-        if (entity.getAccountId().equals("")) {
+        if ("".equals(entity.getAccountId())) {
             msg += "Customer ID is invalid!\n";
         }
         //Check if there are any whitespaces
-        if (!(entity.getAccountId().length() == entity.getAccountId().replaceAll("\\s+","").length())) {
+        if (entity.getAccountId().length() != entity.getAccountId().replaceAll("\\s+","").length()) {
             msg += "Whitespaces are not allowed in customer ID!\n";
         }
         if (entity.getBalance() < 0) {
             msg += "Customer balance shouldn't be negative!\n";
         }
 
-        if (!msg.equals("")) {
+        if (!"".equals(msg)) {
             throw new ValidatorException(msg);
         }
     }

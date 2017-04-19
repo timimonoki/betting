@@ -1,6 +1,7 @@
 package application.service;
 
 import application.domain.Customer;
+import application.validator.ValidatorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import application.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
@@ -19,12 +20,12 @@ public class CustomerService implements IService<Customer, Integer> {
     private CustomerRepository customerRepository;
 
     @Override
-    public Customer update(Customer E) {
-        Customer customer = customerRepository.getOne(E.getId());
+    public Customer update(Customer entity) {
+        Customer customer = customerRepository.getOne(entity.getId());
 
-        customer.setName(E.getName());
-        customer.setAccountId(E.getAccountId());
-        customer.setBalance(E.getBalance());
+        customer.setName(entity.getName());
+        customer.setAccountId(entity.getAccountId());
+        customer.setBalance(entity.getBalance());
 
         customerRepository.save(customer);
 
@@ -32,11 +33,11 @@ public class CustomerService implements IService<Customer, Integer> {
     }
 
     @Override
-    public Customer delete(Integer integer) throws Exception{
+    public Customer delete(Integer integer) throws ValidatorException {
         Customer result = customerRepository.findOne(integer);
 
         if (result == null) {
-            throw new Exception("This ID doesn't exist!");
+            throw new ValidatorException("This ID doesn't exist!");
         }
 
         customerRepository.delete(integer);
@@ -45,31 +46,31 @@ public class CustomerService implements IService<Customer, Integer> {
     }
 
     @Override
-    public Customer create(Customer E) throws Exception {
+    public Customer create(Customer entity) throws ValidatorException {
 
         List<Customer> all = customerRepository
                 .findAll()
                 .stream()
-                .filter(customer -> customer.getAccountId().equals(E.getAccountId()))
+                .filter(customer -> customer.getAccountId().equals(entity.getAccountId()))
                 .collect(Collectors.toList());
 
         if (!all.isEmpty()) {
-            throw new Exception("This customer ID already exists!");
+            throw new ValidatorException("This customer ID already exists!");
         }
 
-        return customerRepository.save(E);
+        return customerRepository.save(entity);
 
     }
 
-    public Customer findByAccountId(String accountId) throws Exception {
+    public Customer findByAccountId(String accountId) throws ValidatorException {
         List<Customer> result = customerRepository
                 .findAll()
                 .stream()
                 .filter(customer -> customer.getAccountId().equals(accountId))
                 .collect(Collectors.toList());
 
-        if (result.size() < 1) {
-            throw new Exception("This account dose not exist!");
+        if (result.isEmpty()) {
+            throw new ValidatorException("This account dose not exist!");
         }
 
         return result.get(0);
@@ -84,11 +85,11 @@ public class CustomerService implements IService<Customer, Integer> {
     }
 
     @Override
-    public Customer findById(Integer integer) throws Exception {
+    public Customer findById(Integer integer) throws ValidatorException {
         Customer result = customerRepository.findOne(integer);
 
         if (result == null) {
-            throw new Exception("This ID doesn't exist!");
+            throw new ValidatorException("This ID doesn't exist!");
         }
 
         return result;

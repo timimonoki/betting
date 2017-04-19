@@ -7,6 +7,7 @@ import application.domain.Customer;
 import application.model.ResponseCustomer;
 import application.validator.CustomerValidator;
 import application.validator.IValidator;
+import application.validator.ValidatorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import application.service.CustomerService;
@@ -23,6 +24,8 @@ public class CustomerController {
     private CustomerService customerService;
     private IValidator<CustomerDTO> validator;
     private IConverter<ResponseCustomer, Customer> converter;
+
+    private static final String INVALID_NAME = "Invalid name!\n";
 
     @Autowired
     public CustomerController(CustomerService customerService, CustomerValidator validator, CustomerToResponse converter) {
@@ -41,7 +44,7 @@ public class CustomerController {
     }
 
     @RequestMapping(value = "/addCustomer", method = RequestMethod.POST)
-    public ResponseCustomer addCustomer(@RequestBody CustomerDTO customerDTO) throws Exception {
+    public ResponseCustomer addCustomer(@RequestBody CustomerDTO customerDTO) throws ValidatorException {
         validator.validate(customerDTO);
 
         Customer customer = convertDtoToCustomer(customerDTO);
@@ -51,9 +54,9 @@ public class CustomerController {
     }
 
     @RequestMapping(value = "/getCustomer", method = RequestMethod.GET)
-    public ResponseCustomer getCustomer(@RequestParam(value="accountId", defaultValue = "") String name) throws Exception {
-        if (name.equals("")) {
-            throw new Exception("Invalid name!\n");
+    public ResponseCustomer getCustomer(@RequestParam(value="accountId", defaultValue = "") String name) throws ValidatorException {
+        if ("".equals(name)) {
+            throw new ValidatorException(INVALID_NAME);
         }
         Customer customerInDb = customerService.findByAccountId(name);
 
@@ -63,12 +66,12 @@ public class CustomerController {
     }
 
     @RequestMapping(value = "/updateCustomer", method = RequestMethod.POST)
-    public ResponseCustomer updateCustomer(@RequestBody CustomerDTO customerDTO) throws Exception {
+    public ResponseCustomer updateCustomer(@RequestBody CustomerDTO customerDTO) throws ValidatorException {
         validator.validate(customerDTO);
 
         Customer customerInDto = customerService.findByAccountId(customerDTO.getAccountId());
         if (customerInDto == null) {
-            throw new Exception("Invalid name!\n");
+            throw new ValidatorException(INVALID_NAME);
         }
 
         Customer customer = convertDtoToCustomer(customerDTO);
@@ -79,9 +82,9 @@ public class CustomerController {
     }
 
     @RequestMapping(value = "/removeCustomer", method = RequestMethod.POST)
-    public ResponseCustomer removeCustomer(@RequestParam(value="accountId", defaultValue = "") String name) throws Exception {
-        if (name.equals("")) {
-            throw new Exception("Invalid name!\n");
+    public ResponseCustomer removeCustomer(@RequestParam(value="accountId", defaultValue = "") String name) throws ValidatorException {
+        if ("".equals(name)) {
+            throw new ValidatorException(INVALID_NAME);
         }
         Customer customerInDb = customerService.findByAccountId(name);
 

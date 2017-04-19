@@ -34,8 +34,6 @@ public class Bet implements Serializable, HasID<Integer> {
     @Column ( unique = true, nullable = false )
     private Long betcode;
 
-    public Bet() {}
-
     public Long getBetcode() {
         return betcode;
     }

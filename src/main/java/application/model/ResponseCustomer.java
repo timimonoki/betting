@@ -12,9 +12,6 @@ public class ResponseCustomer {
 
     private List<ResponseBet> bets;
 
-    public ResponseCustomer() {
-    }
-
     public String getAccountId() {
         return accountId;
     }

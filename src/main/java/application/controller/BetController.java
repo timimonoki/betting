@@ -10,6 +10,7 @@ import application.service.CustomerService;
 import application.service.EventService;
 import application.validator.BetValidator;
 import application.validator.IValidator;
+import application.validator.ValidatorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,7 +37,7 @@ public class BetController {
         this.converter = converter;
     }
 
-    private Bet convertDtoToBet(BetDTO betDTO) throws Exception {
+    private Bet convertDtoToBet(BetDTO betDTO) throws ValidatorException {
         Bet bet = new Bet();
         bet.setEvent(eventService.findByName(betDTO.getName()));
         bet.setCustomer(customerService.findByAccountId(betDTO.getAccountId()));
@@ -46,7 +47,7 @@ public class BetController {
     }
 
     @RequestMapping(value = "/addBet", method = RequestMethod.POST)
-    public ResponseBet addBet(@RequestBody BetDTO betDTO) throws Exception {
+    public ResponseBet addBet(@RequestBody BetDTO betDTO) throws ValidatorException {
         validator.validate(betDTO);
 
         Bet bet = convertDtoToBet(betDTO);
@@ -63,7 +64,7 @@ public class BetController {
 
         List<Predicate<Bet>> predicateList = new ArrayList<>();
 
-        if (!contains.equals("")) {
+        if (!"".equals(contains)) {
             predicateList.add(bet -> bet.getCustomer().getName().contains(contains));
         }
         if (minStake > 0 && above) {
@@ -78,7 +79,7 @@ public class BetController {
     }
 
     @RequestMapping(value = "/getBets", method = RequestMethod.GET)
-    public List<ResponseBet> getBets() throws Exception {
+    public List<ResponseBet> getBets() throws ValidatorException {
 
         List<Bet> betList = betService.findAll();
 
@@ -86,9 +87,9 @@ public class BetController {
     }
 
     @RequestMapping(value = "/getBet", method = RequestMethod.GET)
-    public ResponseBet getBet(@RequestParam(value = "betcode", defaultValue = "-1") Long betcode) throws Exception {
+    public ResponseBet getBet(@RequestParam(value = "betcode", defaultValue = "-1") Long betcode) throws ValidatorException {
         if (betcode < 0) {
-            throw new Exception("Invalid betcode!\n");
+            throw new ValidatorException("Invalid betcode!\n");
         }
         Bet bet = betService.findByBetcode(betcode);
 
@@ -96,7 +97,7 @@ public class BetController {
     }
 
     @RequestMapping(value = "/getBetsForAccount", method = RequestMethod.GET)
-    public List<ResponseBet> getAllFromAccount(@RequestParam(value = "accountId", defaultValue = "") String accountId) throws Exception {
+    public List<ResponseBet> getAllFromAccount(@RequestParam(value = "accountId", defaultValue = "") String accountId) throws ValidatorException {
         customerService.findByAccountId(accountId);
 
         List<Bet> betList = betService.findAllFromAccount(accountId);

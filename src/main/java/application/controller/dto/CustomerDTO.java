@@ -8,8 +8,6 @@ public class CustomerDTO implements Serializable {
     private String name;
     private Double balance;
 
-    public CustomerDTO() {}
-
     public String getAccountId() {
         return accountId;
     }

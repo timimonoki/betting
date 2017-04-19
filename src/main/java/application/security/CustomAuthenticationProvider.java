@@ -3,7 +3,6 @@ package application.security;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -17,21 +16,19 @@ import java.util.List;
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     @Override
-    public Authentication authenticate(final Authentication authentication) throws AuthenticationException {
+    public Authentication authenticate(final Authentication authentication) {
         final String name = authentication.getName();
         final String password = authentication.getCredentials().toString();
-        if (name.equals("admin") && password.equals("system")) {
+        if ("admin".equals(name) && "system".equals(password)) {
             final List<GrantedAuthority> grantedAuths = new ArrayList<>();
             grantedAuths.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
             final UserDetails principal = new User(name, password, grantedAuths);
-            final Authentication auth = new UsernamePasswordAuthenticationToken(principal, password, grantedAuths);
-            return auth;
-        } else if (name.equals("user") && password.equals("user")){
+            return new UsernamePasswordAuthenticationToken(principal, password, grantedAuths);
+        } else if ("user".equals(name) && "user".equals(password)){
             final List<GrantedAuthority> grantedAuths = new ArrayList<>();
             grantedAuths.add(new SimpleGrantedAuthority("ROLE_USER"));
             final UserDetails principal = new User(name, password, grantedAuths);
-            final Authentication auth = new UsernamePasswordAuthenticationToken(principal, password, grantedAuths);
-            return auth;
+            return new UsernamePasswordAuthenticationToken(principal, password, grantedAuths);
         } else {
             return null;
         }

@@ -12,9 +12,6 @@ public class ResponseBet {
 
     private Long betcode;
 
-    public ResponseBet() {
-    }
-
     public String getAccountId() {
         return accountId;
     }

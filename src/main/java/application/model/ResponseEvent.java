@@ -8,9 +8,6 @@ public class ResponseEvent {
 
     private List<ResponseBet> bets;
 
-    public ResponseEvent() {
-    }
-
     public String getName() {
         return name;
     }

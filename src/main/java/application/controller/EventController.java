@@ -1,13 +1,12 @@
 package application.controller;
 
 import application.controller.converter.EventToResponse;
-import application.controller.converter.IConverter;
 import application.controller.dto.EventDTO;
 import application.domain.Event;
 import application.model.ResponseEvent;
 import application.service.EventService;
 import application.validator.EventValidator;
-import application.validator.IValidator;
+import application.validator.ValidatorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +18,8 @@ public class EventController {
     private EventService eventService;
     private EventValidator validator;
     private EventToResponse converter;
+
+    private static final String INVALID_NAME = "Invalid name!\n";
 
     @Autowired
     public EventController(EventService eventService, EventValidator validator, EventToResponse converter) {
@@ -35,7 +36,7 @@ public class EventController {
     }
 
     @RequestMapping(value = "/addEvent", method = RequestMethod.POST)
-    public ResponseEvent addEvent(@RequestBody EventDTO eventDTO) throws Exception {
+    public ResponseEvent addEvent(@RequestBody EventDTO eventDTO) throws ValidatorException {
         validator.validate(eventDTO);
 
         Event event = converDtoToEvent(eventDTO);
@@ -45,9 +46,9 @@ public class EventController {
     }
 
     @RequestMapping(value = "/getEvent", method = RequestMethod.GET)
-    public ResponseEvent getEvent(@RequestParam(value = "name", defaultValue = "") String name) throws Exception {
-        if (name.equals("")) {
-            throw new Exception("Invalid name!\n");
+    public ResponseEvent getEvent(@RequestParam(value = "name", defaultValue = "") String name) throws ValidatorException {
+        if ("".equals(name)) {
+            throw new ValidatorException(INVALID_NAME);
         }
         Event event = eventService.findByName(name);
 
@@ -55,15 +56,15 @@ public class EventController {
     }
 
     @RequestMapping(value = "/updateEvent", method = RequestMethod.POST)
-    public ResponseEvent updateEvent(@RequestBody EventDTO eventDTO) throws Exception {
+    public ResponseEvent updateEvent(@RequestBody EventDTO eventDTO) throws ValidatorException {
         validator.validate(eventDTO);
 
         Event eventInDb = eventService.findByName(eventDTO.getName());
         if (eventInDb == null) {
-            throw new Exception("Invalid name!\n");
+            throw new ValidatorException(INVALID_NAME);
         }
-        if (eventDTO.getNewName().equals("")) {
-            throw new Exception("Invalid new name!\n");
+        if ("".equals(eventDTO.getNewName())) {
+            throw new ValidatorException("Invalid new name!\n");
         }
 
         Event event = converDtoToEvent(eventDTO);
@@ -75,9 +76,9 @@ public class EventController {
     }
 
     @RequestMapping(value = "/removeEvent", method = RequestMethod.GET)
-    public ResponseEvent removeEvent(@RequestParam(value = "name", defaultValue = "") String name) throws Exception {
-        if (name.equals("")) {
-            throw new Exception("Invalid name!\n");
+    public ResponseEvent removeEvent(@RequestParam(value = "name", defaultValue = "") String name) throws ValidatorException {
+        if ("".equals(name)) {
+            throw new ValidatorException(INVALID_NAME);
         }
         Event eventInDb = eventService.findByName(name);
         Event event = eventService.delete(eventInDb.getId());

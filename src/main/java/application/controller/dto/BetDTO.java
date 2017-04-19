@@ -8,8 +8,6 @@ public class BetDTO implements Serializable {
     private String accountId;
     private Double stake;
 
-    public BetDTO() {}
-
     public Double getStake() {
         return stake;
     }

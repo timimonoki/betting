@@ -1,16 +1,18 @@
 package application.service;
 
+import application.validator.ValidatorException;
+
 import java.util.List;
 
 /**
  * Created by NegrutiA on 3/16/2017.
  */
-public interface IService<Entity, ID> {
+public interface IService<E, K> {
 
-    Entity update(Entity E) throws Exception;
-    Entity delete(ID id) throws Exception;
-    Entity create(Entity E) throws Exception;
+    E update(E entity) throws ValidatorException;
+    E delete(K id) throws ValidatorException;
+    E create(E entity) throws ValidatorException;
     List findAll();
-    Entity findById(ID id) throws Exception;
+    E findById(K id) throws ValidatorException;
 
 }

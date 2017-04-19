@@ -28,12 +28,12 @@ public class Event implements Serializable, HasID<Integer> {
     @JsonManagedReference
     private List<Bet> bets;
 
-    public Event() {}
-
+    @Override
     public Integer getId() {
         return id;
     }
 
+    @Override
     public void setId(Integer id) {
         this.id = id;
     }
