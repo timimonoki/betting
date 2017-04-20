@@ -67,11 +67,14 @@ public class Customer implements Serializable,HasID<Integer> {
     }
 
     public List<Bet> getBets() {
-        List<Bet> clone = new ArrayList<>(bets.size());
-        for (Bet item : bets) {
-            clone.add(new Bet(item));
+        if (bets != null) {
+            List<Bet> clone = new ArrayList<>(bets.size());
+            for (Bet item : bets) {
+                clone.add(new Bet(item));
+            }
+            return clone;
         }
-        return clone;
+        return new ArrayList<>();
     }
 
     public void setBets(List<Bet> bets) {

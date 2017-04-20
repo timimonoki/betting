@@ -38,11 +38,14 @@ public class ResponseCustomer {
     }
 
     public List<ResponseBet> getBets() {
-        List<ResponseBet> clone = new ArrayList<>(bets.size());
-        for (ResponseBet item : bets) {
-            clone.add(new ResponseBet(item));
+        if (bets != null) {
+            List<ResponseBet> clone = new ArrayList<>(bets.size());
+            for (ResponseBet item : bets) {
+                clone.add(new ResponseBet(item));
+            }
+            return clone;
         }
-        return clone;
+        return new ArrayList<>();
     }
 
     public void setBets(List<ResponseBet> bets) {
