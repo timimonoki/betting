@@ -28,7 +28,7 @@ public class EventController {
         this.converter = converter;
     }
 
-    private Event converDtoToEvent(EventDTO eventDTO) {
+    private static Event converDtoToEvent(EventDTO eventDTO) {
         Event event = new Event();
         event.setName(eventDTO.getName());
 
@@ -36,7 +36,8 @@ public class EventController {
     }
 
     @RequestMapping(value = "/addEvent", method = RequestMethod.POST)
-    public ResponseEvent addEvent(@RequestBody EventDTO eventDTO) throws ValidatorException {
+    public ResponseEvent addEvent(@RequestBody EventDTO eventDTO)
+            throws ValidatorException {
         validator.validate(eventDTO);
 
         Event event = converDtoToEvent(eventDTO);
@@ -46,7 +47,8 @@ public class EventController {
     }
 
     @RequestMapping(value = "/getEvent", method = RequestMethod.GET)
-    public ResponseEvent getEvent(@RequestParam(value = "name", defaultValue = "") String name) throws ValidatorException {
+    public ResponseEvent getEvent(@RequestParam(value = "name", defaultValue = "") String name)
+            throws ValidatorException {
         if ("".equals(name)) {
             throw new ValidatorException(INVALID_NAME);
         }
@@ -76,7 +78,8 @@ public class EventController {
     }
 
     @RequestMapping(value = "/removeEvent", method = RequestMethod.GET)
-    public ResponseEvent removeEvent(@RequestParam(value = "name", defaultValue = "") String name) throws ValidatorException {
+    public ResponseEvent removeEvent(@RequestParam(value = "name", defaultValue = "") String name)
+            throws ValidatorException {
         if ("".equals(name)) {
             throw new ValidatorException(INVALID_NAME);
         }

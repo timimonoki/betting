@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Service
 public class BetService implements IService<Bet, Integer> {
 
-//    private static final Logger LOGGER = LoggerFactory.getLogger(BetService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BetService.class);
 
     @Autowired
     private BetRepository betRepository;
@@ -34,13 +34,13 @@ public class BetService implements IService<Bet, Integer> {
     }
 
     @Override
-    public Bet delete(Integer integer) {
+    public Bet delete(Integer integer) throws ValidatorException {
         return null;
     }
 
     @Override
     public Bet create(Bet entity) throws ValidatorException {
-        List <Customer> resultCustomers =
+        List<Customer> resultCustomers =
                 customerRepository
                 .findAll()
                 .stream()
@@ -49,19 +49,17 @@ public class BetService implements IService<Bet, Integer> {
 
         if (eventRepository.findOne(entity.getEvent().getId()) == null) {
             throw new ValidatorException("Event ID dosen't exist!");
-        }
-        else if (resultCustomers.size() != 1) {
+        } else if (resultCustomers.size() != 1) {
             throw new ValidatorException("Account ID is invalid!");
-        }
-        else if (resultCustomers.get(0).getBalance() - entity.getStake() < 0) {
+        } else if (resultCustomers.get(0).getBalance() - entity.getStake() < 0) {
             throw new ValidatorException("There aren't sufficient money for this bet!");
         }
 
         Customer customer = resultCustomers.get(0);
 
-//        LOGGER.info("Customer balance: {}", customer.getBalance());
+        LOGGER.info("Customer balance: {}", customer.getBalance());
         customer.setBalance(customer.getBalance() - entity.getStake());
-//        LOGGER.info("New Customer balance after a {} stake will be {}", entity.getStake(), customer.getBalance());
+        LOGGER.info("New Customer balance after a {} stake will be {}", entity.getStake(), customer.getBalance());
 
         customerRepository.save(customer);
 
@@ -105,8 +103,7 @@ public class BetService implements IService<Bet, Integer> {
 
         if (result.isEmpty()) {
             throw new ValidatorException("This betcode dosen't exist!");
-        }
-        else if (result.size() > 1) {
+        } else if (result.size() > 1) {
             throw new ValidatorException("Fatal Error!");
         }
 

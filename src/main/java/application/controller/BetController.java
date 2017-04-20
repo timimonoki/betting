@@ -29,7 +29,11 @@ public class BetController {
     private IConverter<ResponseBet, Bet> converter;
 
     @Autowired
-    public BetController(BetService betService, CustomerService customerService, EventService eventService, BetValidator validator, BetToResponse converter) {
+    public BetController(BetService betService,
+                         CustomerService customerService,
+                         EventService eventService,
+                         BetValidator validator,
+                         BetToResponse converter) {
         this.betService = betService;
         this.customerService = customerService;
         this.eventService = eventService;
@@ -87,7 +91,8 @@ public class BetController {
     }
 
     @RequestMapping(value = "/getBet", method = RequestMethod.GET)
-    public ResponseBet getBet(@RequestParam(value = "betcode", defaultValue = "-1") Long betcode) throws ValidatorException {
+    public ResponseBet getBet(@RequestParam(value = "betcode", defaultValue = "-1") Long betcode)
+            throws ValidatorException {
         if (betcode < 0) {
             throw new ValidatorException("Invalid betcode!\n");
         }
@@ -97,7 +102,8 @@ public class BetController {
     }
 
     @RequestMapping(value = "/getBetsForAccount", method = RequestMethod.GET)
-    public List<ResponseBet> getAllFromAccount(@RequestParam(value = "accountId", defaultValue = "") String accountId) throws ValidatorException {
+    public List<ResponseBet> getAllFromAccount(@RequestParam(value = "accountId", defaultValue = "") String accountId)
+            throws ValidatorException {
         customerService.findByAccountId(accountId);
 
         List<Bet> betList = betService.findAllFromAccount(accountId);

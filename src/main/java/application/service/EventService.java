@@ -6,7 +6,9 @@ import application.validator.ValidatorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,8 +20,8 @@ public class EventService implements IService<Event, Integer> {
     private EventRepository eventRepository;
 
     @Override
-    public Event update(Event newEvent) throws ValidatorException {
-        Event event = eventRepository.getOne(newEvent.getId());
+    public Event update(Event entity) throws ValidatorException {
+        Event event = eventRepository.getOne(entity.getId());
 
         List<Event> result = eventRepository.findAll().stream()
                 .filter(filterEvent -> filterEvent.getName().compareTo(event.getName()) == 0)
@@ -28,12 +30,11 @@ public class EventService implements IService<Event, Integer> {
         if (result.size() == 1) {
             throw new ValidatorException("This Event new name already exists!");
         } else if (result.size() > 1) {
-
             throw new ValidatorException(MORE_EVENTS);
         }
 
-        event.setName(newEvent.getName());
-        event.setBets(newEvent.getBets());
+        event.setName(entity.getName());
+        event.setBets(entity.getBets());
 
         eventRepository.save(event);
 
@@ -74,10 +75,6 @@ public class EventService implements IService<Event, Integer> {
      */
     public List<Event> findEventsWithMostBets() {
         List<Event> list = eventRepository.findAll();
-
-        if (list.isEmpty()) {
-            return new ArrayList<>();
-        }
 
         final Comparator<Event> comp = (e1, e2) -> ((Integer) e1.getBets().size()).compareTo(e2.getBets().size());
 

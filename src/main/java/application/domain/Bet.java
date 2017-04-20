@@ -34,7 +34,9 @@ public class Bet implements Serializable, HasID<Integer> {
     @Column ( unique = true, nullable = false )
     private Long betcode;
 
-    public Bet() {}
+    public Bet() {
+        //Default Constructor
+    }
 
     public Bet(Bet bet) {
         this.id = bet.getId();

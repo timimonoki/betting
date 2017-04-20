@@ -28,13 +28,15 @@ public class CustomerController {
     private IConverter<ResponseCustomer, Customer> converter;
 
     @Autowired
-    public CustomerController(CustomerService customerService, CustomerValidator validator, CustomerToResponse converter) {
+    public CustomerController(CustomerService customerService,
+                              CustomerValidator validator,
+                              CustomerToResponse converter) {
         this.customerService = customerService;
         this.validator = validator;
         this.converter = converter;
     }
 
-    private Customer convertDtoToCustomer(CustomerDTO customerDTO) {
+    private static Customer convertDtoToCustomer(CustomerDTO customerDTO) {
         Customer customer = new Customer();
         customer.setAccountId(customerDTO.getAccountId());
         customer.setName(customerDTO.getName());
@@ -44,7 +46,8 @@ public class CustomerController {
     }
 
     @RequestMapping(value = "/addCustomer", method = RequestMethod.POST)
-    public ResponseCustomer addCustomer(@RequestBody CustomerDTO customerDTO) throws ValidatorException {
+    public ResponseCustomer addCustomer(@RequestBody CustomerDTO customerDTO)
+            throws ValidatorException {
         validator.validate(customerDTO);
 
         Customer customer = convertDtoToCustomer(customerDTO);
@@ -54,7 +57,8 @@ public class CustomerController {
     }
 
     @RequestMapping(value = "/getCustomer", method = RequestMethod.GET)
-    public ResponseCustomer getCustomer(@RequestParam(value="accountId", defaultValue = "") String name) throws ValidatorException {
+    public ResponseCustomer getCustomer(@RequestParam(value="accountId", defaultValue = "") String name)
+            throws ValidatorException {
         if ("".equals(name)) {
             throw new ValidatorException(INVALID_NAME);
         }
@@ -82,7 +86,8 @@ public class CustomerController {
     }
 
     @RequestMapping(value = "/removeCustomer", method = RequestMethod.POST)
-    public ResponseCustomer removeCustomer(@RequestParam(value="accountId", defaultValue = "") String name) throws ValidatorException {
+    public ResponseCustomer removeCustomer(@RequestParam(value="accountId", defaultValue = "") String name)
+            throws ValidatorException {
         if ("".equals(name)) {
             throw new ValidatorException(INVALID_NAME);
         }

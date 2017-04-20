@@ -12,7 +12,10 @@ public class ResponseBet {
 
     private Long betcode;
 
-    public ResponseBet() {}
+
+    public ResponseBet() {
+        //Default Constructor
+    }
 
     public ResponseBet(ResponseBet bet) {
         this.eventName = bet.getEventName();

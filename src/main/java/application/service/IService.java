@@ -7,12 +7,12 @@ import java.util.List;
 /**
  * Created by NegrutiA on 3/16/2017.
  */
-public interface IService<E, K> {
+public interface IService<V, K> {
 
-    E update(E entity) throws ValidatorException;
-    E delete(K id) throws ValidatorException;
-    E create(E entity) throws ValidatorException;
+    V update(V entity) throws ValidatorException;
+    V delete(K id) throws ValidatorException;
+    V create(V entity) throws ValidatorException;
     List findAll();
-    E findById(K id) throws ValidatorException;
+    V findById(K id) throws ValidatorException;
 
 }
