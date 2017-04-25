@@ -24,7 +24,7 @@ public class EventService implements IService<Event, Integer> {
         Event event = eventRepository.getOne(entity.getId());
 
         List<Event> result = eventRepository.findAll().stream()
-                .filter(filterEvent -> filterEvent.getName().compareTo(event.getName()) == 0)
+                .filter(filterEvent -> filterEvent.getName().compareTo(entity.getName()) == 0)
                 .collect(Collectors.toList());
 
         if (result.size() == 1) {
@@ -120,6 +120,8 @@ public class EventService implements IService<Event, Integer> {
         list.forEach(event -> event.getBets().forEach(bet -> {
             bet.setId(null);
             bet.getCustomer().setId(null);
+            bet.getCustomer().setBets(null);
+            bet.setEvent(null);
         }));
 
         return list;
