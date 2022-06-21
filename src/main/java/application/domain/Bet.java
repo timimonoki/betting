@@ -1,6 +1,8 @@
 package application.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,17 +14,19 @@ import java.io.Serializable;
 @Entity
 @Table(name = "bets")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Bet implements Serializable, HasID<Integer> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "event_id")
+    @JoinColumn(name = "EVENT_ID")
+    @JsonBackReference
     private Event event;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "CUSTOMER_ID")
     private Customer customer;
 
     private Double stake;
@@ -30,7 +34,17 @@ public class Bet implements Serializable, HasID<Integer> {
     @Column ( unique = true, nullable = false )
     private Long betcode;
 
-    public Bet() {}
+    public Bet() {
+        //Default Constructor
+    }
+
+    public Bet(Bet bet) {
+        this.id = bet.getId();
+        this.event = bet.getEvent();
+        this.customer = bet.getCustomer();
+        this.stake = bet.getStake();
+        this.betcode = bet.getBetcode();
+    }
 
     public Long getBetcode() {
         return betcode;

@@ -4,12 +4,9 @@ import java.io.Serializable;
 
 public class CustomerDTO implements Serializable {
 
-    private Integer id;
     private String accountId;
     private String name;
     private Double balance;
-
-    public CustomerDTO() {}
 
     public String getAccountId() {
         return accountId;
@@ -35,11 +32,4 @@ public class CustomerDTO implements Serializable {
         this.balance = balance;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 }

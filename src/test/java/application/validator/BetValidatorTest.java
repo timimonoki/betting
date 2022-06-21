@@ -1,7 +1,6 @@
 package application.validator;
 
 import application.controller.dto.BetDTO;
-import application.domain.Bet;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,21 +27,21 @@ public class BetValidatorTest {
         BetDTO bet = new BetDTO();
         bet.setAccountId("");
         bet.setStake(-1.0);
-        bet.setEventId(-1);
+        bet.setName("");
 
         try {
             dummyValidator.validate(bet);
             assertEquals(true, false);
         }
         catch (ValidatorException exc) {
-            assertEquals(exc.getMessage(), "Event ID is invalid!\n" +
+            assertEquals(exc.getMessage(), "Event name is invalid!\n" +
                     "Customer ID is invalid!\n" +
                     "Stake is invalid!\n");
         }
 
         bet.setAccountId("A c\t s\t");
         bet.setStake(5.0);
-        bet.setEventId(5);
+        bet.setName("name");
 
         try {
             dummyValidator.validate(bet);
@@ -60,6 +59,15 @@ public class BetValidatorTest {
         }
         catch (Exception exc) {
             assertEquals(true, false);
+        }
+
+        bet.setAccountId(null);
+        try {
+            dummyValidator.validate(bet);
+            assertEquals(true, false);
+        }
+        catch (Exception exc) {
+            assertEquals(exc.getMessage(), "Customer ID is invalid!\n");
         }
     }
 

@@ -19,13 +19,13 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class CustomerServiceBeanTest {
+public class CustomerServiceTest {
 
     @Mock
     private CustomerRepository customerRepository;
 
     @InjectMocks
-    private CustomerServiceBean dummyService = new CustomerServiceBean();
+    private CustomerService dummyService = new CustomerService();
 
     @Before
     public void setUp() throws Exception {
@@ -147,7 +147,6 @@ public class CustomerServiceBeanTest {
 
         Customer customerInList = newList.get(0);
 
-        assertEquals((int) customerInList.getId(), 1);
         assertEquals(customerInList.getAccountId(), "AccountId");
         assertEquals(customerInList.getName(), "name");
         assertEquals(customerInList.getBalance(), 100.0, 0.0);

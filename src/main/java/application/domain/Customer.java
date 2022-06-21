@@ -1,10 +1,10 @@
 package application.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
+import com.fasterxml.jackson.annotation.JsonInclude;
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,23 +14,21 @@ import java.util.List;
 @Entity
 @Table(name = "customers")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Customer implements Serializable,HasID<Integer> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "account_id")
+    @Column(name = "ACCOUNT_ID")
     private String accountId;
 
     private String name;
 
     private Double balance;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "customer")
-    @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "customer")
     private List<Bet> bets;
-
-    public Customer() {}
 
     public String getAccountId() {
         return accountId;
@@ -66,5 +64,28 @@ public class Customer implements Serializable,HasID<Integer> {
     @Override
     public void setId(Integer newId) {
         this.id = newId;
+    }
+
+    public List<Bet> getBets() {
+        if (bets != null) {
+            List<Bet> clone = new ArrayList<>(bets.size());
+            for (Bet item : bets) {
+                clone.add(new Bet(item));
+            }
+            return clone;
+        }
+        return new ArrayList<>();
+    }
+
+    public void setBets(List<Bet> bets) {
+        if (bets == null) {
+            this.bets = new ArrayList<>();
+        } else {
+            List<Bet> clone = new ArrayList<>(bets.size());
+            for (Bet item : bets) {
+                clone.add(new Bet(item));
+            }
+            this.bets = clone;
+        }
     }
 }

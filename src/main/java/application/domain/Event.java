@@ -1,7 +1,9 @@
 package application.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,6 +17,7 @@ import java.util.List;
 @Entity
 @Table(name = "events")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Event implements Serializable, HasID<Integer> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,15 +26,15 @@ public class Event implements Serializable, HasID<Integer> {
     private String name;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "event")
-    @JsonIgnore
+    @JsonManagedReference
     private List<Bet> bets;
 
-    public Event() {}
-
+    @Override
     public Integer getId() {
         return id;
     }
 
+    @Override
     public void setId(Integer id) {
         this.id = id;
     }
@@ -45,10 +48,25 @@ public class Event implements Serializable, HasID<Integer> {
     }
 
     public List<Bet> getBets() {
-        return bets;
+        if (bets != null) {
+            List<Bet> clone = new ArrayList<>(bets.size());
+            for (Bet item : bets) {
+                clone.add(new Bet(item));
+            }
+            return clone;
+        }
+        return new ArrayList<>();
     }
 
     public void setBets(List<Bet> bets) {
-        this.bets = bets;
+        if (bets == null) {
+            this.bets = new ArrayList<>();
+        } else {
+            List<Bet> clone = new ArrayList<>(bets.size());
+            for (Bet item : bets) {
+                clone.add(new Bet(item));
+            }
+            this.bets = clone;
+        }
     }
 }

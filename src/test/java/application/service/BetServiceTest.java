@@ -18,14 +18,14 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
+import java.util.function.Predicate;
 
 import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyInt;
 
 @RunWith(MockitoJUnitRunner.class)
-public class BetServiceBeanTest {
+public class BetServiceTest {
 
     @Mock
     private BetRepository betRepository;
@@ -37,7 +37,7 @@ public class BetServiceBeanTest {
     private EventRepository eventRepository;
 
     @InjectMocks
-    private BetServiceBean dummyService = new BetServiceBean();
+    private BetService dummyService = new BetService();
 
     @Before
     public void setUp() throws Exception {
@@ -160,6 +160,48 @@ public class BetServiceBeanTest {
     }
 
     @Test
+    public void testFilterBets() throws Exception {
+
+        Event dummyEvent = new Event();
+        dummyEvent.setId(1);
+
+        Customer dummyCustomer = new Customer();
+        dummyCustomer.setId(1);
+        dummyCustomer.setAccountId("accountId");
+
+        Bet dummyBet = new Bet();
+        dummyBet.setEvent(dummyEvent);
+        dummyBet.setCustomer(dummyCustomer);
+        dummyBet.setStake(5.0);
+
+        Bet dummyBet2 = new Bet();
+        dummyBet2.setEvent(dummyEvent);
+        dummyBet2.setCustomer(dummyCustomer);
+        dummyBet2.setStake(10.0);
+
+        List<Bet> toReturn = Arrays.asList(dummyBet, dummyBet2);
+
+        when(betRepository.findAll()).thenReturn(toReturn);
+
+        Predicate<Bet> predicate = bet -> true;
+        Predicate<Bet> predicate1 = bet -> bet.getStake() > 1.0;
+
+        List<Bet> returned = dummyService.filterBets(1L, Arrays.asList(predicate));
+
+        assertEquals(returned.size(), 1);
+
+        Bet returnedBet = returned.get(0);
+
+        assertEquals(returnedBet.getCustomer().getAccountId(), "accountId");
+        assertEquals(returnedBet.getStake(), 5.0, 0.0);
+
+        returned = dummyService.filterBets(0L, Arrays.asList(predicate, predicate1));
+
+        assertEquals(returned.size(), 2);
+
+    }
+
+    @Test
     public void testFindById() throws Exception {
 
         Event dummyEvent = new Event();
@@ -220,7 +262,6 @@ public class BetServiceBeanTest {
 
         Bet returnedBet = dummyService.findByBetcode(8999L);
 
-        assertEquals((int) returnedBet.getId(), 1);
         assertEquals((int) returnedBet.getEvent().getId(), 1);
         assertEquals(returnedBet.getCustomer().getAccountId(), "accountId");
         assertEquals(returnedBet.getStake(), 5.0, 0.0);

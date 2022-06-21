@@ -1,77 +1,108 @@
 package application.controller;
 
+import application.controller.converter.CustomerToResponse;
+import application.controller.converter.IConverter;
 import application.controller.dto.CustomerDTO;
 import application.domain.Customer;
+import application.model.ResponseCustomer;
 import application.validator.CustomerValidator;
+import application.validator.IValidator;
+import application.validator.ValidatorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import application.service.CustomerServiceBean;
+import application.service.CustomerService;
 import java.util.List;
 
 
 /**
- * Created by NegrutiA on 3/17/2017.
+ * Created by NegrutiA on 3/16/2017.
  */
 
 @RestController
 public class CustomerController {
 
-    @Autowired
-    private CustomerServiceBean customerService;
-    private CustomerValidator validator;
+    private static final String INVALID_NAME = "Invalid name!\n";
 
-    public CustomerController() {
-        validator = new CustomerValidator();
+    private CustomerService customerService;
+    private IValidator<CustomerDTO> validator;
+    private IConverter<ResponseCustomer, Customer> converter;
+
+    @Autowired
+    public CustomerController(CustomerService customerService,
+                              CustomerValidator validator,
+                              CustomerToResponse converter) {
+        this.customerService = customerService;
+        this.validator = validator;
+        this.converter = converter;
+    }
+
+    private static Customer convertDtoToCustomer(CustomerDTO customerDTO) {
+        Customer customer = new Customer();
+        customer.setAccountId(customerDTO.getAccountId());
+        customer.setName(customerDTO.getName());
+        customer.setBalance(customerDTO.getBalance());
+
+        return customer;
     }
 
     @RequestMapping(value = "/addCustomer", method = RequestMethod.POST)
-    public Customer addCustomer(@RequestBody CustomerDTO customerDTO) throws Exception {
+    public ResponseCustomer addCustomer(@RequestBody CustomerDTO customerDTO)
+            throws ValidatorException {
         validator.validate(customerDTO);
 
-        Customer customer = new Customer();
-        customer.setAccountId(customerDTO.getAccountId());
-        customer.setName(customerDTO.getName());
-        customer.setBalance(customerDTO.getBalance());
+        Customer customer = convertDtoToCustomer(customerDTO);
+        Customer createdCustomer = customerService.create(customer);
 
-        return customerService.create(customer);
+        return converter.convert(createdCustomer);
     }
 
     @RequestMapping(value = "/getCustomer", method = RequestMethod.GET)
-    public Customer getCustomer(@RequestParam(value="id", defaultValue = "-1") Integer id) throws Exception {
-        if (id < 0) {
-            throw new Exception("Invalid ID!\n");
+    public ResponseCustomer getCustomer(@RequestParam(value="accountId", defaultValue = "") String name)
+            throws ValidatorException {
+        if ("".equals(name)) {
+            throw new ValidatorException(INVALID_NAME);
         }
-        return customerService.findById(id);
+        Customer customerInDb = customerService.findByAccountId(name);
+
+        Customer customer = customerService.findById(customerInDb.getId());
+
+        return converter.convert(customer);
     }
 
     @RequestMapping(value = "/updateCustomer", method = RequestMethod.POST)
-    public Customer updateCustomer(@RequestBody CustomerDTO customerDTO) throws Exception {
+    public ResponseCustomer updateCustomer(@RequestBody CustomerDTO customerDTO) throws ValidatorException {
         validator.validate(customerDTO);
 
-        if (customerService.findById(customerDTO.getId()) == null) {
-            throw new Exception("Invalid ID!\n");
+        Customer customerInDto = customerService.findByAccountId(customerDTO.getAccountId());
+        if (customerInDto == null) {
+            throw new ValidatorException(INVALID_NAME);
         }
 
-        Customer customer = new Customer();
-        customer.setId(customerDTO.getId());
-        customer.setAccountId(customerDTO.getAccountId());
-        customer.setName(customerDTO.getName());
-        customer.setBalance(customerDTO.getBalance());
+        Customer customer = convertDtoToCustomer(customerDTO);
+        customer.setId(customerInDto.getId());
+        Customer updatedCustomer = customerService.update(customer);
 
-        return customerService.update(customer);
+        return converter.convert(updatedCustomer);
     }
 
     @RequestMapping(value = "/removeCustomer", method = RequestMethod.POST)
-    public Customer removeCustomer(@RequestParam(value="id", defaultValue = "-1") Integer id) throws Exception {
-        if (id < 0) {
-            throw new Exception("Invalid ID!\n");
+    public ResponseCustomer removeCustomer(@RequestParam(value="accountId", defaultValue = "") String name)
+            throws ValidatorException {
+        if ("".equals(name)) {
+            throw new ValidatorException(INVALID_NAME);
         }
+        Customer customerInDb = customerService.findByAccountId(name);
 
-        return customerService.delete(id);
+        Customer customer = customerService.delete(customerInDb.getId());
+
+        return converter.convert(customer);
     }
 
     @RequestMapping(value = "/getCustomers", method = RequestMethod.GET)
-    public List<Customer> getCustomers() {
-        return customerService.findAll();
+    public List<ResponseCustomer> getCustomers() {
+
+        List<Customer> customerList = customerService.findAll();
+
+        return converter.convert(customerList);
     }
 }
